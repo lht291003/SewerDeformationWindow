@@ -1,0 +1,14 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    X:Class="SewerDeformationSoftware.Views.InforUC"
+    xmlns:X="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:D="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:MD="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:I="http://schemas.microsoft.com/xaml/behaviors" MC:Ignorable="D"
+    xmlns:MC="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    D:DesignHeight="650" D:DesignWidth="1050"
+    DataContext="{StaticResource InforDBC}">
+    <Grid>
+            
+    </Grid>
+</UserControl>

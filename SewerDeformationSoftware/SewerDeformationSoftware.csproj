@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>Net8.0-Windows</TargetFramework>
+		<Nullable>Enable</Nullable>
+		<ImplicitUsings>Enable</ImplicitUsings>
+		<UseWPF>True</UseWPF>
+		<UseWindowsForms>False</UseWindowsForms>
+		<ApplicationIcon>Images\PipeIcon.ico</ApplicationIcon>
+		<BaseOutputPath>Bin\</BaseOutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Images\BuildImg.png" />
+	  <None Remove="Images\EvalnImg.png" />
+	  <None Remove="Images\InforImg.png" />
+	  <None Remove="Images\PhotoImg.png" />
+	  <None Remove="Images\VideoImg.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Images\BuildImg.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Images\EvalnImg.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Images\InforImg.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Images\PhotoImg.png" />
+		<Resource Include="Images\PipeIcon.ico">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Images\VideoImg.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Models\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MaterialDesignThemes" Version="5.3.0" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+	</ItemGroup>
+
+</Project>

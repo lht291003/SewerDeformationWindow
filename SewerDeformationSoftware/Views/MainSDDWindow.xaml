@@ -1,0 +1,128 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    Title="PHẦN MỀM DỰ ĐOÁN BIẾN DẠNG HÌNH HỌC ĐƯỜNG CỐNG THOÁT NƯỚC"
+    DataContext="{StaticResource BrainDBC}" Height="750" Width="1200"
+    xmlns:X="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:M="http://metro.mahapps.com/winfx/xaml/controls"
+    X:Class="SewerDeformationSoftware.Views.MainSDDWindow"
+    xmlns:I="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:MD="http://materialdesigninxaml.net/winfx/xaml/themes"
+    WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="ListViewItem" X:Key="I">
+            <Setter Property="Height" Value="060"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border Background="Transparent" X:Name="Item">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Item" Property="Background" Value="#F39F3D"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Item" Property="Background" Value="#4E4D92"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Image" X:Key="P">
+            <Setter Property="Width" Value="030"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+        <Style TargetType="TextBlock" X:Key="TXT">
+            <Setter Property="FontFamily" Value="Cascadia Code"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="275"/>
+            <ColumnDefinition Width="1.*"/>
+        </Grid.ColumnDefinitions>
+        <Grid
+            Background="LightSlateGray">
+            <ListView
+                X:Name="MenuList"
+                Grid.Column="0">
+                <ListViewItem
+                    X:Name="BuildUC" Style="{StaticResource I}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image
+                            Source="/Images/BuildImg.png"
+                            Style="{StaticResource P}"/>
+                        <TextBlock
+                            Style="{StaticResource TXT}"
+                            Text="XÂY DỰNG VÀ CÀI ĐẶT MÔ HÌNH"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem
+                    X:Name="EvalnUC" Style="{StaticResource I}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image
+                            Source="/Images/EvalnImg.png"
+                            Style="{StaticResource P}"/>
+                        <TextBlock
+                            Style="{StaticResource TXT}"
+                            Text="ĐÁNH GIÁ VÀ SO SÁNH MÔ HÌNH"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem
+                    X:Name="PhotoUC" Style="{StaticResource I}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image
+                            Source="/Images/PhotoImg.png"
+                            Style="{StaticResource P}"/>
+                        <TextBlock
+                            Style="{StaticResource TXT}"
+                            Text="PHÂN TÍCH HÌNH ẢNH"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem
+                    X:Name="VideoUC" Style="{StaticResource I}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image
+                            Source="/Images/VideoImg.png"
+                            Style="{StaticResource P}"/>
+                        <TextBlock
+                            Style="{StaticResource TXT}"
+                            Text="PHÂN TÍCH QUA VIDEO"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem
+                    X:Name="InforUC" Style="{StaticResource I}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image
+                            Source="/Images/InforImg.png"
+                            Style="{StaticResource P}"/>
+                        <TextBlock
+                            Style="{StaticResource TXT}"
+                            Text="THÔNG TIN CỦA DỰ ÁN"/>
+                    </StackPanel>
+                </ListViewItem>
+                <I:Interaction.Triggers>
+                    <I:EventTrigger EventName="SelectionChanged">
+                        <I:InvokeCommandAction Command="{Binding WorkFormShowCommand}">
+                            <I:InvokeCommandAction.CommandParameter>
+                                <MultiBinding Converter="{StaticResource PackagingVC}">
+                                    <Binding ElementName="Displays"/>
+                                    <Binding ElementName="MenuList"/>
+                                </MultiBinding>
+                            </I:InvokeCommandAction.CommandParameter>
+                        </I:InvokeCommandAction>
+                    </I:EventTrigger>
+                </I:Interaction.Triggers>
+            </ListView>
+        </Grid>
+        <Grid
+            X:Name="Displays"
+            Grid.Column="1"/>
+    </Grid>
+</Window>
