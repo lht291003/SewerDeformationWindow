@@ -22,7 +22,7 @@
                                 <Setter TargetName="Item" Property="Background" Value="#F39F3D"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Item" Property="Background" Value="#4E4D92"/>
+                                <Setter TargetName="Item" Property="Background" Value="#EC6B2E"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.7"/>
@@ -39,6 +39,7 @@
         </Style>
         <Style TargetType="TextBlock" X:Key="TXT">
             <Setter Property="FontFamily" Value="Cascadia Code"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
     </Window.Resources>
@@ -48,10 +49,10 @@
             <ColumnDefinition Width="1.*"/>
         </Grid.ColumnDefinitions>
         <Grid
-            Background="LightSlateGray">
+            Background="#40508D"
+            Grid.Column="0">
             <ListView
-                X:Name="MenuList"
-                Grid.Column="0">
+                X:Name="MenuList">
                 <ListViewItem
                     X:Name="BuildUC" Style="{StaticResource I}">
                     <StackPanel Orientation="Horizontal">
