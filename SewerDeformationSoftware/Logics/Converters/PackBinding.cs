@@ -1,6 +1,6 @@
 ﻿namespace SewerDeformationSoftware.Logics.Converters;
 
-public class ListMVC : IMultiValueConverter
+public class PackBinding : IMultiValueConverter
 {
     public Object[] ConvertBack(Object Value, Type[] TargetTypes, Object Parameter, CultureInfo Culture)
 

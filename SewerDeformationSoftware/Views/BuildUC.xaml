@@ -42,15 +42,15 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <TextBlock
-                                Text="Tải lên mô hình để xây dựng"
+                                Text="Kéo và thả mô hình của bạn"
                                 VerticalAlignment="Center"
                                 FontWeight="Bold" FontSize="15"/>
                             <TextBlock
                                 Grid.Row="1" VerticalAlignment="Center">
-                                Mô hình được hỗ trợ:
+                                Loại mô hình:
                                 <Italic>
                                     <Bold>
-                                        ONNX, ENGINE
+                                        ONNX
                                     </Bold>
                                 </Italic>
                             </TextBlock>
@@ -58,7 +58,30 @@
                         <Button
                             Content="Browse"
                             Grid.Column="4"
-                            Height="50.0"/>
+                            Height="50.00" Command="{Binding Browse}"/>
+                    </Grid>
+                </MD:Card>
+                <MD:Card Visibility="{Binding ModelName, Converter={StaticResource Text2Vision}}" Background="Transparent"
+                         Grid.Row="2">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="95"/>
+                        </Grid.ColumnDefinitions>
+                        <Image
+                            Source="/Images/ModelImg.png" Height="50"/>
+                        <TextBlock
+                            Text="{Binding ModelName}"
+                            VerticalAlignment="Center"
+                            Grid.Column="2"
+                            FontWeight="ExtraBlack"/>
+                        <Button
+                            Content="Remove"
+                            Grid.Column="4"
+                            Height="50.00" Command="{Binding Remove}"/>
                     </Grid>
                 </MD:Card>
             </Grid>

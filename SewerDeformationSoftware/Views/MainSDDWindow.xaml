@@ -112,7 +112,7 @@
                     <I:EventTrigger EventName="SelectionChanged">
                         <I:InvokeCommandAction Command="{Binding WorkFormShowCommand}">
                             <I:InvokeCommandAction.CommandParameter>
-                                <MultiBinding Converter="{StaticResource PackagingVC}">
+                                <MultiBinding Converter="{StaticResource PackBinding}">
                                     <Binding ElementName="Displays"/>
                                     <Binding ElementName="MenuList"/>
                                 </MultiBinding>

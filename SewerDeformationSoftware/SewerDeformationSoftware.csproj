@@ -16,6 +16,7 @@
 	  <None Remove="Images\EvalnImg.png" />
 	  <None Remove="Images\FilesImg.png" />
 	  <None Remove="Images\InforImg.png" />
+	  <None Remove="Images\ModelImg.png" />
 	  <None Remove="Images\PhotoImg.png" />
 	  <None Remove="Images\VideoImg.png" />
 	</ItemGroup>
@@ -30,6 +31,9 @@
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Images\InforImg.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Images\ModelImg.png">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Images\PhotoImg.png">
@@ -48,6 +52,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="YoloDotNet" Version="3.1.1" />
+		<PackageReference Include="Emgu.CV" Version="4.12.0.5764" />
+		<PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
 		<PackageReference Include="MaterialDesignThemes" Version="5.3.0" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
 	</ItemGroup>

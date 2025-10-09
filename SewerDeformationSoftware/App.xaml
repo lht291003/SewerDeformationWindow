@@ -22,7 +22,8 @@
             <DBContextFiles:Video X:Key="VideoDBC"/>
             <DBContextFiles:Infor X:Key="InforDBC"/>
             <DBContextFiles:Brain X:Key="BrainDBC"/>
-            <ConverterFiles:ListMVC X:Key="PackagingVC"/>
+            <ConverterFiles:PackBinding X:Key="PackBinding"/>
+            <ConverterFiles:Text2Vision X:Key="Text2Vision"/>
             <Style X:Key="VerticalTextBlocks" TargetType="TextBlock">
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>

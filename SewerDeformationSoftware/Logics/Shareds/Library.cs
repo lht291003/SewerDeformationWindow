@@ -1,7 +1,9 @@
-﻿global using SewerDeformationSoftware.Logics.Shareds;
+﻿global using Microsoft.Win32;
+global using SewerDeformationSoftware.Logics.Shareds;
 global using SewerDeformationSoftware.Views;
 global using System.ComponentModel;
 global using System.Globalization;
+global using System.IO;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
 global using System.Windows;
@@ -10,3 +12,5 @@ global using System.Windows.Data;
 global using System.Windows.Input;
 global using System.Windows.Interop;
 global using System.Windows.Media;
+global using YoloDotNet;
+global using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
