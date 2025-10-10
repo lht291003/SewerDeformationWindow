@@ -61,9 +61,17 @@
                             Height="50.00" Command="{Binding Browse}"/>
                     </Grid>
                 </MD:Card>
-                <MD:Card Visibility="{Binding ModelName, Converter={StaticResource Text2Vision}}" Background="Transparent"
-                         Grid.Row="2">
-                    <Grid Margin="10">
+                <Grid Visibility="{Binding ModelName, Converter={StaticResource Text2Vision}}" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10.0"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10.0"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid
+                        Margin="10.0"
+                        Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="10"/>
@@ -83,7 +91,34 @@
                             Grid.Column="4"
                             Height="50.00" Command="{Binding Remove}"/>
                     </Grid>
-                </MD:Card>
+                    <Grid
+                        Margin="10.0"
+                        Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10.0"/>
+                            <ColumnDefinition Width="1.0*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Text="Loại phần cứng chạy suy luận"
+                            FontSize="13" FontWeight="SemiBold"
+                            VerticalAlignment="Center"/>
+                        <StackPanel
+                            Grid.Column="2" Orientation="Horizontal">
+                            <RadioButton Content="Mặc định (CPU)" GroupName="Hardware"
+                                         IsChecked="{Binding GetDevice, Converter={StaticResource Radios2Text}, ConverterParameter='CPU'}"/>
+                            <RadioButton Content="GPU (Mặc định)" GroupName="Hardware"
+                                         IsChecked="{Binding GetDevice, Converter={StaticResource Radios2Text}, ConverterParameter='GPU'}"/>
+                            <RadioButton Content="GPU (TensorRT)" GroupName="Hardware"
+                                         IsChecked="{Binding GetDevice, Converter={StaticResource Radios2Text}, ConverterParameter='TRT'}"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid
+                        Margin="10.0"
+                        Grid.Row="4">
+                        <Button Content="Xây dựng mô hình" Command="{Binding Accept}"/>
+                    </Grid>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

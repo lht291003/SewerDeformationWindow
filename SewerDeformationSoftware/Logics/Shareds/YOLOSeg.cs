@@ -6,13 +6,11 @@ public sealed class YOLOSeg
 
     public static YOLOSeg Models => Instance.Value;
 
-    public Yolo CenterModel { get; set; } = null!;
+    public Yolo? CenterModel { get; set; } = null;
 
-    public Yolo SecondModel { get; set; } = null!;
+    public Yolo? SecondModel { get; set; } = null;
 
-    public Boolean IsWarnUp { get; set; } = false;
-
-    public String Hardware { get; set; } = null!;
+    public String Hardware { get; set; } = String.Empty;
 
     YOLOSeg()
     {
