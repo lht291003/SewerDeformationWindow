@@ -15,6 +15,8 @@
                     BaseTheme="Light"/>
                 <ResourceDictionary
                     Source="Pack://Application:,,,/MaterialDesignThemes.Wpf;Component/Themes/MaterialDesign3.Defaults.xaml"/>
+                <ResourceDictionary Source="Pack://Application:,,,/MahApps.Metro;Component/Styles/Themes/Light.Purple.xaml"/>
+                <ResourceDictionary Source="Pack://Application:,,,/MahApps.Metro;Component/Styles/Fonts.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <DBContextFiles:Build X:Key="BuildDBC"/>
             <DBContextFiles:Evaln X:Key="EvalnDBC"/>
