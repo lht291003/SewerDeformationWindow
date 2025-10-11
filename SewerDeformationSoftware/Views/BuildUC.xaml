@@ -6,7 +6,7 @@
     xmlns:MD="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:I="http://schemas.microsoft.com/xaml/behaviors" MC:Ignorable="D"
     xmlns:MC="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    D:DesignHeight="650" D:DesignWidth="1050"
+    D:DesignHeight="650" D:DesignWidth="975"
     DataContext="{StaticResource BuildDBC}">
     <Grid>
         <Grid.RowDefinitions>
@@ -25,8 +25,17 @@
                     <RowDefinition Height="10.0"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <MD:Card UniformCornerRadius="5" Background="#E6E6E6">
-                    <Grid Margin="10">
+                <MD:Card
+                    UniformCornerRadius="3"
+                    AllowDrop="True"
+                    Background="#F0F4F9">
+                    <I:Interaction.Triggers>
+                        <I:EventTrigger EventName="Drop">
+                            <I:InvokeCommandAction Command="{Binding Dragop}" PassEventArgsToCommand="True"/>
+                        </I:EventTrigger>
+                    </I:Interaction.Triggers>
+                    <Grid
+                        Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="10"/>
@@ -100,23 +109,39 @@
                             <ColumnDefinition Width="1.0*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock
-                            Text="Loại phần cứng chạy suy luận"
-                            FontSize="13" FontWeight="SemiBold"
-                            VerticalAlignment="Center"/>
-                        <StackPanel
-                            Grid.Column="2" Orientation="Horizontal">
-                            <RadioButton Content="Mặc định (CPU)" GroupName="Hardware"
+                            Text="Phần cứng để chạy suy luận"
+                            FontSize="13" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <Grid
+                            Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10.0"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10.0"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.Resources>
+                                <Style TargetType="RadioButton" BasedOn="{StaticResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="FontStyle" Value="Italic"/>
+                                            <Setter Property="FontWeight" Value="Black"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Resources>
+                            <RadioButton Content="CPU" GroupName="Device" Grid.Column="0"
                                          IsChecked="{Binding GetDevice, Converter={StaticResource Radios2Text}, ConverterParameter='CPU'}"/>
-                            <RadioButton Content="GPU (Mặc định)" GroupName="Hardware"
+                            <RadioButton Content="GPU" GroupName="Device" Grid.Column="2"
                                          IsChecked="{Binding GetDevice, Converter={StaticResource Radios2Text}, ConverterParameter='GPU'}"/>
-                            <RadioButton Content="GPU (TensorRT)" GroupName="Hardware"
+                            <RadioButton Content="GPU (TensorRT)" GroupName="Device" Grid.Column="4"
                                          IsChecked="{Binding GetDevice, Converter={StaticResource Radios2Text}, ConverterParameter='TRT'}"/>
-                        </StackPanel>
+                        </Grid>
                     </Grid>
                     <Grid
                         Margin="10.0"
                         Grid.Row="4">
-                        <Button Content="Xây dựng mô hình" Command="{Binding Accept}"/>
+                        <Button Content="Xây dựng mô hình" Command="{Binding Accept}" Height="50"/>
                     </Grid>
                 </Grid>
             </Grid>

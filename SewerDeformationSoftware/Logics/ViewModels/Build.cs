@@ -20,8 +20,11 @@ public class Build : Basis
 
     public ICommand Accept { get; set; } = null!;
 
+    public ICommand Dragop { get; set; } = null!;
     public Build()
     {
+        Dragop = new RelayCommand<Object>(Obj => Obj != null, ModelFile => DropModel(ModelFile));
+
         Browse = new RelayCommand<Object>(Obj => Obj == null, Obj => BrowseModel());
 
         Remove = new RelayCommand<Object>(Obj => Obj == null, Obj => RemoveModel());
@@ -29,9 +32,30 @@ public class Build : Basis
         Accept = new RelayCommand<Object>(Obj => CanAccept(), Obj => AcceptModel());
     }
 
-    Boolean CanAccept()
+    Boolean CanAccept() => !String.IsNullOrEmpty(ModelPath) && !String.IsNullOrEmpty(GetDevice);
 
-            => !String.IsNullOrEmpty(ModelPath) && !String.IsNullOrEmpty(GetDevice);
+    Task DropModel(Object ObjModel)
+    {
+        if (ObjModel is DragEventArgs Event && Event.Data.GetDataPresent(DataFormats.FileDrop))
+        {
+            String[] Files = (String[])Event.Data.GetData(DataFormats.FileDrop);
+
+            StringComparison OICComparison = StringComparison.OrdinalIgnoreCase;
+
+            if (Files.Length > 0 && Path.GetExtension(Files[0]).Equals(".ONNX", OICComparison))
+            {
+                ModelName = Path.GetFileName(Files[0]);
+
+                ModelPath = Files[0];
+            }
+            else
+            {
+                Message.ShowErrors("Tệp tin không hợp lệ hoặc không phải là định dạng .ONNX");
+            }
+        }
+
+        return Task.CompletedTask;
+    }
 
     Task BrowseModel()
     {
