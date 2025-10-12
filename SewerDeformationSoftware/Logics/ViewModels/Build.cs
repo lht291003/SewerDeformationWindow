@@ -40,17 +40,24 @@ public class Build : Basis
         {
             String[] Files = (String[])Event.Data.GetData(DataFormats.FileDrop);
 
-            StringComparison OICComparison = StringComparison.OrdinalIgnoreCase;
-
-            if (Files.Length > 0 && Path.GetExtension(Files[0]).Equals(".ONNX", OICComparison))
+            if (Files.Length == 1)
             {
-                ModelName = Path.GetFileName(Files[0]);
+                StringComparison SameChars = StringComparison.OrdinalIgnoreCase;
 
-                ModelPath = Files[0];
+                if (Files.Length > 0 && Path.GetExtension(Files[0]).Equals(".ONNX", SameChars))
+                {
+                    ModelName = Path.GetFileName(Files[0]);
+
+                    ModelPath = Files[0];
+                }
+                else
+                {
+                    Message.ShowErrors("Tệp tin không hợp lệ hoặc không đúng định dạng .ONNX");
+                }
             }
             else
             {
-                Message.ShowErrors("Tệp tin không hợp lệ hoặc không phải là định dạng .ONNX");
+                Message.ShowErrors("Chức năng này chỉ cho phép nhận vào một tệp tin duy nhất");
             }
         }
 
