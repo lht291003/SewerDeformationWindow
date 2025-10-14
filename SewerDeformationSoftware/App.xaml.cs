@@ -8,16 +8,18 @@ public partial class App : Application
 
         Application.Current.DispatcherUnhandledException += CatchGlobalUnhandledUIThreadException;
 
-        AppDomain.CurrentDomain.UnhandledException += CatchLastExceptionAnyWhereAfterShuttingDown;
+        AppDomain.CurrentDomain.UnhandledException += CatchFinalExceptionAnywhereBeforeTheAppEnds;
     }
 
-    private void CatchLastExceptionAnyWhereAfterShuttingDown(Object Sender, UnhandledExceptionEventArgs Event)
+    private void CatchFinalExceptionAnywhereBeforeTheAppEnds(Object Sender, UnhandledExceptionEventArgs Event)
     {
         if (Application.Current.Dispatcher is not null && !Application.Current.Dispatcher.HasShutdownFinished)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                Message.ShowErrors($"Phần mềm hiện đang xảy ra một ngoại lệ rất nghiêm trọng không thể cứu!");
+                String? ExceptionMessage = (Event.ExceptionObject as Exception)?.Message ?? "Không xác định";
+
+                Message.ShowErrors($"Phần mềm hiện đang xảy ra ngoại lệ nghiêm trọng: '{ExceptionMessage}'");
             });
         }
     }
@@ -28,7 +30,7 @@ public partial class App : Application
 
         Application.Current.Dispatcher.Invoke(() =>
         {
-            String? ExceptionMessage = Event.Exception.InnerException?.Message;
+            String? ExceptionMessage = Event.Exception.InnerException?.Message ?? Event.Exception.Message;
 
             Message.ShowErrors($"Phần mềm hiện đang xảy ra ngoại lệ trên luồng nền: '{ExceptionMessage}'");
         });
