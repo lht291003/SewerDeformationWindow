@@ -87,8 +87,6 @@ public class Build : Basis
             ModelPath = String.Empty;
 
             ModelName = String.Empty;
-
-            YOLOSeg.Models.CenterModel = null;
         }
 
         return Task.CompletedTask;

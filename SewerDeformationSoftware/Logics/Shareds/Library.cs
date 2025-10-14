@@ -13,5 +13,4 @@ global using System.Windows.Input;
 global using System.Windows.Interop;
 global using System.Windows.Media;
 global using System.Windows.Threading;
-global using YoloDotNet;
 global using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
