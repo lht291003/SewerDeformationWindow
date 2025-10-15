@@ -134,14 +134,15 @@
                                          IsChecked="{Binding GetDevice, Converter={StaticResource Radios2Text}, ConverterParameter='CPU'}"/>
                             <RadioButton Content="GPU" GroupName="Device" Grid.Column="2"
                                          IsChecked="{Binding GetDevice, Converter={StaticResource Radios2Text}, ConverterParameter='GPU'}"/>
-                            <RadioButton Content="GPU (TensorRT)" GroupName="Device" Grid.Column="4"
-                                         IsChecked="{Binding GetDevice, Converter={StaticResource Radios2Text}, ConverterParameter='TRT'}"/>
                         </Grid>
                     </Grid>
                     <Grid
                         Margin="10.0"
                         Grid.Row="4">
-                        <Button Content="Xây dựng mô hình" Command="{Binding Accept}" Height="50"/>
+                        <Button
+                            Content="Xây dựng mô hình"
+                            Command="{Binding Accept}"
+                            Height="50" IsDefault="True"/>
                     </Grid>
                 </Grid>
             </Grid>

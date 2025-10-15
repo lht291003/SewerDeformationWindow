@@ -29,7 +29,7 @@ public class Build : Basis
 
         Remove = new RelayCommand<Object>(Obj => Obj == null, Obj => RemoveModel());
 
-        Accept = new RelayCommand<Object>(Obj => CanAccept(), Obj => AcceptModel());
+        Accept = new RelayCommand<Object>(Obj => CanAccept(), async Obj => await AcceptModel());
     }
 
     Boolean CanAccept() => !String.IsNullOrEmpty(ModelPath) && !String.IsNullOrEmpty(GetDevice);
@@ -87,13 +87,26 @@ public class Build : Basis
             ModelPath = String.Empty;
 
             ModelName = String.Empty;
+
+            YOLOSeg.Models.CenterModel = null;
+
+            YOLOSeg.Models.UseHardware = null;
         }
 
         return Task.CompletedTask;
     }
 
-    Task AcceptModel()
+    async Task AcceptModel()
     {
-        return Task.CompletedTask;
+        YoloPredictorOptions YOptions = new()
+        {
+            UseCuda = GetDevice.Equals("GPU")
+        };
+
+        Waiting.ShowProgressRing();
+
+        await Task.Run(() => YOLOSeg.Models.CenterModel = new(ModelPath, YOptions));
+
+        Waiting.HideProgressRing();
     }
 }

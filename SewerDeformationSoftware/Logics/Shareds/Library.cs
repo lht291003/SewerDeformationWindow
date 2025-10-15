@@ -1,4 +1,5 @@
-﻿global using Microsoft.Win32;
+﻿global using Compunet.YoloSharp;
+global using Microsoft.Win32;
 global using SewerDeformationSoftware.Logics.Shareds;
 global using SewerDeformationSoftware.Views;
 global using System.ComponentModel;
