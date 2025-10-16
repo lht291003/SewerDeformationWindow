@@ -98,15 +98,16 @@ public class Build : Basis
 
     async Task AcceptModel()
     {
-        YoloPredictorOptions YOptions = new()
-        {
-            UseCuda = GetDevice.Equals("GPU")
-        };
+        YOLOSeg.Models.UseHardware = GetDevice;
+
+        YoloPredictorOptions YOptions = new() { UseCuda = GetDevice.Equals("GPU") };
 
         Waiting.ShowProgressRing();
 
         await Task.Run(() => YOLOSeg.Models.CenterModel = new(ModelPath, YOptions));
 
         Waiting.HideProgressRing();
+
+        Message.ShowSuccess("Model đã tải lên");
     }
 }

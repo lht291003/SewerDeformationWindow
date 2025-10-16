@@ -6,14 +6,13 @@ public sealed class YOLOSeg
 
     public static YOLOSeg Models => Instance.Value;
 
+    YoloPredictor? CENTERMODEL = null;
+
+    YoloPredictor? SECONDMODEL = null;
+
     public String? UseHardware { get; set; } = null;
 
-    public YoloPredictor? CenterModel { get; set; } = null;
+    public YoloPredictor? CenterModel { get => CENTERMODEL; set { CENTERMODEL?.Dispose(); CENTERMODEL = value; } }
 
-    public YoloPredictor? SecondModel { get; set; } = null;
-
-    YOLOSeg()
-    {
-
-    }
+    public YoloPredictor? SecondModel { get => SECONDMODEL; set { SECONDMODEL?.Dispose(); SECONDMODEL = value; } }
 }
