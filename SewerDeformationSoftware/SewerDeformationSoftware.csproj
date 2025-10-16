@@ -7,8 +7,8 @@
 		<ImplicitUsings>Enable</ImplicitUsings>
 		<UseWPF>True</UseWPF>
 		<UseWindowsForms>False</UseWindowsForms>
-		<ApplicationIcon>Images\PipeIcon.ico</ApplicationIcon>
-		<BaseOutputPath>Bin\</BaseOutputPath>
+		<ApplicationIcon>Images\Ico.ico</ApplicationIcon>
+		<BaseOutputPath>Binary\</BaseOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -21,30 +21,14 @@
 	  <None Remove="Images\VideoImg.png" />
 	</ItemGroup>
 	<ItemGroup>
-		<Resource Include="Images\BuildImg.png">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\EvalnImg.png">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\FilesImg.png">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\InforImg.png">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\ModelImg.png">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\PhotoImg.png">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\PipeIcon.ico">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\VideoImg.png">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
+		<Resource Include="Images\Ico.ico" />
+		<Resource Include="Images\BuildImg.png" />
+		<Resource Include="Images\EvalnImg.png" />
+		<Resource Include="Images\FilesImg.png" />
+		<Resource Include="Images\InforImg.png" />
+		<Resource Include="Images\ModelImg.png" />
+		<Resource Include="Images\PhotoImg.png" />
+		<Resource Include="Images\VideoImg.png" />
 	</ItemGroup>
 
 	<ItemGroup>
