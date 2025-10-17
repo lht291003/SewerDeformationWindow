@@ -27,7 +27,7 @@
             <ConverterFiles:PackBinding X:Key="PackBinding"/>
             <ConverterFiles:Text2Vision X:Key="Text2Vision"/>
             <ConverterFiles:Radios2Text X:Key="Radios2Text"/>
-            <ConverterFiles:Text2Unbind X:Key="Text2Unbind"/>
+            <ConverterFiles:None2Unbind X:Key="None2Unbind"/>
             <Style X:Key="VerticalTextBlocks" TargetType="TextBlock">
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
