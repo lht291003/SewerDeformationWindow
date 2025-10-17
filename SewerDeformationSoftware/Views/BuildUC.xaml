@@ -141,7 +141,7 @@
                         Margin="10.0"
                         Grid.Row="4">
                         <Button
-                            Content="Xây dựng mô hình"
+                            Content="Cài đặt mô hình YOLO"
                             Command="{Binding Accept}"
                             Height="50" IsDefault="True"/>
                     </Grid>
