@@ -1,4 +1,4 @@
-﻿namespace SewerDeformationSoftware.Logics.Shareds;
+﻿namespace SewerDeformationSoftware.Logics.Shareds.Cores;
 
 public sealed class YOLOSeg
 {
