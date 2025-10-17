@@ -27,7 +27,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <MD:Card
-                        UniformCornerRadius="3"
+                        UniformCornerRadius="5"
                         AllowDrop="True"
                         Background="#F0F4F9">
                         <I:Interaction.Triggers>
@@ -54,7 +54,7 @@
                                 <TextBlock
                                     Text="Kéo và thả hình ảnh của bạn"
                                     VerticalAlignment="Center"
-                                    FontWeight="Bold" FontSize="15"/>
+                                    FontWeight="Bold" FontSize="14"/>
                                 <TextBlock
                                     Grid.Row="1" VerticalAlignment="Center">
                                     Loại hình ảnh:
@@ -73,6 +73,10 @@
                     </MD:Card>
                     <Grid Visibility="{Binding PhotoName, Converter={StaticResource Text2Vision}}" Grid.Row="2">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10.0"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10.0"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="10.0"/>
                             <RowDefinition Height="Auto"/>
@@ -100,6 +104,58 @@
                                 Content="Remove"
                                 Grid.Column="4"
                                 Height="50.00" Command="{Binding Remove}"/>
+                        </Grid>
+                        <Grid
+                            Margin="10.0"
+                            Grid.Row="2">
+                            <Button
+                                Content="Phân đoạn hình ảnh"
+                                Height="50" IsDefault="True"
+                                Command="{Binding Accept}"/>
+                        </Grid>
+                        <Grid
+                            Margin="10.0"
+                            Grid.Row="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5.00"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Hình ảnh đã phân đoạn" FontSize="14" FontWeight="SemiBold"/>
+                            <Grid Grid.Row="2">
+                                <Border
+                                    X:Name="MaskOverlayOnImage1" Background="White" CornerRadius="05"/>
+                                <Image
+                                    Source="{Binding PlotImage, Converter={StaticResource None2Unbind}}">
+                                    <Image.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage1}"/>
+                                    </Image.OpacityMask>
+                                </Image>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            Margin="10.0"
+                            Grid.Row="6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5.00"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Mặt nạ được trực quan" FontSize="14" FontWeight="SemiBold"/>
+                            <Grid Grid.Row="2">
+                                <Border
+                                    X:Name="MaskOverlayOnImage2" Background="White" CornerRadius="05"/>
+                                <Image
+                                    Source="{Binding MaskImage, Converter={StaticResource None2Unbind}}">
+                                    <Image.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage2}"/>
+                                    </Image.OpacityMask>
+                                </Image>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            Margin="10.0"
+                            Grid.Row="8">
                         </Grid>
                     </Grid>
                 </Grid>

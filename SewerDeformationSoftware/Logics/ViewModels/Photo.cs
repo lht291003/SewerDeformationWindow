@@ -6,6 +6,14 @@ public class Photo : Basis
 
     String PHOTOPATH = String.Empty;
 
+    BitmapSource? PLOTIMAGE = null;
+
+    BitmapSource? MASKIMAGE = null;
+
+    public BitmapSource? PlotImage { get => PLOTIMAGE; set { PLOTIMAGE = value; OnPropertyChanged(); } }
+
+    public BitmapSource? MaskImage { get => MASKIMAGE; set { MASKIMAGE = value; OnPropertyChanged(); } }
+
     public String PhotoName { get => PHOTONAME; set { PHOTONAME = value; OnPropertyChanged(); } }
 
     public String PhotoPath { get => PHOTOPATH; set { PHOTOPATH = value; OnPropertyChanged(); } }
