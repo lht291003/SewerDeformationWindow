@@ -4,12 +4,12 @@ class None2Unbind : IValueConverter
 {
     public Object Convert(Object Value, Type TargetType, Object Parameter, CultureInfo Culture)
     {
-        if(Value == null)
+        if (Value == null)
         {
             return Binding.DoNothing;
         }
 
-        if(Value is String Path && String.IsNullOrWhiteSpace(Path))
+        if (Value is String Path && String.IsNullOrWhiteSpace(Path))
         {
             return Binding.DoNothing;
         }
