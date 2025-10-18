@@ -2,7 +2,7 @@
 
 public static class Waiting
 {
-    readonly static Lazy<WaitIndicator> CircleBar = new(() => new WaitIndicator());
+    public static Lazy<WaitIndicator> CircleBar { get; } = new(() => new WaitIndicator());
 
     public static void ShowProgressRing()
     {

@@ -88,9 +88,9 @@ public class Build : Basis
 
             ModelName = String.Empty;
 
-            YOLOSeg.Models.CenterModel = null;
+            YOLOSeg.Models.KeyYSModel = null;
 
-            YOLOSeg.Models.UseHardware = null;
+            YOLOSeg.Models.DeviceType = null;
         }
 
         return Task.CompletedTask;
@@ -98,16 +98,19 @@ public class Build : Basis
 
     async Task AcceptModel()
     {
-        YOLOSeg.Models.UseHardware = GetDevice;
+        YOLOSeg.Models.DeviceType = GetDevice;
 
-        YoloPredictorOptions YOptions = new() { UseCuda = GetDevice.Equals("GPU") };
+        YoloPredictorOptions YOptions = new()
+        {
+            UseCuda = GetDevice.Equals("GPU")
+        };
 
         Waiting.ShowProgressRing();
 
-        await Task.Run(() => YOLOSeg.Models.CenterModel = new(ModelPath, YOptions));
+        await Task.Run(() => YOLOSeg.Models.KeyYSModel = new(ModelPath, YOptions));
 
         Waiting.HideProgressRing();
 
-        Message.ShowSuccess("Model đã tải lên");
+        Message.ShowSuccess($"Mô hình suy luận {ModelName} đã tải lên thành công");
     }
 }

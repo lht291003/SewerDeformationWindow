@@ -2,17 +2,17 @@
 
 public sealed class YOLOSeg
 {
-    readonly static Lazy<YOLOSeg> Instance = new(() => new YOLOSeg());
+    public static Lazy<YOLOSeg> Instance { get; } = new(() => new YOLOSeg());
 
     public static YOLOSeg Models => Instance.Value;
 
-    YoloPredictor? CENTERMODEL = null;
+    public String? DeviceType { get; set; } = null;
 
-    YoloPredictor? SECONDMODEL = null;
+    YoloPredictor? KEYYSMODEL = null;
 
-    public String? UseHardware { get; set; } = null;
+    YoloPredictor? SECYSMODEL = null;
 
-    public YoloPredictor? CenterModel { get => CENTERMODEL; set { CENTERMODEL?.Dispose(); CENTERMODEL = value; } }
+    public YoloPredictor? KeyYSModel { get => KEYYSMODEL; set { KEYYSMODEL?.Dispose(); KEYYSMODEL = value; } }
 
-    public YoloPredictor? SecondModel { get => SECONDMODEL; set { SECONDMODEL?.Dispose(); SECONDMODEL = value; } }
+    public YoloPredictor? SecYSModel { get => SECYSMODEL; set { SECYSMODEL?.Dispose(); SECYSMODEL = value; } }
 }
