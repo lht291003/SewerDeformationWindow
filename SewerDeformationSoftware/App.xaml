@@ -25,7 +25,7 @@
             <DBContextFiles:Infor X:Key="InforDBC"/>
             <DBContextFiles:Brain X:Key="BrainDBC"/>
             <ConverterFiles:PackBinding X:Key="PackBinding"/>
-            <ConverterFiles:Text2Vision X:Key="Text2Vision"/>
+            <ConverterFiles:None2Hidden X:Key="None2Hidden"/>
             <ConverterFiles:Radios2Text X:Key="Radios2Text"/>
             <ConverterFiles:None2Unbind X:Key="None2Unbind"/>
             <Style X:Key="VerticalTextBlocks" TargetType="TextBlock">

@@ -71,7 +71,7 @@
                                 Height="50.00" Command="{Binding Browse}"/>
                         </Grid>
                     </MD:Card>
-                    <Grid Visibility="{Binding PhotoName, Converter={StaticResource Text2Vision}}" Grid.Row="2">
+                    <Grid Visibility="{Binding PhotoName, Converter={StaticResource None2Hidden}}" Grid.Row="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="10.0"/>
@@ -113,9 +113,7 @@
                                 Height="50" IsDefault="True"
                                 Command="{Binding Accept}"/>
                         </Grid>
-                        <Grid
-                            Margin="10.0"
-                            Grid.Row="4">
+                        <Grid Margin="10" Grid.Row="4" Visibility="{Binding PlotImage, Converter={StaticResource None2Hidden}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="5.00"/>
@@ -133,9 +131,7 @@
                                 </Image>
                             </Grid>
                         </Grid>
-                        <Grid
-                            Margin="10.0"
-                            Grid.Row="6">
+                        <Grid Margin="10" Grid.Row="6" Visibility="{Binding MaskImage, Converter={StaticResource None2Hidden}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="5.00"/>

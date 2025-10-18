@@ -71,7 +71,7 @@
                             Height="50.00" Command="{Binding Browse}"/>
                     </Grid>
                 </MD:Card>
-                <Grid Visibility="{Binding ModelName, Converter={StaticResource Text2Vision}}" Grid.Row="2">
+                <Grid Visibility="{Binding ModelName, Converter={StaticResource None2Hidden}}" Grid.Row="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="10.0"/>

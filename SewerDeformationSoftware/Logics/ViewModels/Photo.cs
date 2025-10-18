@@ -57,6 +57,10 @@ public class Photo : Basis
     {
         if (Message.ShowConfirm("Bạn có muốn xóa hình ảnh này?"))
         {
+            PlotImage = null;
+
+            MaskImage = null;
+
             PhotoPath = String.Empty;
 
             PhotoName = String.Empty;

@@ -1,17 +1,20 @@
 ﻿namespace SewerDeformationSoftware.Logics.Converters;
 
-public class Text2Vision : IValueConverter
+public class None2Hidden : IValueConverter
 {
     public Object Convert(Object Value, Type TargetType, Object Parameter, CultureInfo Culture)
     {
-        if (Value is String Text && !String.IsNullOrWhiteSpace(Text))
+        if (Value == null)
         {
-            return Visibility.Visible;
+            return Visibility.Collapsed;
         }
-        else
+
+        if (Value is String Path && String.IsNullOrWhiteSpace(Path))
         {
-            return Visibility.Hidden;
+            return Visibility.Collapsed;
         }
+
+        return Visibility.Visible;
     }
 
     public Object ConvertBack(Object value, Type TargetType, Object Parameter, CultureInfo Culture)
