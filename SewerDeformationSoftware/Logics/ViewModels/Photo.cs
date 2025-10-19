@@ -28,14 +28,16 @@ public class Photo : Basis
 
     public Photo()
     {
-        Dragop = new RelayCommand<Object>(Obj => Obj != null, ModelFile => DropModel(ModelFile));
+        Dragop = new RelayCommand<Object>(Obj => Obj != null, ModelFile => DropPhoto(ModelFile));
 
-        Browse = new RelayCommand<Object>(Obj => Obj == null, Obj => BrowseModel());
+        Browse = new RelayCommand<Object>(Obj => Obj == null, Obj => BrowsePhoto());
 
-        Remove = new RelayCommand<Object>(Obj => Obj == null, Obj => RemoveModel());
+        Remove = new RelayCommand<Object>(Obj => Obj == null, Obj => RemovePhoto());
+
+        Accept = new RelayCommand<Object>(Obj => Obj == null, async Obj => await AnalyzePhoto());
     }
 
-    Task BrowseModel()
+    Task BrowsePhoto()
     {
         OpenFileDialog FileSelection = new();
 
@@ -53,7 +55,7 @@ public class Photo : Basis
         return Task.CompletedTask;
     }
 
-    Task RemoveModel()
+    Task RemovePhoto()
     {
         if (Message.ShowConfirm("Bạn có muốn xóa hình ảnh này?"))
         {
@@ -69,7 +71,7 @@ public class Photo : Basis
         return Task.CompletedTask;
     }
 
-    Task DropModel(Object ObjModel)
+    Task DropPhoto(Object ObjModel)
     {
         if (ObjModel is DragEventArgs Event && Event.Data.GetDataPresent(DataFormats.FileDrop))
         {
@@ -99,5 +101,15 @@ public class Photo : Basis
         }
 
         return Task.CompletedTask;
+    }
+
+    async Task AnalyzePhoto()
+    {
+        if (YOLOSeg.Models.KeyYSModel == null)
+        {
+            Message.ShowErrors("Không thể thực hiện do mô hình suy luận chưa được tải lên");
+
+            return;
+        }
     }
 }
