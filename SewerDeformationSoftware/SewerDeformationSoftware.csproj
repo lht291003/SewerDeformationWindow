@@ -32,7 +32,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NumSharp" Version="0.30.0" />
 		<PackageReference Include="MahApps.Metro" Version="2.4.11" />
 		<PackageReference Include="YoloSharp.Core" Version="6.0.6" />
 		<PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />

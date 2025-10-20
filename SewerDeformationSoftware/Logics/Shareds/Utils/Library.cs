@@ -1,5 +1,4 @@
-﻿global using Compunet.YoloSharp;
-global using Microsoft.Win32;
+﻿global using Microsoft.Win32;
 global using SewerDeformationSoftware.Logics.Shareds.Cores;
 global using SewerDeformationSoftware.Logics.Shareds.Utils;
 global using SewerDeformationSoftware.Views;
@@ -16,4 +15,9 @@ global using System.Windows.Interop;
 global using System.Windows.Media;
 global using System.Windows.Media.Imaging;
 global using System.Windows.Threading;
+global using Image = SixLabors.ImageSharp.Image;
 global using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
+global using Point = OpenCvSharp.Point;
+global using Rect = OpenCvSharp.Rect;
+global using Size = OpenCvSharp.Size;
+global using Window = System.Windows.Window;
