@@ -1,7 +1,13 @@
-﻿global using Microsoft.Win32;
+﻿global using Compunet.YoloSharp;
+global using Compunet.YoloSharp.Data;
+global using Compunet.YoloSharp.Memory;
+global using Compunet.YoloSharp.Plotting;
+global using Microsoft.Win32;
+global using OpenCvSharp;
 global using SewerDeformationSoftware.Logics.Shareds.Cores;
 global using SewerDeformationSoftware.Logics.Shareds.Utils;
 global using SewerDeformationSoftware.Views;
+global using SixLabors.ImageSharp;
 global using System.ComponentModel;
 global using System.Globalization;
 global using System.IO;
