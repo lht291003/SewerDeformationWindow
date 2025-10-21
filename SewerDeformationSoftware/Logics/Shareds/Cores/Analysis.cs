@@ -1,6 +1,6 @@
 ﻿namespace SewerDeformationSoftware.Logics.Shareds.Cores;
 
-public class Geometry
+public class Analysis
 {
     public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, String ImagePath)
     {
@@ -8,9 +8,7 @@ public class Geometry
 
         Mat Drawed = await GetMatImage(GetSegResult, ImagePath);
 
-        Int32 NumDetected = GetSegResult.Count;
-
-        if (NumDetected != 0)
+        if (GetSegResult.Count != 0)
         {
             Segmentation FirstMask = GetSegResult.OrderBy(X => X.Bounds.Width * X.Bounds.Height).Last();
 
@@ -43,15 +41,21 @@ public class Geometry
 
         (Int32 MBW, Int32 MBH) = (MaskData.Width, MaskData.Height);
 
-        using Mat SmallMask = new(MBH, MBW, MatType.CV_32FC1);
+        Single[] Arr1D = new Single[MBW * MBH];
 
-        for (Int32 IdY = 0; IdY < MBH; IdY++)
+        Int32 I = 0;
+
+        for (Int32 IY = 0; IY < MBH; IY++)
         {
-            for (Int32 IdX = 0; IdX < MBW; IdX++)
+            for (Int32 IX = 0; IX < MBW; IX++)
             {
-                SmallMask.Set(IdY, IdX, MaskData[IdY, IdX]);
+                Arr1D[I++] = MaskData[IY, IX];
             }
         }
+
+        using Mat SmallMask = new(MBH, MBW, MatType.CV_32FC1);
+
+        Marshal.Copy(Arr1D, 00, SmallMask.Data, Arr1D.Length);
 
         using Mat EditMask = new();
 
@@ -231,7 +235,7 @@ public class Geometry
 
             Cv2.BitwiseAnd(Mask, StdElMask, ProcessedMask);
 
-            if (GetIoU(ProcessedMask, StdElMask) >= 0.9900)
+            if (GetIoU(ProcessedMask, StdElMask) >= 0.9500)
             {
                 Double MajorAxe = Math.Max(Axes.Width, Axes.Height);
 
@@ -286,7 +290,7 @@ public class Geometry
 
         if (VisualMask.Channels() == 1)
         {
-            Cv2.CvtColor(VisualMask, VisualMask, ColorConversionCodes.GRAY2BGRA);
+            Cv2.CvtColor(VisualMask, VisualMask, ColorConversionCodes.GRAY2BGR);
         }
 
         if (Shape != "Undefined")
