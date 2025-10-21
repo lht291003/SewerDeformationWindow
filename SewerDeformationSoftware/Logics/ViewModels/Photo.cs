@@ -10,6 +10,16 @@ public class Photo : Basis
 
     BitmapSource? MASKIMAGE = null;
 
+    String SHAPE = String.Empty;
+
+    String STATE = String.Empty;
+
+    String ASPECTRATIO = String.Empty;
+
+    String ORIENTATION = String.Empty;
+
+    String DEFORMATION = String.Empty;
+
     public BitmapSource? PlotImage { get => PLOTIMAGE; set { PLOTIMAGE = value; OnPropertyChanged(); } }
 
     public BitmapSource? MaskImage { get => MASKIMAGE; set { MASKIMAGE = value; OnPropertyChanged(); } }
@@ -17,6 +27,16 @@ public class Photo : Basis
     public String PhotoName { get => PHOTONAME; set { PHOTONAME = value; OnPropertyChanged(); } }
 
     public String PhotoPath { get => PHOTOPATH; set { PHOTOPATH = value; OnPropertyChanged(); } }
+
+    public String Shape { get => SHAPE; set { SHAPE = value; OnPropertyChanged(); } }
+
+    public String State { get => STATE; set { STATE = value; OnPropertyChanged(); } }
+
+    public String AspectRatio { get => ASPECTRATIO; set { ASPECTRATIO = value; OnPropertyChanged(); } }
+
+    public String Orientation { get => ORIENTATION; set { ORIENTATION = value; OnPropertyChanged(); } }
+
+    public String Deformation { get => DEFORMATION; set { DEFORMATION = value; OnPropertyChanged(); } }
 
     public ICommand Browse { get; set; } = null!;
 
@@ -59,13 +79,23 @@ public class Photo : Basis
     {
         if (Message.ShowConfirm("Bạn có muốn xóa hình ảnh này?"))
         {
-            PlotImage = null;
-
-            MaskImage = null;
-
             PhotoPath = String.Empty;
 
             PhotoName = String.Empty;
+
+            Shape = String.Empty;
+
+            State = String.Empty;
+
+            AspectRatio = String.Empty;
+
+            Orientation = String.Empty;
+
+            Deformation = String.Empty;
+
+            PlotImage = null;
+
+            MaskImage = null;
         }
 
         return Task.CompletedTask;
@@ -105,11 +135,40 @@ public class Photo : Basis
 
     async Task AnalyzePhoto()
     {
-        if (YOLOSeg.Models.KeyYSModel == null)
+        if (YOLOSeg.Models.KeyYSModel != null)
         {
-            Message.ShowErrors("Không thể thực hiện do mô hình suy luận chưa được tải lên");
+            ValueTuple<Mat, Mat, RotatedRect?, Dictionary<String, Object>?> Result = await Analysis.Quantifies(YOLOSeg.Models.KeyYSModel, PhotoPath);
 
-            return;
+            using Mat DrawedPlotImage = Result.Item1;
+
+            using Mat BinaryMaskImage = Result.Item2;
+
+            RotatedRect? SavedEllipse = Result.Item3;
+
+            Dictionary<String, Object>? Specifications = Result.Item4;
+
+            PlotImage = DrawedPlotImage.ToBitmapSource();
+
+            MaskImage = BinaryMaskImage.ToBitmapSource();
+
+            Shape = Specifications?["Shape"].ToString()!;
+
+            State = Specifications?["State"].ToString()!;
+
+            AspectRatio = Specifications?["AspectRatio"].ToString()!;
+
+            Orientation = Specifications?["Orientation"].ToString()!;
+
+            Deformation = Specifications?["Deformation"].ToString()!;
+
+            if (SavedEllipse != null)
+            {
+                MaskImage = Analysis.GetVisualMaskAsBitmapSource(BinaryMaskImage, SavedEllipse.Value, Shape);
+            }
+        }
+        else
+        {
+            Message.ShowErrors("Không thể thực hiện phân tích hình ảnh do mô hình hiện chưa được tải lên!");
         }
     }
 }

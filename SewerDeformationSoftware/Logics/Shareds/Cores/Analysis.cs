@@ -16,7 +16,7 @@ public class Analysis
 
             (Mat ProcessedMask, RotatedRect Ellipse, Dictionary<String, Object> Specifications)? Data = GetAnalizedMask(CreateBMask);
 
-            if (Data != null)
+            if (Data != null == true)
             {
                 return (Drawed, Data.Value.ProcessedMask, Data.Value.Ellipse, Data.Value.Specifications);
             }
@@ -235,7 +235,7 @@ public class Analysis
 
             Cv2.BitwiseAnd(Mask, StdElMask, ProcessedMask);
 
-            if (GetIoU(ProcessedMask, StdElMask) >= 0.9500)
+            if (GetIoU(ProcessedMask, StdElMask) >= 0.9575)
             {
                 Double MajorAxe = Math.Max(Axes.Width, Axes.Height);
 
@@ -284,14 +284,11 @@ public class Analysis
         }
     }
 
-    public static Mat ShowVisualMask(Mat Mask, RotatedRect Ellipse, String Shape)
+    public static BitmapSource GetVisualMaskAsBitmapSource(Mat Mask, RotatedRect Ellipse, String Shape)
     {
-        Mat VisualMask = Mask.Clone();
+        using Mat VisualMask = Mask.Clone();
 
-        if (VisualMask.Channels() == 1)
-        {
-            Cv2.CvtColor(VisualMask, VisualMask, ColorConversionCodes.GRAY2BGR);
-        }
+        Cv2.CvtColor(VisualMask, VisualMask, ColorConversionCodes.GRAY2BGR);
 
         if (Shape != "Undefined")
         {
@@ -344,6 +341,6 @@ public class Analysis
             Cv2.Line(VisualMask, new Point((Int32)XC, 0), new Point((Int32)XC, VisualMask.Rows), new Scalar(0, 255, 0), 1);
         }
 
-        return VisualMask;
+        return VisualMask.ToBitmapSource();
     }
 }
