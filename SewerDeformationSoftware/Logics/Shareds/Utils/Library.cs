@@ -4,6 +4,7 @@ global using Compunet.YoloSharp.Memory;
 global using Compunet.YoloSharp.Plotting;
 global using Microsoft.Win32;
 global using OpenCvSharp;
+global using OpenCvSharp.WpfExtensions;
 global using SewerDeformationSoftware.Logics.Shareds.Cores;
 global using SewerDeformationSoftware.Logics.Shareds.Utils;
 global using SewerDeformationSoftware.Views;
