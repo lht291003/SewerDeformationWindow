@@ -4,13 +4,15 @@ public class Analysis
 {
     public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, String ImagePath)
     {
-        YoloResult<Segmentation> GetSegResult = await Model.SegmentAsync(ImagePath);
+        using Image LoadImage = await Image.LoadAsync(ImagePath);
 
-        Mat Drawed = await GetMatImage(GetSegResult, ImagePath);
+        YoloResult<Segmentation> GetSegResult = await Model.SegmentAsync(LoadImage);
+
+        Mat Drawed = await GetMatImage(GetSegResult, LoadImage);
 
         if (GetSegResult.Count != 0)
         {
-            Segmentation FirstMask = GetSegResult.OrderBy(X => X.Bounds.Width * X.Bounds.Height).Last();
+            Segmentation FirstMask = GetSegResult.MaxBy(Obj => (Obj.Bounds.Width * Obj.Bounds.Height))!;
 
             using Mat CreateBMask = CreateBinaryMaskFromImage(FirstMask, ImagePath);
 
@@ -93,25 +95,6 @@ public class Analysis
         return GrayMask;
     }
 
-    public static Point[]? GetMaxContour(Mat Mask)
-    {
-        Cv2.FindContours(Mask, out Point[][] Contours, out _, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
-
-        if (Contours.Length == 0)
-        {
-            return null;
-        }
-
-        Point[]? MaxCnt = Contours.OrderBy(C => Cv2.ContourArea(C)).LastOrDefault();
-
-        if (MaxCnt == null || MaxCnt.Length < 5)
-        {
-            return null;
-        }
-
-        return MaxCnt;
-    }
-
     public static (RotatedRect, Mat) GetFittedEllipseMask(Mat Mask, Point[] Contour)
     {
         Mat EM = Create0Mask(Mask.Size(), Mask.Type());
@@ -121,6 +104,20 @@ public class Analysis
         Cv2.Ellipse(EM, Ellipse, new Scalar(255), -1);
 
         return (Ellipse, EM);
+    }
+
+    public static Point[]? GetMaxContour(Mat Mask)
+    {
+        Cv2.FindContours(Mask, out Point[][] Contours, out _, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
+
+        if (Contours.Length != 0)
+        {
+            Point[]? MaxCnt = Contours.MaxBy(Cnt => Cv2.ContourArea(Cnt));
+
+            return (MaxCnt != null && MaxCnt.Length >= 5) ? MaxCnt : null;
+        }
+
+        return null;
     }
 
     public static Double GetIoU(Mat Mask1, Mat Mask2)
@@ -196,19 +193,17 @@ public class Analysis
         return (Angle >= 80 && Angle <= 110) ? $"Vertical {Angle}" : $"Horizontal {Angle}";
     }
 
-    public async static Task<Mat> GetMatImage(YoloResult<Segmentation> Result, String Path)
+    public async static Task<Mat> GetMatImage(YoloResult<Segmentation> Result, Image Data)
     {
-        using Image LoadImage = Image.Load(Path);
-
-        using Image Plot = await Result.PlotImageAsync(LoadImage);
+        using Image Plot = await Result.PlotImageAsync(Data);
 
         using MemoryStream ByteIO = new();
 
         await Plot.SaveAsPngAsync(ByteIO);
 
-        Mat GetMatCV2Image = Mat.FromImageData(ByteIO.ToArray());
+        Mat MatCVImage = Mat.FromImageData(ByteIO.ToArray());
 
-        return GetMatCV2Image;
+        return MatCVImage;
     }
 
     public static (Mat, RotatedRect, Dictionary<String, Object>)? GetAnalizedMask(Mat Mask)
