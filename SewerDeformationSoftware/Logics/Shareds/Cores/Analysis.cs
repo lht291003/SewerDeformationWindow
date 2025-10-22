@@ -1,6 +1,6 @@
 ﻿namespace SewerDeformationSoftware.Logics.Shareds.Cores;
 
-public class Analysis
+public static class Analysis
 {
     public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, String ImagePath)
     {

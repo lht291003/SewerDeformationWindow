@@ -1,3 +1,8 @@
 ﻿namespace SewerDeformationSoftware.Views;
 
-public partial class EvalnUC { public EvalnUC() { InitializeComponent(); } }
+public partial class EvalnUC
+{
+    public EvalnUC()
+
+                => InitializeComponent();
+}

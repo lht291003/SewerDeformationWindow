@@ -1,3 +1,8 @@
 ﻿namespace SewerDeformationSoftware.Views;
 
-public partial class BuildUC { public BuildUC() { InitializeComponent(); } }
+public partial class BuildUC
+{
+    public BuildUC()
+
+                => InitializeComponent();
+}

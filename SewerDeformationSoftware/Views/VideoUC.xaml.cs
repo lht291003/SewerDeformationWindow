@@ -1,3 +1,8 @@
 ﻿namespace SewerDeformationSoftware.Views;
 
-public partial class VideoUC { public VideoUC() { InitializeComponent(); } }
+public partial class VideoUC
+{
+    public VideoUC()
+
+                => InitializeComponent();
+}

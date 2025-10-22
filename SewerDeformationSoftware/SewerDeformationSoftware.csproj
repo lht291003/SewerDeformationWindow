@@ -12,6 +12,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Using Include="OpenCvSharp.Point">
+			<Alias>Point</Alias>
+		</Using>
+		<Using Include="OpenCvSharp.Rect">
+			<Alias>Rect</Alias>
+		</Using>
+		<Using Include="OpenCvSharp.Size">
+			<Alias>Size</Alias>
+		</Using>
+		<Using Include="SixLabors.ImageSharp.Image">
+			<Alias>Image</Alias>
+		</Using>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Images\BuildImg.png" />
 	  <None Remove="Images\EvalnImg.png" />
 	  <None Remove="Images\FilesImg.png" />

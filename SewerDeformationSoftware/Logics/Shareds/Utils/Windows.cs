@@ -2,17 +2,8 @@
 
 public static class Windows
 {
-    [DllImport("Dwmapi.dll")]
-    private static extern Int32 DwmSetWindowAttribute(IntPtr Hwnd, Int32 Attr, ref Int32 Value, Int32 Size);
-    public static void SetSquareCorners(Window Win)
+    public static System.Windows.Window TopmostWindow()
     {
-        Win.SourceInitialized += (Sender, Event) =>
-        {
-            Int32 Preference = 1;
-
-            DwmSetWindowAttribute(new WindowInteropHelper(Win).Handle, 33, ref Preference, sizeof(Int32));
-        };
+        return Application.Current.Windows.OfType<System.Windows.Window>().LastOrDefault(W => W.IsVisible)!;
     }
-
-    public static Window TopmostWindow() => Application.Current.Windows.OfType<Window>().LastOrDefault(Window => Window.IsVisible)!;
 }
