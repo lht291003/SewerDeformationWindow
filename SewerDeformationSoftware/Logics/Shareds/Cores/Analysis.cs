@@ -14,7 +14,7 @@ public static class Analysis
         {
             Segmentation FirstMask = GetSegResult.MaxBy(Obj => (Obj.Bounds.Width * Obj.Bounds.Height))!;
 
-            using Mat CreateBMask = CreateBinaryMaskFromImage(FirstMask, ImagePath);
+            using Mat CreateBMask = CreateBinaryMaskImage(FirstMask, Drawed.Size());
 
             (Mat ProcessedMask, RotatedRect Ellipse, Dictionary<String, Object> Specifications)? Data = GetAnalizedMask(CreateBMask);
 
@@ -24,18 +24,16 @@ public static class Analysis
             }
         }
 
-        return (Drawed, Create0Mask(Drawed.Size(), MatType.CV_8UC1), null, null);
+        return (Drawed, CreateZeroMask(Drawed.Size(), MatType.CV_8UC1), null, null);
     }
 
-    public static Mat CreateBinaryMaskFromImage(Segmentation Object, String Path)
+    public static Mat CreateBinaryMaskImage(Segmentation SegObject, Size ImageSize)
     {
-        using Mat GetImg = Cv2.ImRead(Path, ImreadModes.Unchanged);
+        Mat GrayMask = CreateZeroMask(ImageSize, MatType.CV_8UC1);
 
-        Mat GrayMask = Create0Mask(GetImg.Size(), MatType.CV_8UC1);
+        BitmapBuffer MaskData = SegObject.Mask;
 
-        BitmapBuffer MaskData = Object.Mask;
-
-        Rectangle BoxFrame = Object.Bounds;
+        Rectangle BoxFrame = SegObject.Bounds;
 
         (Int32 BBW, Int32 BBH) = (BoxFrame.Width, BoxFrame.Height);
 
@@ -59,15 +57,13 @@ public static class Analysis
 
         Marshal.Copy(Arr1D, 00, SmallMask.Data, Arr1D.Length);
 
-        using Mat EditMask = new();
+        using Mat TempMask = new();
 
         using Mat Mask8Bit = new();
 
-        Cv2.Resize(SmallMask, EditMask, new Size(BBW, BBH));
+        Cv2.Resize(SmallMask, TempMask, new Size(BBW, BBH));
 
-        using Mat MaskM255 = EditMask.Multiply(255.0);
-
-        MaskM255.ConvertTo(Mask8Bit, MatType.CV_8UC1);
+        Cv2.ConvertScaleAbs(TempMask, Mask8Bit, 255);
 
         Int32 SrcRoiX = (BoxFrame.X < 0) ? -BoxFrame.X : 0;
 
@@ -97,13 +93,13 @@ public static class Analysis
 
     public static (RotatedRect, Mat) GetFittedEllipseMask(Mat Mask, Point[] Contour)
     {
-        Mat EM = Create0Mask(Mask.Size(), Mask.Type());
+        Mat EM = CreateZeroMask(Mask.Size(), Mask.Type());
 
-        RotatedRect Ellipse = Cv2.FitEllipse(Contour);
+        RotatedRect NewEllipse = Cv2.FitEllipse(Contour);
 
-        Cv2.Ellipse(EM, Ellipse, new Scalar(255), -1);
+        Cv2.Ellipse(EM, NewEllipse, new Scalar(255), -1);
 
-        return (Ellipse, EM);
+        return (NewEllipse, EM);
     }
 
     public static Point[]? GetMaxContour(Mat Mask)
@@ -122,12 +118,38 @@ public static class Analysis
 
     public static Double GetIoU(Mat Mask1, Mat Mask2)
     {
-        using Mat M1 = Mask1.Clone();
-
-        using Mat M2 = Mask2.Clone();
-
-        if (Mask1.Size() != Mask2.Size())
+        Double GetIoU(Mat Mask1, Mat Mask2)
         {
+            Double M1Area = Cv2.CountNonZero(Mask1);
+
+            Double M2Area = Cv2.CountNonZero(Mask2);
+
+            if (M1Area > 0 && M2Area > 0)
+            {
+                using Mat IMask = new();
+
+                Cv2.BitwiseAnd(Mask1, Mask2, IMask);
+
+                Double IArea = Cv2.CountNonZero(IMask);
+
+                Double UArea = M1Area + M2Area - IArea;
+
+                if (UArea != 0) return (IArea / UArea);
+            }
+
+            return 0.0;
+        }
+
+        if (Mask1.Size() == Mask2.Size())
+        {
+            return GetIoU(Mask1, Mask2);
+        }
+        else
+        {
+            using Mat M1 = Mask1.Clone();
+
+            using Mat M2 = Mask2.Clone();
+
             Int64 Area1 = (Int64)M1.Width * M1.Height;
 
             Int64 Area2 = (Int64)M2.Width * M2.Height;
@@ -140,31 +162,10 @@ public static class Analysis
             {
                 Cv2.Resize(M2, M2, M1.Size(), 0, 0, InterpolationFlags.Nearest);
             }
+
+            return GetIoU(M1, M2);
         }
-
-        if (Cv2.CountNonZero(M1) > 0 && Cv2.CountNonZero(M2) > 0)
-        {
-            using Mat IMask = new();
-
-            Cv2.BitwiseAnd(M1, M2, IMask);
-
-            using Mat UMask = new();
-
-            Cv2.BitwiseOr(M1, M2, UMask);
-
-            Double IArea = Cv2.CountNonZero(IMask);
-
-            Double UArea = Cv2.CountNonZero(UMask);
-
-            if (UArea != 0) return (IArea / UArea);
-        }
-
-        return 0.0;
     }
-
-    public static Mat Create0Mask(Size ImageSize, MatType Type)
-
-                                 => Mat.Zeros(ImageSize, Type);
 
     public static Double GetRealAngle(Size2f Ax, Double Angle)
     {
@@ -197,13 +198,17 @@ public static class Analysis
     {
         using Image Plot = await Result.PlotImageAsync(Data);
 
-        using MemoryStream ByteIO = new();
+        using Image<Bgr24> BGR24Img = Plot.CloneAs<Bgr24>();
 
-        await Plot.SaveAsPngAsync(ByteIO);
+        Byte[] NewPixelData = new Byte[BGR24Img.Width * BGR24Img.Height * 3];
 
-        Mat MatCVImage = Mat.FromImageData(ByteIO.ToArray());
+        BGR24Img.CopyPixelDataTo(NewPixelData);
 
-        return MatCVImage;
+        Mat MatImage = new(BGR24Img.Height, BGR24Img.Width, MatType.CV_8UC3);
+
+        Marshal.Copy(NewPixelData, 0000, MatImage.Data, NewPixelData.Length);
+
+        return MatImage;
     }
 
     public static (Mat, RotatedRect, Dictionary<String, Object>)? GetAnalizedMask(Mat Mask)
@@ -338,4 +343,9 @@ public static class Analysis
 
         return VisualMask.ToBitmapSource();
     }
+
+    public static Mat CreateZeroMask(Size ImageSize, MatType Type)
+
+                                    => Mat.Zeros(ImageSize, Type);
+
 }

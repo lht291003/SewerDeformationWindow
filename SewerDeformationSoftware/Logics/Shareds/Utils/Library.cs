@@ -9,6 +9,7 @@ global using SewerDeformationSoftware.Logics.Shareds.Cores;
 global using SewerDeformationSoftware.Logics.Shareds.Utils;
 global using SewerDeformationSoftware.Views;
 global using SixLabors.ImageSharp;
+global using SixLabors.ImageSharp.PixelFormats;
 global using System.ComponentModel;
 global using System.Globalization;
 global using System.IO;

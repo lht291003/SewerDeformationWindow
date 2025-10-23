@@ -149,8 +149,6 @@ public class Photo : Basis
 
             PlotImage = DrawedPlotImage.ToBitmapSource();
 
-            MaskImage = BinaryMaskImage.ToBitmapSource();
-
             Shape = Specifications?["Shape"].ToString()!;
 
             State = Specifications?["State"].ToString()!;
