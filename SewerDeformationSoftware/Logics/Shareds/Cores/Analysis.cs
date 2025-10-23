@@ -215,9 +215,9 @@ public static class Analysis
     {
         String Shape, Orientation = String.Empty;
 
-        Double AspectRatio = 0;
+        Double AspectRatio = -1;
 
-        Double Deformation = 0;
+        Double Deformation = -1;
 
         Point[]? MaxContour = GetMaxContour(Mask);
 
@@ -286,9 +286,11 @@ public static class Analysis
 
     public static BitmapSource GetVisualMaskAsBitmapSource(Mat Mask, RotatedRect Ellipse, String Shape)
     {
-        using Mat VisualMask = Mask.Clone();
+        using Mat Temp = Mask.Clone();
 
-        Cv2.CvtColor(VisualMask, VisualMask, ColorConversionCodes.GRAY2BGR);
+        using Mat VisualMask = new();
+
+        Cv2.CvtColor(Temp, VisualMask, ColorConversionCodes.GRAY2BGR);
 
         if (Shape != "Undefined")
         {
@@ -314,8 +316,6 @@ public static class Analysis
 
                 DYMinor = SB * Math.Sin(Theta + Cv2.PI / 2);
             }
-
-            else
 
             if (Shape == "Circle")
             {
@@ -347,5 +347,4 @@ public static class Analysis
     public static Mat CreateZeroMask(Size ImageSize, MatType Type)
 
                                     => Mat.Zeros(ImageSize, Type);
-
 }

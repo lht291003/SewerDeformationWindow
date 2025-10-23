@@ -67,9 +67,9 @@ public class Photo : Basis
 
         if (Choose)
         {
-            PhotoName = Path.GetFileName(FileSelection.FileName);
-
             PhotoPath = FileSelection.FileName;
+
+            PhotoName = Path.GetFileName(FileSelection.FileName);
         }
 
         return Task.CompletedTask;
@@ -87,15 +87,15 @@ public class Photo : Basis
 
             State = String.Empty;
 
+            PlotImage = null;
+
+            MaskImage = null;
+
             AspectRatio = String.Empty;
 
             Orientation = String.Empty;
 
             Deformation = String.Empty;
-
-            PlotImage = null;
-
-            MaskImage = null;
         }
 
         return Task.CompletedTask;
@@ -147,17 +147,23 @@ public class Photo : Basis
 
             Dictionary<String, Object>? Specifications = Result.Item4;
 
+            MaskImage = null;
+
             PlotImage = DrawedPlotImage.ToBitmapSource();
 
             Shape = Specifications?["Shape"].ToString()!;
 
             State = Specifications?["State"].ToString()!;
 
-            AspectRatio = Specifications?["AspectRatio"].ToString()!;
-
             Orientation = Specifications?["Orientation"].ToString()!;
 
-            Deformation = Specifications?["Deformation"].ToString()!;
+            Double GetAspectRatioValue = Convert.ToDouble(Specifications?["AspectRatio"]);
+
+            Double GetDeformationValue = Convert.ToDouble(Specifications?["Deformation"]);
+
+            AspectRatio = (GetAspectRatioValue == -1) ? String.Empty : $"{(GetAspectRatioValue * 100):F9} %";
+
+            Deformation = (GetDeformationValue == -1) ? String.Empty : $"{(GetDeformationValue * 100):F9} %";
 
             if (SavedEllipse != null)
             {

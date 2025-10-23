@@ -2,7 +2,5 @@
 
 public partial class MainSDDWindow
 {
-    public MainSDDWindow()
-
-         => InitializeComponent();
+    public MainSDDWindow() { InitializeComponent(); Windows.SetSquareCorners(this); }
 }

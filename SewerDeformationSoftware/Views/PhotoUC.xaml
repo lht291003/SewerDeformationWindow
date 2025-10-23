@@ -1,4 +1,4 @@
-﻿<UserControl 
+﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     X:Class="SewerDeformationSoftware.Views.PhotoUC"
     xmlns:X="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -111,8 +111,9 @@
                                 Height="50" IsDefault="True"
                                 Command="{Binding Accept}"/>
                         </Grid>
-                        <Grid Margin="10.0"
-                              Grid.Row="4">
+                        <Grid
+                            Margin="10.0"
+                            Grid.Row="4">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="10"/>
@@ -124,7 +125,7 @@
                                     <RowDefinition Height="5.00"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Hình ảnh đã phân đoạn" FontSize="14" FontWeight="SemiBold"/>
+                                <TextBlock Text="Hình ảnh đã phân đoạn" FontSize="16" FontWeight="SemiBold"/>
                                 <Grid Grid.Row="2">
                                     <Border
                                         X:Name="MaskOverlayOnImage1" Background="White" CornerRadius="05"/>
@@ -142,7 +143,7 @@
                                     <RowDefinition Height="5.00"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Mặt nạ được trực quan" FontSize="14" FontWeight="SemiBold"/>
+                                <TextBlock Text="Mặt nạ được trực quan" FontSize="16" FontWeight="SemiBold"/>
                                 <Grid Grid.Row="2">
                                     <Border
                                         X:Name="MaskOverlayOnImage2" Background="White" CornerRadius="05"/>
@@ -155,9 +156,133 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid
-                            Margin="10.0"
-                            Grid.Row="6">
+                        <Grid Grid.Row="6"
+                              Margin="10,0,10,5" Visibility="{Binding MaskImage, Converter={StaticResource None2Hidden}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5.00"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Text="Kết quả trả về"
+                                FontWeight="SemiBold"
+                                FontSize="016"/>
+                            <Grid Grid.Row="02">
+                                <Grid.Resources>
+                                    <Style TargetType="MD:Card">
+                                        <Setter Property="UniformCornerRadius" Value="5.00000"/>
+                                        <Setter Property="Background" Value="LightSteelBlue"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock" X:Key="Label">
+                                        <Setter Property="FontSize" Value="15"/>
+                                        <Setter Property="FontFamily" Value="Consolas"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock" X:Key="Value">
+                                        <Setter Property="FontSize" Value="20"/>
+                                        <Setter Property="FontFamily" Value="Consolas"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="5.00"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="5.00"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <MD:Card Grid.Row="0">
+                                        <Grid Margin="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="20.0"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="20.0"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                Grid.Row="00" Text="AspectRatio"
+                                                Style="{StaticResource Label}"/>
+                                            <TextBlock Grid.Row="2" Text="{Binding AspectRatio}" Style="{StaticResource Value}"/>
+                                        </Grid>
+                                    </MD:Card>
+                                    <MD:Card Grid.Row="2">
+                                        <Grid Margin="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="20.0"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="20.0"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                Grid.Row="00" Text="Deformation"
+                                                Style="{StaticResource Label}"/>
+                                            <TextBlock Grid.Row="2" Text="{Binding Deformation}" Style="{StaticResource Value}"/>
+                                        </Grid>
+                                    </MD:Card>
+                                    <MD:Card Grid.Row="4">
+                                        <Grid Margin="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="20.0"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="20.0"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                Grid.Row="00" Text="Orientation"
+                                                Style="{StaticResource Label}"/>
+                                            <TextBlock Grid.Row="2" Text="{Binding Orientation}" Style="{StaticResource Value}"/>
+                                        </Grid>
+                                    </MD:Card>
+                                </Grid>
+                                <Grid Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="5.00"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <MD:Card Grid.Row="0">
+                                        <Grid Margin="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="20.0"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="20.0"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Text="Shape"
+                                                Style="{StaticResource Label}"/>
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Text="{Binding Shape}"
+                                                Style="{StaticResource Value}"/>
+                                        </Grid>
+                                    </MD:Card>
+                                    <MD:Card Grid.Row="2">
+                                        <Grid Margin="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="20.0"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="20.0"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Text="State"
+                                                Style="{StaticResource Label}"/>
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Text="{Binding State}"
+                                                Style="{StaticResource Value}"/>
+                                        </Grid>
+                                    </MD:Card>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
