@@ -1,6 +1,6 @@
 ﻿namespace SewerDeformationSoftware.Logics.Shareds.Utils;
 
-public static class Message
+public class Message
 {
     public static void ShowErrors(String Message)
 

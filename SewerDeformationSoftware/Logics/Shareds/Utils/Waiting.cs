@@ -1,6 +1,6 @@
 ﻿namespace SewerDeformationSoftware.Logics.Shareds.Utils;
 
-public static class Waiting
+public class Waiting
 {
     public static Lazy<WaitIndicator> CircleBar { get; } = new(() => new WaitIndicator());
 

@@ -1,6 +1,6 @@
 ﻿namespace SewerDeformationSoftware.Logics.Shareds.Cores;
 
-public static class Analysis
+public class Analysis
 {
     public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, String ImagePath)
     {
@@ -53,9 +53,7 @@ public static class Analysis
             }
         }
 
-        using Mat SmallMask = new(MBH, MBW, MatType.CV_32FC1);
-
-        Marshal.Copy(Arr1D, 00, SmallMask.Data, Arr1D.Length);
+        using Mat SmallMask = Mat.FromPixelData(MBH, MBW, MatType.CV_32FC1, Arr1D);
 
         using Mat TempMask = new();
 
@@ -198,17 +196,25 @@ public static class Analysis
     {
         using Image Plot = await Result.PlotImageAsync(Data);
 
-        using Image<Bgr24> BGR24Img = Plot.CloneAs<Bgr24>();
+        using Image<Bgr24> BGR24Img = Plot.CloneAs<Bgr24>(SLImage.ContiguousImageConfigs);
 
-        Byte[] NewPixelData = new Byte[BGR24Img.Width * BGR24Img.Height * 3];
+        if (BGR24Img.DangerousTryGetSinglePixelMemory(out Memory<Bgr24> Bgr24PixelMemory))
+        {
+            unsafe
+            {
+                using MemoryHandle PinMemory = Bgr24PixelMemory.Pin();
 
-        BGR24Img.CopyPixelDataTo(NewPixelData);
+                using Mat Wrapper = Mat.FromPixelData(BGR24Img.Height, BGR24Img.Width, MatType.CV_8UC3, (IntPtr)PinMemory.Pointer);
 
-        Mat MatImage = new(BGR24Img.Height, BGR24Img.Width, MatType.CV_8UC3);
+                return Wrapper.Clone();
+            }
+        }
 
-        Marshal.Copy(NewPixelData, 0000, MatImage.Data, NewPixelData.Length);
+        Byte[] Pixels = new Byte[BGR24Img.Width * BGR24Img.Height * 3];
 
-        return MatImage;
+        BGR24Img.CopyPixelDataTo(Pixels);
+
+        return Mat.FromPixelData(BGR24Img.Height, BGR24Img.Width, MatType.CV_8UC3, Pixels);
     }
 
     public static (Mat, RotatedRect, Dictionary<String, Object>)? GetAnalizedMask(Mat Mask)
