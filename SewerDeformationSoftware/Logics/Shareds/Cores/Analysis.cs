@@ -194,9 +194,9 @@ public class Analysis
 
     public async static Task<Mat> GetMatImage(YoloResult<Segmentation> Result, Image Data)
     {
-        using Image Plot = await Result.PlotImageAsync(Data);
+        using Image PlottedImage = await Result.PlotImageAsync(Data);
 
-        using Image<Bgr24> BGR24Img = Plot.CloneAs<Bgr24>(SLImage.ContiguousImageConfigs);
+        using Image<Bgr24> BGR24Img = PlottedImage.CloneAs<Bgr24>();
 
         if (BGR24Img.DangerousTryGetSinglePixelMemory(out Memory<Bgr24> Bgr24PixelMemory))
         {
