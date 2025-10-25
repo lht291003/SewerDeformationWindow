@@ -147,8 +147,6 @@ public class Photo : Basis
 
             Dictionary<String, Object>? Specifications = Result.Item4;
 
-            MaskImage = null;
-
             PlotImage = DrawedPlotImage.ToBitmapSource();
 
             Shape = Specifications?["Shape"].ToString()!;
@@ -168,6 +166,10 @@ public class Photo : Basis
             if (SavedEllipse != null)
             {
                 MaskImage = Analysis.GetVisualMaskAsBitmapSource(BinaryMaskImage, SavedEllipse.Value, Shape);
+            }
+            else
+            {
+                MaskImage = default;
             }
         }
         else
