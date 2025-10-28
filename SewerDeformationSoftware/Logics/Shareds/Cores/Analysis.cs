@@ -2,10 +2,29 @@
 
 public class Analysis
 {
+    public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, Mat MatImageData)
+    {
+        using Image LoadImage = Mat2SLImageSharp(MatImageData);
+
+        return await Quantifies(Model, LoadImage);
+    }
+
     public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, String ImagePath)
     {
         using Image LoadImage = await Image.LoadAsync(ImagePath);
 
+        return await Quantifies(Model, LoadImage);
+    }
+
+    public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, Stream ImageData)
+    {
+        using Image LoadImage = await Image.LoadAsync(ImageData);
+
+        return await Quantifies(Model, LoadImage);
+    }
+
+    private static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, Image LoadImage)
+    {
         YoloResult<Segmentation> GetSegResult = await Model.SegmentAsync(LoadImage);
 
         Mat Drawed = await GetMatImage(GetSegResult, LoadImage);
@@ -215,6 +234,22 @@ public class Analysis
         BGR24Img.CopyPixelDataTo(Pixels);
 
         return Mat.FromPixelData(BGR24Img.Height, BGR24Img.Width, MatType.CV_8UC3, Pixels);
+    }
+
+    public static unsafe Image Mat2SLImageSharp(Mat Data)
+    {
+        if (!Data.IsContinuous())
+        {
+            using Mat ContinuousMat = Data.Clone();
+
+            return Mat2SLImageSharp(ContinuousMat);
+        }
+
+        Int64 Len = Data.Total() * Data.ElemSize();
+
+        ReadOnlySpan<Byte> MatSpan = new(Data.Data.ToPointer(), (Int32)Len);
+
+        return Image.LoadPixelData<Bgr24>(MatSpan, Data.Width, Data.Height);
     }
 
     public static (Mat, RotatedRect, Dictionary<String, Object>)? GetAnalizedMask(Mat Mask)
