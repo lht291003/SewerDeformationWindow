@@ -8,11 +8,11 @@ public class Build : Basis
 
     String GETDIVICE = String.Empty;
 
-    public String ModelName { get => MODELNAME; set { MODELNAME = value; OnPropertyChanged(); } }
+    public String ModelName { get => MODELNAME; set => SetAndNotify(value, ref MODELNAME); }
 
-    public String ModelPath { get => MODELPATH; set { MODELPATH = value; OnPropertyChanged(); } }
+    public String ModelPath { get => MODELPATH; set => SetAndNotify(value, ref MODELPATH); }
 
-    public String GetDevice { get => GETDIVICE; set { GETDIVICE = value; OnPropertyChanged(); } }
+    public String GetDevice { get => GETDIVICE; set => SetAndNotify(value, ref GETDIVICE); }
 
     public ICommand Browse { get; set; } = null!;
 
@@ -21,6 +21,7 @@ public class Build : Basis
     public ICommand Accept { get; set; } = null!;
 
     public ICommand Dragop { get; set; } = null!;
+
     public Build()
     {
         Dragop = new RelayCommand<Object>(Obj => Obj != null, ModelFile => DropModel(ModelFile));

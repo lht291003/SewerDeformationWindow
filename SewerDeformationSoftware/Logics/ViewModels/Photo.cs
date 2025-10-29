@@ -1,7 +1,17 @@
-﻿namespace SewerDeformationSoftware.Logics.ViewModels;
+namespace SewerDeformationSoftware.Logics.ViewModels;
 
 public class Photo : Basis
 {
+    String ASPECTRATIO = String.Empty;
+
+    String ORIENTATION = String.Empty;
+
+    String DEFORMATION = String.Empty;
+
+    String SHAPE = String.Empty;
+
+    String STATE = String.Empty;
+
     String PHOTONAME = String.Empty;
 
     String PHOTOPATH = String.Empty;
@@ -10,33 +20,23 @@ public class Photo : Basis
 
     BitmapSource? MASKIMAGE = null;
 
-    String SHAPE = String.Empty;
+    public BitmapSource? PlotImage { get => PLOTIMAGE; set => SetAndNotify(value, ref PLOTIMAGE); }
 
-    String STATE = String.Empty;
+    public BitmapSource? MaskImage { get => MASKIMAGE; set => SetAndNotify(value, ref MASKIMAGE); }
 
-    String ASPECTRATIO = String.Empty;
+    public String PhotoName { get => PHOTONAME; set => SetAndNotify(value, ref PHOTONAME); }
 
-    String ORIENTATION = String.Empty;
+    public String PhotoPath { get => PHOTOPATH; set => SetAndNotify(value, ref PHOTOPATH); }
 
-    String DEFORMATION = String.Empty;
+    public String Shape { get => SHAPE; set => SetAndNotify(value, ref SHAPE); }
 
-    public BitmapSource? PlotImage { get => PLOTIMAGE; set { PLOTIMAGE = value; OnPropertyChanged(); } }
+    public String State { get => STATE; set => SetAndNotify(value, ref STATE); }
 
-    public BitmapSource? MaskImage { get => MASKIMAGE; set { MASKIMAGE = value; OnPropertyChanged(); } }
+    public String AspectRatio { get => ASPECTRATIO; set => SetAndNotify(value, ref ASPECTRATIO); }
 
-    public String PhotoName { get => PHOTONAME; set { PHOTONAME = value; OnPropertyChanged(); } }
+    public String Orientation { get => ORIENTATION; set => SetAndNotify(value, ref ORIENTATION); }
 
-    public String PhotoPath { get => PHOTOPATH; set { PHOTOPATH = value; OnPropertyChanged(); } }
-
-    public String Shape { get => SHAPE; set { SHAPE = value; OnPropertyChanged(); } }
-
-    public String State { get => STATE; set { STATE = value; OnPropertyChanged(); } }
-
-    public String AspectRatio { get => ASPECTRATIO; set { ASPECTRATIO = value; OnPropertyChanged(); } }
-
-    public String Orientation { get => ORIENTATION; set { ORIENTATION = value; OnPropertyChanged(); } }
-
-    public String Deformation { get => DEFORMATION; set { DEFORMATION = value; OnPropertyChanged(); } }
+    public String Deformation { get => DEFORMATION; set => SetAndNotify(value, ref DEFORMATION); }
 
     public ICommand Browse { get; set; } = null!;
 

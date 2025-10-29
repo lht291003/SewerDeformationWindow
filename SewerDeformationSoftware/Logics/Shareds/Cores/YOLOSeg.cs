@@ -8,6 +8,8 @@ public sealed class YOLOSeg
 
     public String? DeviceType { get; set; } = null;
 
+    public Boolean IsRunning { get; set; } = false;
+
     YoloPredictor? KEYYSMODEL = null;
 
     YoloPredictor? SECYSMODEL = null;
