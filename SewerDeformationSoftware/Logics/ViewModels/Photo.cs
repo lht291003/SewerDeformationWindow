@@ -61,7 +61,7 @@ public class Photo : Basis
     {
         OpenFileDialog FileSelection = new();
 
-        FileSelection.Filter = "Image Files |*.PNG;*.JPG;*.JPEG;*.WEBP;*.BMP;*.TIFF";
+        FileSelection.Filter = "Image File | *.PNG;*.JPG;*.JPEG;*.WEBP;*.BMP;*.TIFF";
 
         Boolean Choose = (Boolean)FileSelection.ShowDialog(Windows.TopmostWindow())!;
 

@@ -28,13 +28,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Images\BuildImg.png" />
-	  <None Remove="Images\EvalnImg.png" />
-	  <None Remove="Images\FilesImg.png" />
-	  <None Remove="Images\InforImg.png" />
-	  <None Remove="Images\ModelImg.png" />
-	  <None Remove="Images\PhotoImg.png" />
-	  <None Remove="Images\VideoImg.png" />
+		<None Remove="Images\Ico.ico" />
+		<None Remove="Images\BuildImg.png" />
+		<None Remove="Images\EvalnImg.png" />
+		<None Remove="Images\FilesImg.png" />
+		<None Remove="Images\InforImg.png" />
+		<None Remove="Images\ModelImg.png" />
+		<None Remove="Images\PhotoImg.png" />
+		<None Remove="Images\VideoImg.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<Resource Include="Images\Ico.ico" />
