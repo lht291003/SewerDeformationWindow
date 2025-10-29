@@ -28,6 +28,7 @@
             <ConverterFiles:None2Hidden X:Key="None2Hidden"/>
             <ConverterFiles:Radios2Text X:Key="Radios2Text"/>
             <ConverterFiles:None2Unbind X:Key="None2Unbind"/>
+            <ConverterFiles:Bool2Vision X:Key="Bool2Vision"/>
             <Style X:Key="VerticalTextBlocks" TargetType="TextBlock">
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
