@@ -2,75 +2,41 @@
 
 public class Video : Basis
 {
-    String VIDEONAME = String.Empty;
+    List<ValueTuple<BitmapSource, BitmapSource, Mat, Dictionary<String, Object>?>> SegmentLogs { get; set; } = [];
 
-    String VIDEOPATH = String.Empty;
+    public String VideoName { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    Int32 DISTANCE = 10;
+    public String VideoPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    Boolean ISCOMPLETED;
+    public BitmapSource? NPltImage { get; set => SetAndNotify(value, ref field); } = null;
 
-    Boolean ISCOMMENCED;
+    public BitmapSource? PPltImage { get; set => SetAndNotify(value, ref field); } = null;
 
-    BitmapSource? NPLTIMAGE = null;
+    public BitmapSource? MaskImage { get; set => SetAndNotify(value, ref field); } = null;
 
-    BitmapSource? PPLTIMAGE = null;
+    public Int32 Distance { get; set => SetAndNotify(value, ref field); } = 5;
 
-    BitmapSource? MASKIMAGE = null;
+    public Boolean IsCompleted { get; set => SetAndNotify(value, ref field); } = false;
 
-    String SHAPE = String.Empty;
+    public Boolean IsCommenced { get; set => SetAndNotify(value, ref field); } = false;
 
-    String STATE = String.Empty;
+    public String Shape { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String PHASE = String.Empty;
+    public String State { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String DELTA = String.Empty;
+    public String Phase { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String ASPECTRATIO = String.Empty;
+    public String Delta { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String ORIENTATION = String.Empty;
+    public String AspectRatio { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String DEFORMATION = String.Empty;
+    public String Orientation { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String RESEMBLANCE = String.Empty;
+    public String Deformation { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String DISTINCTION = String.Empty;
+    public String Resemblance { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    List<ValueTuple<BitmapSource, BitmapSource, Mat, Dictionary<String, Object>?>> SegmentLogs = [];
-
-    public BitmapSource? NPltImage { get => NPLTIMAGE; set => SetAndNotify(value, ref NPLTIMAGE); }
-
-    public BitmapSource? PPltImage { get => PPLTIMAGE; set => SetAndNotify(value, ref PPLTIMAGE); }
-
-    public BitmapSource? MaskImage { get => MASKIMAGE; set => SetAndNotify(value, ref MASKIMAGE); }
-
-    public Boolean IsCompleted { get => ISCOMPLETED; set => SetAndNotify(value, ref ISCOMPLETED); }
-
-    public Boolean IsCommenced { get => ISCOMMENCED; set => SetAndNotify(value, ref ISCOMMENCED); }
-
-    public String VideoName { get => VIDEONAME; set => SetAndNotify(value, ref VIDEONAME); }
-
-    public String VideoPath { get => VIDEOPATH; set => SetAndNotify(value, ref VIDEOPATH); }
-
-    public Int32 Distance { get => DISTANCE; set => SetAndNotify(value, ref DISTANCE); }
-
-    public String Shape { get => SHAPE; set => SetAndNotify(value, ref SHAPE); }
-
-    public String State { get => STATE; set => SetAndNotify(value, ref STATE); }
-
-    public String Phase { get => PHASE; set => SetAndNotify(value, ref PHASE); }
-
-    public String Delta { get => DELTA; set => SetAndNotify(value, ref DELTA); }
-
-    public String AspectRatio { get => ASPECTRATIO; set => SetAndNotify(value, ref ASPECTRATIO); }
-
-    public String Orientation { get => ORIENTATION; set => SetAndNotify(value, ref ORIENTATION); }
-
-    public String Deformation { get => DEFORMATION; set => SetAndNotify(value, ref DEFORMATION); }
-
-    public String Resemblance { get => RESEMBLANCE; set => SetAndNotify(value, ref RESEMBLANCE); }
-
-    public String Distinction { get => DISTINCTION; set => SetAndNotify(value, ref DISTINCTION); }
+    public String Distinction { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
     public ICommand Browse { get; set; } = null!;
 
@@ -89,6 +55,8 @@ public class Video : Basis
         Browse = new RelayCommand<Object>(Obj => Obj == null, Obj => BrowseVideo());
 
         Remove = new RelayCommand<Object>(Obj => Obj == null, Obj => RemoveVideo());
+
+        CutOff = new RelayCommand<Object>(Obj => Obj == null, Obj => CutOffVideo());
 
         Accept = new RelayCommand<Object>(Obj => Obj == null, async Obj => await AnalyzeVideo());
     }
@@ -113,8 +81,6 @@ public class Video : Basis
     {
         if (Message.ShowConfirm("Bạn có muốn gỡ bỏ video này?"))
         {
-            ClearSegmentLog();
-
             NPltImage = null;
 
             PPltImage = null;
@@ -179,11 +145,12 @@ public class Video : Basis
         return Task.CompletedTask;
     }
 
-    Task ClearSegmentLog()
+    Task CutOffVideo()
     {
-        SegmentLogs.ForEach(Log => Log.Item3?.Dispose());
-
-        SegmentLogs.Clear();
+        if (IsCommenced)
+        {
+            IsCommenced = default;
+        }
 
         return Task.CompletedTask;
     }
@@ -192,17 +159,21 @@ public class Video : Basis
     {
         if (YOLOSeg.Models.KeyYSModel != null)
         {
+            SegmentLogs.ForEach(X => X.Item3?.Dispose());
+
+            SegmentLogs.Clear();
+
             using VideoCapture Captures = new(VideoPath);
 
             using Mat Frame = new();
-
-            await ClearSegmentLog();
 
             if (Captures.IsOpened())
             {
                 IsCompleted = false;
 
                 IsCommenced = true;
+
+                YOLOSeg.Models.IsRunning = IsCommenced;
 
                 Int32 FrmCount = 0;
 
@@ -259,7 +230,9 @@ public class Video : Basis
 
                         if (FrmCount > Distance)
                         {
-                            PPltImage = SegmentLogs.ElementAtOrDefault(FrmCount - Distance - 1).Item1;
+                            ValueTuple<BitmapSource, BitmapSource, Mat, Dictionary<String, Object>?> PreLog = SegmentLogs.ElementAt(FrmCount - Distance - 1);
+
+                            PPltImage = PreLog.Item1;
                         }
                     }
                     else
@@ -276,6 +249,8 @@ public class Video : Basis
 
                 IsCompleted = false;
             }
+
+            YOLOSeg.Models.IsRunning = false;
         }
     }
 }

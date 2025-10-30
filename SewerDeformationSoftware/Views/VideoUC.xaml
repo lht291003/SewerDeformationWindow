@@ -130,6 +130,21 @@
                         <Grid
                             Margin="10.0"
                             Grid.Row="4">
+                            <Grid.Resources>
+                                <Style TargetType="MD:Card" X:Key="Section">
+                                    <Setter Property="UniformCornerRadius" Value="5.00000"/>
+                                    <Setter Property="Background" Value="CornflowerBlue"/>
+                                </Style>
+                                <Style TargetType="TextBlock" X:Key="Label">
+                                    <Setter Property="FontSize" Value="15"/>
+                                    <Setter Property="FontFamily" Value="Consolas"/>
+                                </Style>
+                                <Style TargetType="TextBlock" X:Key="Value">
+                                    <Setter Property="FontSize" Value="20"/>
+                                    <Setter Property="FontFamily" Value="Consolas"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </Style>
+                            </Grid.Resources>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="10.0"/>
@@ -207,21 +222,6 @@
                                                 FontWeight="SemiBold"
                                                 FontSize="016"/>
                                             <Grid Grid.Row="02">
-                                                <Grid.Resources>
-                                                    <Style TargetType="MD:Card">
-                                                        <Setter Property="UniformCornerRadius" Value="5.00000"/>
-                                                        <Setter Property="Background" Value="LightSteelBlue"/>
-                                                    </Style>
-                                                    <Style TargetType="TextBlock" X:Key="Label">
-                                                        <Setter Property="FontSize" Value="15"/>
-                                                        <Setter Property="FontFamily" Value="Consolas"/>
-                                                    </Style>
-                                                    <Style TargetType="TextBlock" X:Key="Value">
-                                                        <Setter Property="FontSize" Value="20"/>
-                                                        <Setter Property="FontFamily" Value="Consolas"/>
-                                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                                    </Style>
-                                                </Grid.Resources>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="5"/>
@@ -235,7 +235,8 @@
                                                         <RowDefinition Height="5.00"/>
                                                         <RowDefinition Height="Auto"/>
                                                     </Grid.RowDefinitions>
-                                                    <MD:Card Grid.Row="0">
+                                                    <MD:Card Grid.Row="0"
+                                                             Style="{StaticResource Section}">
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
@@ -249,7 +250,8 @@
                                                             <TextBlock Grid.Row="2" Text="{Binding AspectRatio}" Style="{StaticResource Value}"/>
                                                         </Grid>
                                                     </MD:Card>
-                                                    <MD:Card Grid.Row="2">
+                                                    <MD:Card Grid.Row="2"
+                                                             Style="{StaticResource Section}">
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
@@ -263,7 +265,8 @@
                                                             <TextBlock Grid.Row="2" Text="{Binding Deformation}" Style="{StaticResource Value}"/>
                                                         </Grid>
                                                     </MD:Card>
-                                                    <MD:Card Grid.Row="4">
+                                                    <MD:Card Grid.Row="4"
+                                                             Style="{StaticResource Section}">
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
@@ -284,7 +287,8 @@
                                                         <RowDefinition Height="5.00"/>
                                                         <RowDefinition Height="Auto"/>
                                                     </Grid.RowDefinitions>
-                                                    <MD:Card Grid.Row="0">
+                                                    <MD:Card Grid.Row="0"
+                                                             Style="{StaticResource Section}">
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
@@ -302,7 +306,8 @@
                                                                 Style="{StaticResource Value}"/>
                                                         </Grid>
                                                     </MD:Card>
-                                                    <MD:Card Grid.Row="2">
+                                                    <MD:Card Grid.Row="2"
+                                                             Style="{StaticResource Section}">
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
@@ -338,45 +343,152 @@
                                             FontSize="17" FontWeight="ExtraBold"/>
                                     </Expander.Header>
                                     <Grid Margin="10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="1*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0" Visibility="{Binding NPltImage, Converter={StaticResource None2Hidden}}">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="5.00"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Text="Ảnh phân đoạn hiện tại" FontSize="16" FontWeight="SemiBold"/>
-                                            <Grid Grid.Row="2">
-                                                <Border
-                                                    X:Name="MaskOverlayOnImage3" Background="White" CornerRadius="05"/>
-                                                <Image
-                                                    Source="{Binding NPltImage, Converter={StaticResource None2Unbind}}">
-                                                    <Image.OpacityMask>
-                                                        <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage3}"/>
-                                                    </Image.OpacityMask>
-                                                </Image>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="10.0"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="10"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" Visibility="{Binding NPltImage, Converter={StaticResource None2Hidden}}">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="5.00"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="Ảnh phân đoạn hiện tại" FontSize="16" FontWeight="SemiBold"/>
+                                                <Grid Grid.Row="2">
+                                                    <Border
+                                                        X:Name="MaskOverlayOnImage3" Background="White" CornerRadius="05"/>
+                                                    <Image
+                                                        Source="{Binding NPltImage, Converter={StaticResource None2Unbind}}">
+                                                        <Image.OpacityMask>
+                                                            <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage3}"/>
+                                                        </Image.OpacityMask>
+                                                    </Image>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid Grid.Column="2" Visibility="{Binding PPltImage, Converter={StaticResource None2Hidden}}">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="5.00"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="Ảnh phân đoạn trước đó" FontSize="16" FontWeight="SemiBold"/>
+                                                <Grid Grid.Row="2">
+                                                    <Border
+                                                        X:Name="MaskOverlayOnImage4" Background="White" CornerRadius="05"/>
+                                                    <Image
+                                                        Source="{Binding PPltImage, Converter={StaticResource None2Unbind}}">
+                                                        <Image.OpacityMask>
+                                                            <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage4}"/>
+                                                        </Image.OpacityMask>
+                                                    </Image>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
-                                        <Grid Grid.Column="2" Visibility="{Binding PPltImage, Converter={StaticResource None2Hidden}}">
+                                        <Grid Grid.Row="2">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="5.00"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="Ảnh phân đoạn trước đó" FontSize="16" FontWeight="SemiBold"/>
-                                            <Grid Grid.Row="2">
-                                                <Border
-                                                    X:Name="MaskOverlayOnImage4" Background="White" CornerRadius="05"/>
-                                                <Image
-                                                    Source="{Binding PPltImage, Converter={StaticResource None2Unbind}}">
-                                                    <Image.OpacityMask>
-                                                        <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage4}"/>
-                                                    </Image.OpacityMask>
-                                                </Image>
+                                            <TextBlock
+                                                Text="Kết quả trả về"
+                                                FontWeight="SemiBold"
+                                                FontSize="016"/>
+                                            <Grid Grid.Row="02">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="5"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Grid.Column="0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="5.00"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <MD:Card Grid.Row="0"
+                                                        Style="{StaticResource Section}">
+                                                        <Grid Margin="10">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="20.0"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock
+                                                                Grid.Row="00" Text="Resemblance"
+                                                                Style="{StaticResource Label}"/>
+                                                            <TextBlock Grid.Row="2" Text="{Binding Resemblance}" Style="{StaticResource Value}"/>
+                                                        </Grid>
+                                                    </MD:Card>
+                                                    <MD:Card Grid.Row="2"
+                                                             Style="{StaticResource Section}">
+                                                        <Grid Margin="10">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="20.0"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock
+                                                                Grid.Row="00" Text="Distinction"
+                                                                Style="{StaticResource Label}"/>
+                                                            <TextBlock Grid.Row="2" Text="{Binding Distinction}" Style="{StaticResource Value}"/>
+                                                        </Grid>
+                                                    </MD:Card>
+                                                </Grid>
+                                                <Grid Grid.Column="2">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="5.00"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <MD:Card Grid.Row="0"
+                                                             Style="{StaticResource Section}">
+                                                        <Grid Margin="10">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="20.0"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock
+                                                                Grid.Row="0"
+                                                                Text="Delta"
+                                                                Style="{StaticResource Label}"/>
+                                                            <TextBlock
+                                                                Grid.Row="2"
+                                                                Text="{Binding Delta}"
+                                                                Style="{StaticResource Value}"/>
+                                                        </Grid>
+                                                    </MD:Card>
+                                                    <MD:Card Grid.Row="2"
+                                                             Style="{StaticResource Section}">
+                                                        <Grid Margin="10">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="20.0"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock
+                                                                Grid.Row="0"
+                                                                Text="Phase"
+                                                                Style="{StaticResource Label}"/>
+                                                            <TextBlock
+                                                                Grid.Row="2"
+                                                                Text="{Binding Phase}"
+                                                                Style="{StaticResource Value}"/>
+                                                        </Grid>
+                                                    </MD:Card>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
                                     </Grid>

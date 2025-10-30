@@ -2,17 +2,11 @@
 
 public class Build : Basis
 {
-    String MODELNAME = String.Empty;
+    public String ModelName { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String MODELPATH = String.Empty;
+    public String ModelPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String GETDIVICE = String.Empty;
-
-    public String ModelName { get => MODELNAME; set => SetAndNotify(value, ref MODELNAME); }
-
-    public String ModelPath { get => MODELPATH; set => SetAndNotify(value, ref MODELPATH); }
-
-    public String GetDevice { get => GETDIVICE; set => SetAndNotify(value, ref GETDIVICE); }
+    public String GetDevice { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
     public ICommand Browse { get; set; } = null!;
 
@@ -85,13 +79,20 @@ public class Build : Basis
     {
         if (Message.ShowConfirm("Bạn có muốn xóa mô hình này?"))
         {
-            ModelPath = String.Empty;
+            if (YOLOSeg.Models.IsRunning)
+            {
+                Message.ShowErrors("Không thể xóa, mô hình này đang được suy luận!");
+            }
+            else
+            {
+                ModelPath = String.Empty;
 
-            ModelName = String.Empty;
+                ModelName = String.Empty;
 
-            YOLOSeg.Models.KeyYSModel = null;
+                YOLOSeg.Models.KeyYSModel = null;
 
-            YOLOSeg.Models.DeviceType = null;
+                YOLOSeg.Models.DeviceType = null;
+            }
         }
 
         return Task.CompletedTask;
@@ -99,19 +100,26 @@ public class Build : Basis
 
     async Task AcceptModel()
     {
-        YOLOSeg.Models.DeviceType = GetDevice;
-
-        YoloPredictorOptions YOptions = new()
+        if (YOLOSeg.Models.IsRunning)
         {
-            UseCuda = GetDevice.Equals("GPU")
-        };
+            Message.ShowErrors("Vui lòng chờ cho tới khi mô hình này suy luận xong!");
+        }
+        else
+        {
+            YOLOSeg.Models.DeviceType = GetDevice;
 
-        Waiting.ShowProgressRing();
+            YoloPredictorOptions YOptions = new()
+            {
+                UseCuda = GetDevice.Equals("GPU")
+            };
 
-        await Task.Run(() => YOLOSeg.Models.KeyYSModel = new(ModelPath, YOptions));
+            Waiting.ShowProgressRing();
 
-        Waiting.HideProgressRing();
+            await Task.Run(() => YOLOSeg.Models.KeyYSModel = new(ModelPath, YOptions));
 
-        Message.ShowSuccess($"Mô hình suy luận {ModelName} đã tải lên thành công");
+            Waiting.HideProgressRing();
+
+            Message.ShowSuccess($"Mô hình suy luận {ModelName} đã tải lên thành công");
+        }
     }
 }

@@ -171,7 +171,7 @@
                                 <Grid.Resources>
                                     <Style TargetType="MD:Card">
                                         <Setter Property="UniformCornerRadius" Value="5.00000"/>
-                                        <Setter Property="Background" Value="LightSteelBlue"/>
+                                        <Setter Property="Background" Value="CornflowerBlue"/>
                                     </Style>
                                     <Style TargetType="TextBlock" X:Key="Label">
                                         <Setter Property="FontSize" Value="15"/>

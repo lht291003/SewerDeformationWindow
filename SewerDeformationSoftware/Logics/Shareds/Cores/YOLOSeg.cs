@@ -10,11 +10,7 @@ public sealed class YOLOSeg
 
     public Boolean IsRunning { get; set; } = false;
 
-    YoloPredictor? KEYYSMODEL = null;
+    public YoloPredictor? KeyYSModel { get; set { field?.Dispose(); field = value; } } = null;
 
-    YoloPredictor? SECYSMODEL = null;
-
-    public YoloPredictor? KeyYSModel { get => KEYYSMODEL; set { KEYYSMODEL?.Dispose(); KEYYSMODEL = value; } }
-
-    public YoloPredictor? SecYSModel { get => SECYSMODEL; set { SECYSMODEL?.Dispose(); SECYSMODEL = value; } }
+    public YoloPredictor? SecYSModel { get; set { field?.Dispose(); field = value; } } = null;
 }

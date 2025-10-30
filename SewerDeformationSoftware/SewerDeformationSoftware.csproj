@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<OutputType>WinExe</OutputType>
+		<LangVersion>14.0</LangVersion>
 		<TargetFramework>Net8.0-Windows</TargetFramework>
 		<Nullable>Enable</Nullable>
 		<ImplicitUsings>Enable</ImplicitUsings>

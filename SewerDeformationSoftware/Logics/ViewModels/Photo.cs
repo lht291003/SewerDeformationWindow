@@ -2,41 +2,23 @@ namespace SewerDeformationSoftware.Logics.ViewModels;
 
 public class Photo : Basis
 {
-    String ASPECTRATIO = String.Empty;
+    public String AspectRatio { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String ORIENTATION = String.Empty;
+    public String Orientation { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String DEFORMATION = String.Empty;
+    public String Deformation { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String SHAPE = String.Empty;
+    public String Shape { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String STATE = String.Empty;
+    public String State { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String PHOTONAME = String.Empty;
+    public String PhotoName { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    String PHOTOPATH = String.Empty;
+    public String PhotoPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    BitmapSource? PLOTIMAGE = null;
+    public BitmapSource? PlotImage { get; set => SetAndNotify(value, ref field); } = null;
 
-    BitmapSource? MASKIMAGE = null;
-
-    public BitmapSource? PlotImage { get => PLOTIMAGE; set => SetAndNotify(value, ref PLOTIMAGE); }
-
-    public BitmapSource? MaskImage { get => MASKIMAGE; set => SetAndNotify(value, ref MASKIMAGE); }
-
-    public String PhotoName { get => PHOTONAME; set => SetAndNotify(value, ref PHOTONAME); }
-
-    public String PhotoPath { get => PHOTOPATH; set => SetAndNotify(value, ref PHOTOPATH); }
-
-    public String Shape { get => SHAPE; set => SetAndNotify(value, ref SHAPE); }
-
-    public String State { get => STATE; set => SetAndNotify(value, ref STATE); }
-
-    public String AspectRatio { get => ASPECTRATIO; set => SetAndNotify(value, ref ASPECTRATIO); }
-
-    public String Orientation { get => ORIENTATION; set => SetAndNotify(value, ref ORIENTATION); }
-
-    public String Deformation { get => DEFORMATION; set => SetAndNotify(value, ref DEFORMATION); }
+    public BitmapSource? MaskImage { get; set => SetAndNotify(value, ref field); } = null;
 
     public ICommand Browse { get; set; } = null!;
 
