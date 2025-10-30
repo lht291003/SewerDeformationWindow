@@ -45,7 +45,7 @@ public class Photo : Basis
 
         FileSelection.Filter = "Image File | *.PNG;*.JPG;*.JPEG;*.WEBP;*.BMP;*.TIFF";
 
-        Boolean Choose = (Boolean)FileSelection.ShowDialog(Windows.TopmostWindow())!;
+        Boolean Choose = (Boolean)FileSelection.ShowDialog(WinHelp.TopmostWindow())!;
 
         if (Choose)
         {

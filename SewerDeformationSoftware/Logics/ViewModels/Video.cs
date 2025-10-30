@@ -65,7 +65,7 @@ public class Video : Basis
     {
         OpenFileDialog FileSelection = new() { Filter = "Video File | *.MP4;*.MOV;*.WEBM" };
 
-        Boolean SelectedVideo = (Boolean)FileSelection.ShowDialog(Windows.TopmostWindow())!;
+        Boolean SelectedVideo = (Boolean)FileSelection.ShowDialog(WinHelp.TopmostWindow())!;
 
         if (SelectedVideo)
         {
@@ -224,7 +224,7 @@ public class Video : Basis
 
                         Record.Item2 = MaskImage != null ? MaskImage : BinaryMaskImage.ToBitmapSource();
 
-                        (Record.Item3, Record.Item4) = (BinaryMaskImage, Result.Item4);
+                        (Record.Item3, Record.Item4) = (BinaryMaskImage, Specifications);
 
                         SegmentLogs.Add(Record);
 
@@ -233,6 +233,16 @@ public class Video : Basis
                             ValueTuple<BitmapSource, BitmapSource, Mat, Dictionary<String, Object>?> PreLog = SegmentLogs.ElementAt(FrmCount - Distance - 1);
 
                             PPltImage = PreLog.Item1;
+
+                            (String, String, String, String) Compares = Analysis.Quantifies((BinaryMaskImage, Specifications), (PreLog.Item3, PreLog.Item4));
+
+                            Delta = Compares.Item3;
+
+                            Phase = Compares.Item4;
+
+                            Resemblance = Compares.Item1;
+
+                            Distinction = Compares.Item2;
                         }
                     }
                     else
@@ -251,6 +261,10 @@ public class Video : Basis
             }
 
             YOLOSeg.Models.IsRunning = false;
+        }
+        else
+        {
+            Message.ShowErrors("Không thể thực hiện suy luận video do mô hình hiện chưa được tải lên!");
         }
     }
 }

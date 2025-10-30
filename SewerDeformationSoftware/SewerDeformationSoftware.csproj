@@ -4,13 +4,14 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<OutputType>WinExe</OutputType>
 		<LangVersion>14.0</LangVersion>
-		<TargetFramework>Net8.0-Windows</TargetFramework>
+		<TargetFramework>Net8.0-Windows10.0.22621.0</TargetFramework>
 		<Nullable>Enable</Nullable>
 		<ImplicitUsings>Enable</ImplicitUsings>
 		<UseWPF>True</UseWPF>
 		<UseWindowsForms>False</UseWindowsForms>
 		<ApplicationIcon>Images\Ico.ico</ApplicationIcon>
 		<BaseOutputPath>Binary\</BaseOutputPath>
+		<SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -52,6 +53,7 @@
 	<ItemGroup>
 		<PackageReference Include="OpenCvSharp4.WpfExtensions" Version="4.11.0.20250507" />
 		<PackageReference Include="MahApps.Metro" Version="2.4.11" />
+		<PackageReference Include="ScottPlot.WPF" Version="5.1.57" />
 		<PackageReference Include="YoloSharp.Core" Version="6.0.6" />
 		<PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
 		<PackageReference Include="MaterialDesignThemes" Version="5.3.0" />

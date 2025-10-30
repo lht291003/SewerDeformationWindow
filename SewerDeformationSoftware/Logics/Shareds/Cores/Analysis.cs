@@ -388,4 +388,65 @@ public class Analysis
     public static Mat CreateZeroMask(Size ImageSize, MatType Type)
 
                                     => Mat.Zeros(ImageSize, Type);
+
+    public static String GetDelta(String OldOrientation, String NowOrientation)
+    {
+        Double ExtractAngle(String Orientation)
+        {
+            if (String.IsNullOrWhiteSpace(Orientation)) return 0.0;
+
+            return Convert.ToDouble(Orientation.Split(" ").Last());
+        }
+
+        Double OldAngle = ExtractAngle(OldOrientation);
+
+        Double NowAngle = ExtractAngle(NowOrientation);
+
+        Double Delta = Math.Round(Math.Abs(NowAngle - OldAngle), 2);
+
+        if (Delta == 0)
+        {
+            return "Unchanged Angle";
+        }
+        else
+        {
+            if (NowAngle > OldAngle)
+            {
+                return $"Increased Angle {Delta}";
+            }
+            else
+            {
+                return $"Decreased Angle {Delta}";
+            }
+        }
+    }
+
+    public static (String, String, String, String) Quantifies((Mat, Dictionary<String, Object>?) Now, (Mat, Dictionary<String, Object>?) Old)
+    {
+        Double IoU = GetIoU(Now.Item1, Old.Item1);
+
+        Double Deformation = 1 - IoU;
+
+        String Phase = (IoU < 0.98) ? "Deformed" : "Normal";
+
+        String Delta = String.Empty;
+
+        if (Now.Item2 != null && Old.Item2 != null)
+        {
+            Boolean GetOldShapeCond = Old.Item2["Shape"].ToString() != "Undefined";
+
+            Boolean GetNowShapeCond = Now.Item2["Shape"].ToString() != "Undefined";
+
+            if (GetOldShapeCond && GetNowShapeCond)
+            {
+                String OldOrientation = Old.Item2["Orientation"].ToString()!;
+
+                String NowOrientation = Now.Item2["Orientation"].ToString()!;
+
+                Delta = GetDelta(OldOrientation, NowOrientation);
+            }
+        }
+
+        return ($"{(IoU * 100):F9} %", $"{(Deformation * 100):F9} %", Delta, Phase);
+    }
 }
