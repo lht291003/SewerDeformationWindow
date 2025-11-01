@@ -121,7 +121,7 @@ public class Build : Basis
 
                 using Image DummyInput = new Image<Rgba32>(640, 640);
 
-                YOLOSeg.Models.KeyYSModel.SegmentAsync(DummyInput);
+                YOLOSeg.Models.KeyYSModel.Segment(DummyInput);
             });
 
             Waiting.HideProgressRing();

@@ -14,7 +14,7 @@
                 <ColumnDefinition Width="10.0"/>
                 <ColumnDefinition Width="1.0*"/>
             </Grid.ColumnDefinitions>
-            <M:ProgressRing/>
+            <M:ProgressRing Foreground="#3F51B5"/>
             <TextBlock
                 FontSize="15.0" FontWeight="SemiBold" Grid.Column="2"
                 VerticalAlignment="Center" Text="Đang thực hiện..."/>
