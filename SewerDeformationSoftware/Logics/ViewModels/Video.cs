@@ -14,7 +14,7 @@ public class Video : Basis
 
     public BitmapSource? MaskImage { get; set => SetAndNotify(value, ref field); } = null;
 
-    public Int32 Distance { get; set => SetAndNotify(value, ref field); } = 5;
+    public Int32 Distance { get; set => SetAndNotify(value, ref field); } = 10;
 
     public Boolean IsCompleted { get; set => SetAndNotify(value, ref field); } = false;
 
@@ -37,6 +37,10 @@ public class Video : Basis
     public String Resemblance { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
     public String Distinction { get; set => SetAndNotify(value, ref field); } = String.Empty;
+
+    public WpfPlot DePlotChart { get; } = new WpfPlot();
+
+    public WpfPlot SpPlotChart { get; } = new WpfPlot();
 
     public ICommand Browse { get; set; } = null!;
 
@@ -252,6 +256,12 @@ public class Video : Basis
                 }
 
                 IsCompleted = true;
+
+                Dictionary<String, Object>?[] SpecificationList = [.. SegmentLogs.Select(X => X.Item4)];
+
+                Visualization.ShowSpChart(SpPlotChart, SpecificationList);
+
+                Visualization.ShowDeChart(DePlotChart, SpecificationList);
             }
             else
             {

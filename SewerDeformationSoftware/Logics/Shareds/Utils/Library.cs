@@ -5,6 +5,8 @@ global using Compunet.YoloSharp.Plotting;
 global using Microsoft.Win32;
 global using OpenCvSharp;
 global using OpenCvSharp.WpfExtensions;
+global using ScottPlot;
+global using ScottPlot.WPF;
 global using SewerDeformationSoftware.Logics.Shareds.Cores;
 global using SewerDeformationSoftware.Logics.Shareds.Utils;
 global using SewerDeformationSoftware.Views;

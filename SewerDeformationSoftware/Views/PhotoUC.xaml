@@ -125,17 +125,10 @@
                                     <RowDefinition Height="5.00"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Hình ảnh đã phân đoạn" FontSize="16" FontWeight="SemiBold"/>
-                                <Grid Grid.Row="2">
-                                    <Border
-                                        X:Name="MaskOverlayOnImage1" Background="White" CornerRadius="05"/>
-                                    <Image
-                                        Source="{Binding PlotImage, Converter={StaticResource None2Unbind}}">
-                                        <Image.OpacityMask>
-                                            <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage1}"/>
-                                        </Image.OpacityMask>
-                                    </Image>
-                                </Grid>
+                                <TextBlock Text="Hình ảnh đã phân đoạn" FontSize="16.0" FontWeight="ExtraBlack"/>
+                                <MD:Card Grid.Row="2" UniformCornerRadius="5">
+                                    <Image Source="{Binding PlotImage, Converter={StaticResource None2Unbind}}"/>
+                                </MD:Card>
                             </Grid>
                             <Grid Grid.Column="2" Visibility="{Binding MaskImage, Converter={StaticResource None2Hidden}}">
                                 <Grid.RowDefinitions>
@@ -143,17 +136,10 @@
                                     <RowDefinition Height="5.00"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Mặt nạ được trực quan" FontSize="16" FontWeight="SemiBold"/>
-                                <Grid Grid.Row="2">
-                                    <Border
-                                        X:Name="MaskOverlayOnImage2" Background="White" CornerRadius="05"/>
-                                    <Image
-                                        Source="{Binding MaskImage, Converter={StaticResource None2Unbind}}">
-                                        <Image.OpacityMask>
-                                            <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage2}"/>
-                                        </Image.OpacityMask>
-                                    </Image>
-                                </Grid>
+                                <TextBlock Text="Mặt nạ được trực quan" FontSize="16.0" FontWeight="ExtraBlack"/>
+                                <MD:Card Grid.Row="2" UniformCornerRadius="5">
+                                    <Image Source="{Binding MaskImage, Converter={StaticResource None2Unbind}}"/>
+                                </MD:Card>
                             </Grid>
                         </Grid>
                         <Grid Grid.Row="6"

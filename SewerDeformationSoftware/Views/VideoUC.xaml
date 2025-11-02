@@ -78,6 +78,8 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="10.0"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10.0"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid
                             Margin="10.0"
@@ -127,9 +129,7 @@
                                 Command="{Binding CutOff}" Grid.Row="4" Background="#FF0000"
                                 Visibility="{Binding IsCommenced, Converter={StaticResource Bool2Vision}, ConverterParameter='Break'}"/>
                         </Grid>
-                        <Grid
-                            Margin="10.0"
-                            Grid.Row="4">
+                        <Grid Margin="10.0" Grid.Row="4" Visibility="{Binding IsCommenced, Converter={StaticResource Bool2Vision}, ConverterParameter='Break'}">
                             <Grid.Resources>
                                 <Style TargetType="MD:Card" X:Key="Section">
                                     <Setter Property="UniformCornerRadius" Value="5.00000"/>
@@ -149,10 +149,23 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="10.0"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10.0"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10.0"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="PHÂN TÍCH VIDEO TRỰC QUAN"
+                                           FontSize="18" FontWeight="Black"
+                                           Grid.Row="0"/>
+                                <Separator Grid.Row="2"/>
+                            </Grid>
                             <MD:Card
                                 UniformCornerRadius="5"
-                                Grid.Row="0"
+                                Grid.Row="2"
                                 Background="#F0F4F9">
                                 <Expander
                                     MD:ExpanderAssist.HorizontalHeaderPadding="10">
@@ -179,17 +192,10 @@
                                                     <RowDefinition Height="5.00"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Ảnh phân đoạn hiện tại" FontSize="16" FontWeight="SemiBold"/>
-                                                <Grid Grid.Row="2">
-                                                    <Border
-                                                        X:Name="MaskOverlayOnImage1" Background="White" CornerRadius="05"/>
-                                                    <Image
-                                                        Source="{Binding NPltImage, Converter={StaticResource None2Unbind}}">
-                                                        <Image.OpacityMask>
-                                                            <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage1}"/>
-                                                        </Image.OpacityMask>
-                                                    </Image>
-                                                </Grid>
+                                                <TextBlock Text="Ảnh phân đoạn hiện tại" FontSize="016" FontWeight="ExtraBlack"/>
+                                                <MD:Card Grid.Row="2" UniformCornerRadius="5">
+                                                    <Image Source="{Binding NPltImage, Converter={StaticResource None2Unbind}}"/>
+                                                </MD:Card>
                                             </Grid>
                                             <Grid Grid.Column="2" Visibility="{Binding MaskImage, Converter={StaticResource None2Hidden}}">
                                                 <Grid.RowDefinitions>
@@ -197,17 +203,10 @@
                                                     <RowDefinition Height="5.00"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Mặt nạ được trực quan" FontSize="16" FontWeight="SemiBold"/>
-                                                <Grid Grid.Row="2">
-                                                    <Border
-                                                        X:Name="MaskOverlayOnImage2" Background="White" CornerRadius="05"/>
-                                                    <Image
-                                                        Source="{Binding MaskImage, Converter={StaticResource None2Unbind}}">
-                                                        <Image.OpacityMask>
-                                                            <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage2}"/>
-                                                        </Image.OpacityMask>
-                                                    </Image>
-                                                </Grid>
+                                                <TextBlock Text="Mặt nạ được trực quan" FontSize="16.0" FontWeight="ExtraBlack"/>
+                                                <MD:Card Grid.Row="2" UniformCornerRadius="5">
+                                                    <Image Source="{Binding MaskImage, Converter={StaticResource None2Unbind}}"/>
+                                                </MD:Card>
                                             </Grid>
                                         </Grid>
                                         <Grid Grid.Row="2"
@@ -333,7 +332,7 @@
                             </MD:Card>
                             <MD:Card
                                 UniformCornerRadius="5"
-                                Grid.Row="2"
+                                Grid.Row="4"
                                 Background="#F0F4F9">
                                 <Expander
                                     MD:ExpanderAssist.HorizontalHeaderPadding="10">
@@ -360,17 +359,10 @@
                                                     <RowDefinition Height="5.00"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Ảnh phân đoạn hiện tại" FontSize="16" FontWeight="SemiBold"/>
-                                                <Grid Grid.Row="2">
-                                                    <Border
-                                                        X:Name="MaskOverlayOnImage3" Background="White" CornerRadius="05"/>
-                                                    <Image
-                                                        Source="{Binding NPltImage, Converter={StaticResource None2Unbind}}">
-                                                        <Image.OpacityMask>
-                                                            <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage3}"/>
-                                                        </Image.OpacityMask>
-                                                    </Image>
-                                                </Grid>
+                                                <TextBlock Text="Ảnh phân đoạn hiện tại" FontSize="016" FontWeight="ExtraBlack"/>
+                                                <MD:Card Grid.Row="2" UniformCornerRadius="5">
+                                                    <Image Source="{Binding NPltImage, Converter={StaticResource None2Unbind}}"/>
+                                                </MD:Card>
                                             </Grid>
                                             <Grid Grid.Column="2" Visibility="{Binding PPltImage, Converter={StaticResource None2Hidden}}">
                                                 <Grid.RowDefinitions>
@@ -378,17 +370,10 @@
                                                     <RowDefinition Height="5.00"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Ảnh phân đoạn trước đó" FontSize="16" FontWeight="SemiBold"/>
-                                                <Grid Grid.Row="2">
-                                                    <Border
-                                                        X:Name="MaskOverlayOnImage4" Background="White" CornerRadius="05"/>
-                                                    <Image
-                                                        Source="{Binding PPltImage, Converter={StaticResource None2Unbind}}">
-                                                        <Image.OpacityMask>
-                                                            <VisualBrush Visual="{Binding ElementName=MaskOverlayOnImage4}"/>
-                                                        </Image.OpacityMask>
-                                                    </Image>
-                                                </Grid>
+                                                <TextBlock Text="Ảnh phân đoạn trước đó" FontSize="016" FontWeight="ExtraBlack"/>
+                                                <MD:Card Grid.Row="2" UniformCornerRadius="5">
+                                                    <Image Source="{Binding PPltImage, Converter={StaticResource None2Unbind}}"/>
+                                                </MD:Card>
                                             </Grid>
                                         </Grid>
                                         <Grid Grid.Row="2">
@@ -414,7 +399,7 @@
                                                         <RowDefinition Height="Auto"/>
                                                     </Grid.RowDefinitions>
                                                     <MD:Card Grid.Row="0"
-                                                        Style="{StaticResource Section}">
+                                                             Style="{StaticResource Section}">
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
@@ -492,6 +477,54 @@
                                             </Grid>
                                         </Grid>
                                     </Grid>
+                                </Expander>
+                            </MD:Card>
+                        </Grid>
+                        <Grid Margin="10.0" Grid.Row="6" Visibility="{Binding IsCompleted, Converter={StaticResource Bool2Vision}, ConverterParameter='Final'}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10.0"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10.0"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10.0"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="BIỂU ĐỒ TRỰC QUAN DỮ LIỆU"
+                                           FontSize="18" FontWeight="Black"
+                                           Grid.Row="0"/>
+                                <Separator Grid.Row="2"/>
+                            </Grid>
+                            <MD:Card
+                                UniformCornerRadius="5"
+                                Grid.Row="2"
+                                Background="#F0F4F9">
+                                <Expander
+                                    MD:ExpanderAssist.HorizontalHeaderPadding="10">
+                                    <Expander.Header>
+                                        <TextBlock
+                                            Text="Phân bố về hình dạng hình học"
+                                            FontSize="17" FontWeight="ExtraBold"/>
+                                    </Expander.Header>
+                                    <ContentControl Height="450" Content="{Binding SpPlotChart, Mode=OneTime}"/>
+                                </Expander>
+                            </MD:Card>
+                            <MD:Card
+                                UniformCornerRadius="5"
+                                Grid.Row="4"
+                                Background="#F0F4F9">
+                                <Expander
+                                    MD:ExpanderAssist.HorizontalHeaderPadding="10">
+                                    <Expander.Header>
+                                        <TextBlock
+                                            Text="Phân bố của phạm vi biến dạng"
+                                            FontSize="17" FontWeight="ExtraBold"/>
+                                    </Expander.Header>
+                                    <ContentControl Height="450" Content="{Binding DePlotChart, Mode=OneTime}"/>
                                 </Expander>
                             </MD:Card>
                         </Grid>

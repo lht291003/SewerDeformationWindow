@@ -14,6 +14,11 @@ public class Bool2Vision : IValueConverter
             return Value is Boolean Trigger && Trigger ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        if (Parameter.ToString()!.Equals("Final"))
+        {
+            return Value is Boolean Trigger && Trigger ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         return Binding.DoNothing;
     }
 
