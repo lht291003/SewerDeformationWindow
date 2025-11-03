@@ -2,8 +2,6 @@
 
 public class Video : Basis
 {
-    List<ValueTuple<BitmapSource, BitmapSource, Mat, Dictionary<String, Object>?>> SegmentLogs { get; set; } = [];
-
     public String VideoName { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
     public String VideoPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
@@ -52,6 +50,8 @@ public class Video : Basis
 
     public ICommand CutOff { get; set; } = null!;
 
+    List<ValueTuple<Mat, Mat, Mat, Dictionary<String, Object>?>> SegmentLogs { get; set; } = [];
+
     public Video()
     {
         Dragop = new RelayCommand<Object>(Obj => Obj != null, ModelFile => DropVideo(ModelFile));
@@ -81,37 +81,42 @@ public class Video : Basis
         return Task.CompletedTask;
     }
 
+    Task RefeshDatas()
+    {
+        Shape = String.Empty;
+
+        State = String.Empty;
+
+        Phase = String.Empty;
+
+        Delta = String.Empty;
+
+        NPltImage = null;
+
+        PPltImage = null;
+
+        MaskImage = null;
+
+        AspectRatio = String.Empty;
+
+        Orientation = String.Empty;
+
+        Deformation = String.Empty;
+
+        Distinction = String.Empty;
+
+        Resemblance = String.Empty;
+
+        return Task.CompletedTask;
+    }
+
     Task RemoveVideo()
     {
         if (Message.ShowConfirm("Bạn có muốn gỡ bỏ video này?"))
         {
-            NPltImage = null;
-
-            PPltImage = null;
-
-            MaskImage = null;
-
             VideoPath = String.Empty;
 
             VideoName = String.Empty;
-
-            Shape = String.Empty;
-
-            State = String.Empty;
-
-            Phase = String.Empty;
-
-            Delta = String.Empty;
-
-            AspectRatio = String.Empty;
-
-            Orientation = String.Empty;
-
-            Deformation = String.Empty;
-
-            Distinction = String.Empty;
-
-            Resemblance = String.Empty;
         }
 
         return Task.CompletedTask;
@@ -163,21 +168,19 @@ public class Video : Basis
     {
         if (YOLOSeg.Models.KeyYSModel != null)
         {
-            SegmentLogs.ForEach(X => X.Item3?.Dispose());
-
-            SegmentLogs.Clear();
-
             using VideoCapture Captures = new(VideoPath);
 
             using Mat Frame = new();
 
             if (Captures.IsOpened())
             {
+                await RefeshDatas();
+
                 IsCompleted = false;
 
-                IsCommenced = true;
+                YOLOSeg.Models.IsRunning = !IsCompleted;
 
-                YOLOSeg.Models.IsRunning = IsCommenced;
+                IsCommenced = true;
 
                 Int32 FrmCount = 0;
 
@@ -187,13 +190,15 @@ public class Video : Basis
                     {
                         FrmCount++;
 
-                        ValueTuple<Mat, Mat, RotatedRect?, Dictionary<String, Object>?> Result = await Analysis.Quantifies(YOLOSeg.Models.KeyYSModel, Frame);
+                        (Mat, Mat, RotatedRect?, Dictionary<String, Object>?) Result = await Analysis.Quantifies(YOLOSeg.Models.KeyYSModel, Frame);
 
-                        using Mat DrawedPlotImage = Result.Item1;
+                        Mat DrawedPlotImage = Result.Item1;
 
                         Mat BinaryMaskImage = Result.Item2;
 
-                        RotatedRect? SavedEllipse = Result.Item3;
+                        Mat DrawedMaskImage = Result.Item2;
+
+                        RotatedRect? Ellipse = Result.Item3;
 
                         Dictionary<String, Object>? Specifications = Result.Item4;
 
@@ -213,41 +218,43 @@ public class Video : Basis
 
                         Deformation = (GetDeformationValue == -1) ? String.Empty : $"{(GetDeformationValue * 100):F9} %";
 
-                        if (SavedEllipse != null)
+                        if (Ellipse == null)
                         {
-                            MaskImage = Analysis.GetVisualMaskAsBitmapSource(BinaryMaskImage, SavedEllipse.Value, Shape);
+                            MaskImage = null;
                         }
                         else
                         {
-                            MaskImage = default;
+                            DrawedMaskImage = Analysis.GetPlotMask(BinaryMaskImage, Ellipse.GetValueOrDefault(), Shape);
+
+                            MaskImage = DrawedMaskImage.ToBitmapSource();
                         }
 
-                        ValueTuple<BitmapSource, BitmapSource, Mat, Dictionary<String, Object>?> Record;
-
-                        Record.Item1 = NPltImage;
-
-                        Record.Item2 = MaskImage != null ? MaskImage : BinaryMaskImage.ToBitmapSource();
-
-                        (Record.Item3, Record.Item4) = (BinaryMaskImage, Specifications);
+                        (Mat, Mat, Mat, Dictionary<String, Object>?) Record = (DrawedPlotImage, DrawedMaskImage, BinaryMaskImage, Specifications);
 
                         SegmentLogs.Add(Record);
 
                         if (FrmCount > Distance)
                         {
-                            ValueTuple<BitmapSource, BitmapSource, Mat, Dictionary<String, Object>?> PreLog = SegmentLogs.ElementAt(FrmCount - Distance - 1);
+                            (Mat Display, Mat, Mat, Dictionary<String, Object>?) PreLog = SegmentLogs.ElementAtOrDefault(FrmCount - Distance - 1);
 
-                            PPltImage = PreLog.Item1;
+                            PPltImage = PreLog.Display.ToBitmapSource();
 
-                            (String, String, String, String) Compares = Analysis.Quantifies((BinaryMaskImage, Specifications), (PreLog.Item3, PreLog.Item4));
+                            (String, String, String, String) Pp = Analysis.Quantifies((Result.Item2, Result.Item4), (PreLog.Item3, PreLog.Item4));
 
-                            Delta = Compares.Item3;
+                            Resemblance = Pp.Item1;
 
-                            Phase = Compares.Item4;
+                            Distinction = Pp.Item2;
 
-                            Resemblance = Compares.Item1;
+                            Delta = Pp.Item3;
 
-                            Distinction = Compares.Item2;
+                            Phase = Pp.Item4;
                         }
+
+                        NPltImage?.Freeze();
+
+                        PPltImage?.Freeze();
+
+                        MaskImage?.Freeze();
                     }
                     else
                     {
@@ -268,9 +275,21 @@ public class Video : Basis
                 IsCommenced = false;
 
                 IsCompleted = false;
+
             }
 
             YOLOSeg.Models.IsRunning = false;
+
+            SegmentLogs.ForEach(PerRecord =>
+            {
+                PerRecord.Item1?.Dispose();
+
+                PerRecord.Item2?.Dispose();
+
+                PerRecord.Item3?.Dispose();
+            });
+
+            SegmentLogs.Clear();
         }
         else
         {

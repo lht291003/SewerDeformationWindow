@@ -325,25 +325,30 @@ public class Analysis
         }
     }
 
-    public static BitmapSource GetVisualMaskAsBitmapSource(Mat Mask, RotatedRect Ellipse, String Shape)
+    public static BitmapSource GetPlotMaskWithBitmapSource(Mat Mask, RotatedRect Ellipse, String Shape)
     {
-        using Mat Temp = Mask.Clone();
+        using Mat VisualMask = GetPlotMask(Mask, Ellipse, Shape);
 
-        using Mat VisualMask = new();
+        return VisualMask.ToBitmapSource();
+    }
 
-        Cv2.CvtColor(Temp, VisualMask, ColorConversionCodes.GRAY2BGR);
+    public static Mat GetPlotMask(Mat Mask, RotatedRect Ellipse, String Shape)
+    {
+        Mat VMask = Mask.Clone();
+
+        Cv2.CvtColor(VMask, VMask, ColorConversionCodes.GRAY2BGR);
 
         if (Shape != "Undefined")
         {
-            Cv2.Ellipse(VisualMask, Ellipse, new Scalar(0, 99, 0), 2);
+            Cv2.Ellipse(VMask, Ellipse, new Scalar(0, 255, 0), 2);
 
             (Point2f Center, Size2f Axes, Double Angle) = (Ellipse.Center, Ellipse.Size, Ellipse.Angle);
 
-            Double DXMajor = 0, DYMajor = 0, DXMinor = 0, DYMinor = 0;
+            Double DXMajor = 0.0, DYMajor = 0.0, DXMinor = 0.0, DYMinor = 0.00;
 
             (Double XC, Double YC) = (Center.X, Center.Y);
 
-            (Double SA, Double SB) = (Axes.Width / 2, Axes.Height / 2);
+            (Double SA, Double SB) = ((Axes.Width / 2.0), (Axes.Height / 2.0));
 
             if (Shape == "Ellipse")
             {
@@ -373,16 +378,16 @@ public class Analysis
 
             Point PT2Minor = new((Int32)(XC + DXMinor), (Int32)(YC + DYMinor));
 
-            Cv2.Line(VisualMask, PT1Major, PT2Major, new Scalar(0, 0, 255), 2);
+            Cv2.Line(VMask, PT1Major, PT2Major, new Scalar(0, 0, 255), 2);
 
-            Cv2.Line(VisualMask, PT1Minor, PT2Minor, new Scalar(255, 0, 0), 2);
+            Cv2.Line(VMask, PT1Minor, PT2Minor, new Scalar(255, 0, 0), 2);
 
-            Cv2.Line(VisualMask, new Point(0, (Int32)YC), new Point(VisualMask.Cols, (Int32)YC), new Scalar(0, 255, 0), 1);
+            Cv2.Line(VMask, new Point(0, (Int32)YC), new Point(VMask.Cols, (Int32)YC), new Scalar(0, 99, 0), 2);
 
-            Cv2.Line(VisualMask, new Point((Int32)XC, 0), new Point((Int32)XC, VisualMask.Rows), new Scalar(0, 255, 0), 1);
+            Cv2.Line(VMask, new Point((Int32)XC, 0), new Point((Int32)XC, VMask.Rows), new Scalar(0, 99, 0), 2);
         }
 
-        return VisualMask.ToBitmapSource();
+        return VMask;
     }
 
     public static Mat CreateZeroMask(Size ImageSize, MatType Type)

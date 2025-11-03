@@ -119,7 +119,7 @@ public class Photo : Basis
     {
         if (YOLOSeg.Models.KeyYSModel != null)
         {
-            ValueTuple<Mat, Mat, RotatedRect?, Dictionary<String, Object>?> Result = await Analysis.Quantifies(YOLOSeg.Models.KeyYSModel, PhotoPath);
+            (Mat, Mat, RotatedRect?, Dictionary<String, Object>?) Result = await Analysis.Quantifies(YOLOSeg.Models.KeyYSModel, PhotoPath);
 
             using Mat DrawedPlotImage = Result.Item1;
 
@@ -147,7 +147,7 @@ public class Photo : Basis
 
             if (SavedEllipse != null)
             {
-                MaskImage = Analysis.GetVisualMaskAsBitmapSource(BinaryMaskImage, SavedEllipse.Value, Shape);
+                MaskImage = Analysis.GetPlotMaskWithBitmapSource(BinaryMaskImage, SavedEllipse.Value, Shape);
             }
             else
             {
