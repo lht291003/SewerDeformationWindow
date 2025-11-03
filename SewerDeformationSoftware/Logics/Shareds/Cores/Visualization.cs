@@ -21,26 +21,22 @@ public class Visualization
         {
             if (Item != null && Item.TryGetValue("Deformation", out Object? GetObject))
             {
-                Double Data = (Double)GetObject;
+                Double Value = (Double)GetObject;
 
-                Int32 GetIdx = (Int32)Math.Ceiling(Data / Step) - 1;
+                Int32 Index = (Int32)Math.Ceiling(Value / Step) - 1;
 
-                if (GetIdx < 0) return Labels[0];
-
-                if (GetIdx >= BinTotal) return Labels[BinTotal - 1];
-
-                return Labels[GetIdx];
+                return Labels[Math.Clamp(Index, 0, (BinTotal - 1))];
             }
 
             return "Undefined";
 
-        }).GroupBy(Name => Name).ToDictionary(Gr => Gr.Key, Gr => Gr.Count());
+        }).GroupBy(N => N).ToDictionary(G => G.Key, G => G.Count());
 
         Dictionary<String, Int32> AllBarCounts = Labels.ToDictionary(Label => Label, Label => FilterCounts.TryGetValue(Label, out Int32 GetNumber) ? GetNumber : 00);
 
-        Double[] Values = [.. AllBarCounts.Values.Select(Num => (Double)Num)];
-
         BChart.Plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual([.. Enumerable.Range(0, Labels.Length).Select(Id => (Double)Id)], Labels);
+
+        Double[] Values = [.. AllBarCounts.Values.Select(Num => Convert.ToDouble(Num))];
 
         List<Bar> Poles = AddColumns(Values);
 
