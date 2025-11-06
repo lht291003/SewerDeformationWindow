@@ -7,7 +7,7 @@
     X:Class="SewerDeformationSoftware.Views.MainSDDWindow"
     xmlns:I="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:MD="http://materialdesigninxaml.net/winfx/xaml/themes"
-    WindowStartupLocation="CenterScreen">
+    WindowStartupLocation="CenterScreen" X:Name="SSDMainWindow">
     <Window.Resources>
         <Style TargetType="ListViewItem" X:Key="I">
             <Setter Property="Height" Value="060"/>
