@@ -3,6 +3,8 @@ global using Compunet.YoloSharp.Data;
 global using Compunet.YoloSharp.Memory;
 global using Compunet.YoloSharp.Plotting;
 global using Microsoft.Win32;
+global using OfficeOpenXml;
+global using OfficeOpenXml.Drawing;
 global using OpenCvSharp;
 global using OpenCvSharp.WpfExtensions;
 global using ScottPlot;

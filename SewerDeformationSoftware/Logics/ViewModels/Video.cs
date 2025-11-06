@@ -12,8 +12,6 @@ public class Video : Basis
 
     public BitmapSource? MaskImage { get; set => SetAndNotify(value, ref field); } = null;
 
-    public Int32 Distance { get; set => SetAndNotify(value, ref field); } = 10;
-
     public Boolean IsCompleted { get; set => SetAndNotify(value, ref field); } = false;
 
     public Boolean IsCommenced { get; set => SetAndNotify(value, ref field); } = false;
@@ -26,6 +24,8 @@ public class Video : Basis
 
     public String Delta { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
+    public Int32 Distance { get; set => SetAndNotify(value, ref field); } = 10;
+
     public String AspectRatio { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
     public String Orientation { get; set => SetAndNotify(value, ref field); } = String.Empty;
@@ -35,6 +35,10 @@ public class Video : Basis
     public String Resemblance { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
     public String Distinction { get; set => SetAndNotify(value, ref field); } = String.Empty;
+
+    public String VReportPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
+
+    public String EReportPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
     public WpfPlot DePlotChart { get; } = new WpfPlot();
 
@@ -106,6 +110,10 @@ public class Video : Basis
         Distinction = String.Empty;
 
         Resemblance = String.Empty;
+
+        VReportPath = String.Empty;
+
+        EReportPath = String.Empty;
 
         return Task.CompletedTask;
     }

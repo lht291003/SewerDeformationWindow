@@ -9,7 +9,7 @@ public partial class WinHelp
 
     [LibraryImport("Dwmapi.dll")]
     private static partial void DwmSetWindowAttribute(IntPtr Hwnd, Int32 Attr, ref Int32 Value, Int32 Size);
-    public static void Win10 (System.Windows.Window Win)
+    public static void Win10(System.Windows.Window Win)
     {
         Win.SourceInitialized += (_, _) =>
         {
