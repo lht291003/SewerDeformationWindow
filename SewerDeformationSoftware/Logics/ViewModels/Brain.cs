@@ -4,9 +4,17 @@ public class Brain : Basis
 {
     public ICommand WorkFormShowCommand { get; set; } = null!;
 
+    public ICommand ClosedWindowCommand { get; set; } = null!;
+
+    public ICommand LoadedWindowCommand { get; set; } = null!;
+
     public Brain()
     {
         WorkFormShowCommand = new RelayCommand<List<Object>>(Object => Object != null, Package => ShowWorkForm(Package));
+
+        LoadedWindowCommand = new RelayCommand<Object>(OBj => OBj == null, OBj => PrepareAfterLoaded(DirPath.Warehouse));
+
+        ClosedWindowCommand = new RelayCommand<Object>(OBj => OBj == null, OBj => CleanupAfterClosed(DirPath.Warehouse));
     }
 
     Task LoadControlWithName(Grid MainForm, UserControl UC)
@@ -82,6 +90,32 @@ public class Brain : Basis
 
                 break;
         }
+
+        return Task.CompletedTask;
+    }
+
+    Task ClearFolderSpace(String P)
+    {
+        Directory.Delete(P, true);
+
+        return Task.CompletedTask;
+    }
+
+    Task CleanupAfterClosed(String GetRoot)
+    {
+        ClearFolderSpace(GetRoot);
+
+        return Task.CompletedTask;
+    }
+
+    Task PrepareAfterLoaded(String GetRoot)
+    {
+        if (Directory.Exists(GetRoot))
+        {
+            ClearFolderSpace(GetRoot);
+        }
+
+        Directory.CreateDirectory(GetRoot);
 
         return Task.CompletedTask;
     }

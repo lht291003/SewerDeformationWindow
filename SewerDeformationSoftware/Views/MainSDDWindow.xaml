@@ -8,6 +8,14 @@
     xmlns:I="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:MD="http://materialdesigninxaml.net/winfx/xaml/themes"
     WindowStartupLocation="CenterScreen" X:Name="SSDMainWindow">
+    <I:Interaction.Triggers>
+        <I:EventTrigger EventName="Closed">
+            <I:InvokeCommandAction Command="{Binding ClosedWindowCommand}"/>
+        </I:EventTrigger>
+        <I:EventTrigger EventName="Loaded">
+            <I:InvokeCommandAction Command="{Binding LoadedWindowCommand}"/>
+        </I:EventTrigger>
+    </I:Interaction.Triggers>
     <Window.Resources>
         <Style TargetType="ListViewItem" X:Key="I">
             <Setter Property="Height" Value="060"/>
