@@ -2,6 +2,37 @@
 
 public class Storage
 {
+    public static (String, String) GetReport(List<(Mat, Mat, Mat, Dictionary<String, Object>?)> SegmentLogs)
+    {
+        String VideoPath = GetVideoReport([.. SegmentLogs.Select(Item =>
+        {
+            (Mat, Mat, String) Data;
+
+            Data.Item1 = Item.Item1;
+
+            Data.Item2 = Item.Item2;
+
+            Data.Item3 = Item.Item4?["State"].ToString()! ?? "Undefined";
+
+            return Data;
+        })]);
+
+        String ExcelPath = GetExcelReport([.. SegmentLogs.Select(Item =>
+        {
+            (Mat, Mat, Dictionary<String, Object>?) Data;
+
+            Data.Item1 = Item.Item1;
+
+            Data.Item2 = Item.Item2;
+
+            Data.Item3 = Item.Item4;
+
+            return Data;
+        })]);
+
+        return (VideoPath, ExcelPath);
+    }
+
     public static String GetVideoReport((Mat, Mat, String)[] SegmentRecords)
     {
         String VideoPath = Path.Combine(DirPath.Warehouse, "PipeVideo.MP4");
@@ -49,6 +80,8 @@ public class Storage
 
     public static String GetExcelReport((Mat, Mat, Dictionary<String, Object>?)[] SegmentRecords)
     {
+        String XLSXPath = Path.Combine(DirPath.Warehouse, "PipeExcel.XLSX");
+
         Int32 GetWAsRatio(Double OldW, Double OldH, Double NewH)
 
                        => Convert.ToInt32(OldW * (NewH / OldH));
@@ -68,13 +101,21 @@ public class Storage
             return NImage.ToMemoryStream();
         }
 
-        String XLSXPath = Path.Combine(DirPath.Warehouse, "PipeExcel.XLSX");
-
         ExcelPackage.License.SetNonCommercialPersonal("Lư Hoàng Tấn");
 
         using ExcelPackage Package = new();
 
         ExcelWorksheet Main = Package.Workbook.Worksheets.Add("Main");
+
+        Size SampleMat = SegmentRecords.FirstOrDefault().Item1.Size();
+
+        Int32 IH = 150;
+
+        Int32 IW = GetWAsRatio(SampleMat.Width, SampleMat.Height, IH);
+
+        Double EW = PXToColW(IW);
+
+        Double EH = PXToRowH(IH);
 
         Main.Cells["A1"].Value = "Plot Image";
 
@@ -92,17 +133,6 @@ public class Storage
 
         Main.Cells["H1"].Value = "Deformation";
 
-
-        Size SampleMat = SegmentRecords.FirstOrDefault().Item1.Size();
-
-        Int32 IH = 525;
-
-        Int32 IW = GetWAsRatio(SampleMat.Width, SampleMat.Height, IH);
-
-        Double EW = PXToColW(IW);
-
-        Double EH = PXToRowH(IH);
-
         MemoryStream[] PlotImages = new MemoryStream[SegmentRecords.Length];
 
         MemoryStream[] MaskImages = new MemoryStream[SegmentRecords.Length];
@@ -114,11 +144,13 @@ public class Storage
             MaskImages[Idx] = CreateResizedImage(SegmentRecords[Idx].Item2, IW, IH);
         });
 
-        Int32 StartRow = 2;
+        (Int32 StartRow, Int32 BottomRow) = (2, -1);
 
         for (Int32 Row = StartRow; Row < (SegmentRecords.Length + StartRow); Row++)
         {
-            Int32 ArrayIdx = Row - StartRow;
+            BottomRow = Row;
+
+            Int32 ArrayIdx = (BottomRow - StartRow);
 
             ExcelPicture PlotImage = Main.Drawings.AddPicture($"Plot{ArrayIdx + 1}", PlotImages[ArrayIdx]);
 
@@ -149,15 +181,53 @@ public class Storage
             MaskImages[ArrayIdx].Dispose();
         }
 
-        Main.Column(1).Width = EW;
+        ExcelRange GridRange = Main.Cells[StartRow - 1, 1, BottomRow, 8];
 
-        Main.Column(2).Width = EW;
+        ExcelRange EImgRange = Main.Cells[StartRow - 0, 1, BottomRow, 2];
 
-        Main.Cells["C:H"].AutoFitColumns();
+        ExcelRange TextRange = Main.Cells[StartRow - 0, 3, BottomRow, 8];
 
-        FileInfo ExcelInfo = new(XLSXPath);
+        for (Int32 Col = EImgRange.Start.Column; Col <= EImgRange.End.Column; Col++)
+        {
+            Main.Column(Col).Width = EW;
+        }
 
-        Package.SaveAs(ExcelInfo);
+        for (Int32 Col = TextRange.Start.Column; Col <= TextRange.End.Column; Col++)
+        {
+            Main.Column(Col).AutoFit();
+
+            Boolean IsNumColumn = true;
+
+            Main.Column(Col).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            for (Int32 Line = TextRange.Start.Row; Line <= TextRange.End.Row; Line++)
+            {
+                ExcelRange ExcelCell = Main.Cells[Line, Col];
+
+                if (ExcelCell.Value != null && !String.IsNullOrEmpty(ExcelCell.Text))
+                {
+                    if (!Double.TryParse(ExcelCell.Value.ToString(), out Double Val))
+                    {
+                        IsNumColumn = false;
+
+                        break;
+                    }
+                }
+            }
+
+            if (IsNumColumn)
+            {
+                Main.Column(Col).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+            }
+        }
+
+        ExcelTable Table = Main.Tables.Add(GridRange, $"SewerSegmentationStorageDataTable");
+
+        Table.TableStyle = TableStyles.Medium23;
+
+        Table.ShowFilter = false;
+
+        Package.SaveAs(XLSXPath);
 
         return XLSXPath;
     }

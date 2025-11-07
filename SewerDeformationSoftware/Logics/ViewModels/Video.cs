@@ -277,6 +277,8 @@ public class Video : Basis
                 Visualization.ShowSpChart(SpPlotChart, SpecificationList);
 
                 Visualization.ShowDeChart(DePlotChart, SpecificationList);
+
+                await Task.Run(() => { (VReportPath, EReportPath) = Storage.GetReport(SegmentLogs); });
             }
             else
             {
