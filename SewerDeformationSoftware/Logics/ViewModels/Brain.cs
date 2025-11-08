@@ -94,13 +94,6 @@ public class Brain : Basis
         return Task.CompletedTask;
     }
 
-    Task ClearFolderSpace(String P)
-    {
-        Directory.Delete(P, true);
-
-        return Task.CompletedTask;
-    }
-
     Task CleanupAfterClosed(String GetRoot)
     {
         ClearFolderSpace(GetRoot);
@@ -116,6 +109,28 @@ public class Brain : Basis
         }
 
         Directory.CreateDirectory(GetRoot);
+
+        return Task.CompletedTask;
+    }
+
+    Task ClearFolderSpace(String P)
+    {
+        foreach (String Entry in Directory.EnumerateFileSystemEntries(P))
+        {
+            if (File.Exists(Entry))
+            {
+                if (!WinHelp.IsFileLocked(Entry)) { File.Delete(Entry); }
+            }
+
+            else
+
+            if (Directory.Exists(Entry))
+            {
+                ClearFolderSpace(Entry);
+
+                if (!Directory.EnumerateFileSystemEntries(Entry).Any()) { Directory.Delete(Entry); }
+            }
+        }
 
         return Task.CompletedTask;
     }

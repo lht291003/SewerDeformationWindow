@@ -4,13 +4,13 @@ public class Message
 {
     public static void ShowErrors(String Message)
 
-        => Xceed.Wpf.Toolkit.MessageBox.Show(WinHelp.TopmostWindow(), Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                                        => Application.Current.Dispatcher.Invoke(() => Xceed.Wpf.Toolkit.MessageBox.Show(WinHelp.TopmostWindow(), Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK));
 
     public static bool ShowConfirm(String Message)
 
-        => Xceed.Wpf.Toolkit.MessageBox.Show(WinHelp.TopmostWindow(), Message, "Thông báo", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) == MessageBoxResult.OK;
+        => Application.Current.Dispatcher.Invoke(() => Xceed.Wpf.Toolkit.MessageBox.Show(WinHelp.TopmostWindow(), Message, "Thông báo", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) == MessageBoxResult.OK);
 
     public static void ShowSuccess(String Message)
 
-                                  => Xceed.Wpf.Toolkit.MessageBox.Show(WinHelp.TopmostWindow(), Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+        => Application.Current.Dispatcher.Invoke(() => Xceed.Wpf.Toolkit.MessageBox.Show(WinHelp.TopmostWindow(), Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK));
 }

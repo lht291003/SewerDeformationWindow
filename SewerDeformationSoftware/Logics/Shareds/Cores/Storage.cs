@@ -2,9 +2,27 @@
 
 public class Storage
 {
+    public static String VideoPath { get; } = Path.Combine(DirPath.Warehouse, "PipeVideo.MP4");
+
+    public static String ExcelPath { get; } = Path.Combine(DirPath.Warehouse, "PipeXLSX.XLSX");
+
     public static (String, String) GetReport(List<(Mat, Mat, Mat, Dictionary<String, Object>?)> SegmentLogs)
     {
-        String VideoPath = GetVideoReport([.. SegmentLogs.Select(Item =>
+        while (WinHelp.IsFileLocked(VideoPath) == true)
+        {
+            Message.ShowErrors($"Vui lòng đóng Video {Path.GetFileName(VideoPath)} trước ghi bắt đầu ghi!");
+
+            Thread.Sleep(500);
+        }
+
+        while (WinHelp.IsFileLocked(ExcelPath) == true)
+        {
+            Message.ShowErrors($"Vui lòng đóng Excel {Path.GetFileName(ExcelPath)} trước ghi bắt đầu ghi!");
+
+            Thread.Sleep(500);
+        }
+
+        LoadVideoReport([.. SegmentLogs.Select(Item =>
         {
             (Mat, Mat, String) Data;
 
@@ -12,31 +30,18 @@ public class Storage
 
             Data.Item2 = Item.Item2;
 
-            Data.Item3 = Item.Item4?["State"].ToString()! ?? "Undefined";
+            Data.Item3 = Item.Item4?.GetValueOrDefault("State")!.ToString() ?? "Undefined";
 
             return Data;
         })]);
 
-        String ExcelPath = GetExcelReport([.. SegmentLogs.Select(Item =>
-        {
-            (Mat, Mat, Dictionary<String, Object>?) Data;
-
-            Data.Item1 = Item.Item1;
-
-            Data.Item2 = Item.Item2;
-
-            Data.Item3 = Item.Item4;
-
-            return Data;
-        })]);
+        LoadExcelReport([.. SegmentLogs.Select(ERd => (ERd.Item1, ERd.Item2, ERd.Item4))]);
 
         return (VideoPath, ExcelPath);
     }
 
-    public static String GetVideoReport((Mat, Mat, String)[] SegmentRecords)
+    public static String LoadVideoReport((Mat, Mat, String)[] SegmentRecords)
     {
-        String VideoPath = Path.Combine(DirPath.Warehouse, "PipeVideo.MP4");
-
         Size SizeFrame = SegmentRecords.First().Item1.Size();
 
         Size VideoSize = new((SizeFrame.Width * 2), (SizeFrame.Height + 40));
@@ -78,10 +83,8 @@ public class Storage
         return VideoPath;
     }
 
-    public static String GetExcelReport((Mat, Mat, Dictionary<String, Object>?)[] SegmentRecords)
+    public static String LoadExcelReport((Mat, Mat, Dictionary<String, Object>?)[] SegmentRecords)
     {
-        String XLSXPath = Path.Combine(DirPath.Warehouse, "PipeExcel.XLSX");
-
         Int32 GetWAsRatio(Double OldW, Double OldH, Double NewH)
 
                        => Convert.ToInt32(OldW * (NewH / OldH));
@@ -200,9 +203,11 @@ public class Storage
 
             Main.Column(Col).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
-            for (Int32 Line = TextRange.Start.Row; Line <= TextRange.End.Row; Line++)
+            (Int32 TopRow, Int32 LastRow) = (TextRange.Start.Row, TextRange.End.Row);
+
+            for (Int32 Row = TopRow; Row <= LastRow; Row++)
             {
-                ExcelRange ExcelCell = Main.Cells[Line, Col];
+                ExcelRange ExcelCell = Main.Cells[Row, Col];
 
                 if (ExcelCell.Value != null && !String.IsNullOrEmpty(ExcelCell.Text))
                 {
@@ -217,18 +222,18 @@ public class Storage
 
             if (IsNumColumn)
             {
-                Main.Column(Col).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                ExcelRange SingleColumnRange = Main.Cells[TopRow, Col, LastRow, Col];
+
+                SingleColumnRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
             }
         }
 
-        ExcelTable Table = Main.Tables.Add(GridRange, $"SewerSegmentationStorageDataTable");
+        ExcelTable Table = Main.Tables.Add(GridRange, $"PipeSegmentationStorageResultTable");
 
         Table.TableStyle = TableStyles.Medium23;
 
-        Table.ShowFilter = false;
+        Package.SaveAs(ExcelPath);
 
-        Package.SaveAs(XLSXPath);
-
-        return XLSXPath;
+        return ExcelPath;
     }
 }

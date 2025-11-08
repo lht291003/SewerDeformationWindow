@@ -18,4 +18,37 @@ public partial class WinHelp
             DwmSetWindowAttribute(new WindowInteropHelper(Win).Handle, 33, ref Preference, sizeof(Int32));
         };
     }
+
+    public static Boolean IsFileLocked(String FilePath)
+    {
+        if (File.Exists(FilePath))
+        {
+            IntPtr CreateFileHandle = CreateFile(FilePath, 0xC0000000, 0, IntPtr.Zero, 3, 0, IntPtr.Zero);
+
+            IntPtr Value = new(-1);
+
+            if (CreateFileHandle == Value)
+            {
+                return true;
+            }
+
+            CloseHandle(CreateFileHandle);
+
+            return false;
+        }
+
+        return false;
+    }
+
+    [LibraryImport("Kernel32.dll", EntryPoint = "CreateFileW", StringMarshalling = StringMarshalling.Utf16)]
+    private static partial IntPtr CreateFile(String FN,
+                                             UInt32 DA,
+                                             UInt32 SM,
+                                             IntPtr SA,
+                                             UInt32 CD,
+                                             UInt32 FAA, IntPtr TF);
+
+    [LibraryImport("Kernel32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial Boolean CloseHandle(IntPtr HandleObject);
 }
