@@ -42,6 +42,8 @@ public class Visualization
 
         BChart.Plot.Clear();
 
+        BChart.Plot.Title("Phân bố của phạm vi biến dạng", 26.000F);
+
         BChart.Plot.Add.Bars(Poles).Bars.ForEach(BC => BC.Label = BC.Value.ToString());
 
         BChart.Plot.XLabel("Range", 20);
@@ -78,6 +80,8 @@ public class Visualization
         List<Bar> Poles = AddColumns(Values);
 
         BChart.Plot.Clear();
+
+        BChart.Plot.Title("Phân bố về hình dạng hình học", 26.000F);
 
         BChart.Plot.Add.Bars(Poles).Bars.ForEach(BC => BC.Label = BC.Value.ToString());
 

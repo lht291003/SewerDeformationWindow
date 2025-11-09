@@ -40,9 +40,15 @@ public class Video : Basis
 
     public String EReportPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
-    public WpfPlot DePlotChart { get; } = new WpfPlot();
+    public static WpfPlot DePlotChart { get; } = new();
 
-    public WpfPlot SpPlotChart { get; } = new WpfPlot();
+    public static WpfPlot SpPlotChart { get; } = new();
+
+    public ICommand OpenVideoFile { get; set; } = null!;
+
+    public ICommand OpenExcelFile { get; set; } = null!;
+
+    public ICommand DownloadFiles { get; set; } = null!;
 
     public ICommand Browse { get; set; } = null!;
 
@@ -54,19 +60,72 @@ public class Video : Basis
 
     public ICommand CutOff { get; set; } = null!;
 
-    List<ValueTuple<Mat, Mat, Mat, Dictionary<String, Object>?>> SegmentLogs { get; set; } = [];
+    List<ValueTuple<Mat, Mat, Mat, Dictionary<String, Object>?>> SegmentLogs = [];
 
     public Video()
     {
         Dragop = new RelayCommand<Object>(Obj => Obj != null, ModelFile => DropVideo(ModelFile));
+
+        Accept = new RelayCommand<Object>(Obj => Obj == null, async Obj => await AnalyzeVideo());
+
+        OpenVideoFile = new RelayCommand<Object>(Obj => FinishedVideo(), File => DisplayVideo());
+
+        OpenExcelFile = new RelayCommand<Object>(Obj => FinishedExcel(), File => DisplayExcel());
+
+        DownloadFiles = new RelayCommand<Object>(Obj => FinishedFiles(), async File => await DownloadData());
 
         Browse = new RelayCommand<Object>(Obj => Obj == null, Obj => BrowseVideo());
 
         Remove = new RelayCommand<Object>(Obj => Obj == null, Obj => RemoveVideo());
 
         CutOff = new RelayCommand<Object>(Obj => Obj == null, Obj => CutOffVideo());
+    }
 
-        Accept = new RelayCommand<Object>(Obj => Obj == null, async Obj => await AnalyzeVideo());
+    Task DisplayVideo()
+    {
+        Process.Start(new ProcessStartInfo(VReportPath) { UseShellExecute = true });
+
+        return Task.CompletedTask;
+    }
+
+    Task DisplayExcel()
+    {
+        Process.Start(new ProcessStartInfo(EReportPath) { UseShellExecute = true });
+
+        return Task.CompletedTask;
+    }
+
+    async Task DownloadData()
+    {
+        SaveFileDialog Dialog = new() { Filter = "Zip File | *.Zip", FileName = "Log.ZIP" };
+
+        if ((Boolean)Dialog.ShowDialog(WinHelp.TopmostWindow())!)
+        {
+            await Task.Run(() =>
+            {
+                if (WinHelp.IsFileLocked(VReportPath))
+                {
+                    Message.ShowErrors($"Tệp Video đang được sử dụng bởi tiến trình khác!");
+
+                    return;
+                }
+
+                if (WinHelp.IsFileLocked(EReportPath))
+                {
+                    Message.ShowErrors($"Tệp Excel đang được sử dụng bởi tiến trình khác!");
+
+                    return;
+                }
+
+                using ZipArchive Zip = ZipFile.Open(Dialog.FileName, ZipArchiveMode.Update);
+
+                Zip.CreateEntryFromFile(VReportPath, Path.GetFileName(VReportPath));
+
+                Zip.CreateEntryFromFile(EReportPath, Path.GetFileName(EReportPath));
+
+                Message.ShowSuccess($"Tệp Video và Excel đã được nén và lưu lại hoàn tất");
+            });
+        }
     }
 
     Task BrowseVideo()
@@ -80,6 +139,26 @@ public class Video : Basis
             VideoPath = FileSelection.FileName;
 
             VideoName = Path.GetFileName(FileSelection.FileName);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    Boolean FinishedVideo() => !String.IsNullOrEmpty(VReportPath);
+
+    Boolean FinishedExcel() => !String.IsNullOrEmpty(EReportPath);
+
+    Boolean FinishedFiles() => FinishedVideo() && FinishedExcel();
+
+    Task RemoveVideo()
+    {
+        if (Message.ShowConfirm("Bạn có muốn xóa bỏ video này?"))
+        {
+            VideoPath = String.Empty;
+
+            VideoName = String.Empty;
+
+            RefeshDatas();
         }
 
         return Task.CompletedTask;
@@ -115,17 +194,9 @@ public class Video : Basis
 
         EReportPath = String.Empty;
 
-        return Task.CompletedTask;
-    }
+        IsCompleted = false;
 
-    Task RemoveVideo()
-    {
-        if (Message.ShowConfirm("Bạn có muốn gỡ bỏ video này?"))
-        {
-            VideoPath = String.Empty;
-
-            VideoName = String.Empty;
-        }
+        IsCommenced = false;
 
         return Task.CompletedTask;
     }
@@ -183,8 +254,6 @@ public class Video : Basis
             if (Captures.IsOpened())
             {
                 await RefeshDatas();
-
-                IsCompleted = false;
 
                 YOLOSeg.Models.IsRunning = !IsCompleted;
 
@@ -279,13 +348,6 @@ public class Video : Basis
                 Visualization.ShowDeChart(DePlotChart, SpecificationList);
 
                 await Task.Run(() => { (VReportPath, EReportPath) = Storage.GetReport(SegmentLogs); });
-            }
-            else
-            {
-                IsCommenced = false;
-
-                IsCompleted = false;
-
             }
 
             YOLOSeg.Models.IsRunning = false;

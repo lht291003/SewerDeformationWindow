@@ -487,6 +487,10 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="10.0"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10.0"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10.0"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -527,6 +531,35 @@
                                     <ContentControl Height="450" Content="{Binding DePlotChart, Mode=OneTime}"/>
                                 </Expander>
                             </MD:Card>
+                            <Grid Grid.Row="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10.0"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="NHẬT KÝ SUY LUẬN TỪ VIDEO"
+                                           FontSize="18" FontWeight="Black"
+                                           Grid.Row="0"/>
+                                <Separator Grid.Row="2"/>
+                            </Grid>
+                            <Grid Grid.Row="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    Height="50" Grid.Column="0"
+                                    Content="Xem nhật ký qua Video" Command="{Binding OpenVideoFile}"/>
+                                <Button
+                                    Height="50" Grid.Column="2"
+                                    Content="Xem nhật ký qua Excel" Command="{Binding OpenExcelFile}"/>
+                                <Button
+                                    Height="50" Grid.Column="4"
+                                    Content="Lưu nhật ký phân tích" Command="{Binding DownloadFiles}"/>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>

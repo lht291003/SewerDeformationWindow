@@ -85,6 +85,35 @@ public class Storage
 
     public static String LoadExcelReport((Mat, Mat, Dictionary<String, Object>?)[] SegmentRecords)
     {
+        ExcelPackage.License.SetNonCommercialPersonal("Lư Hoàng Tấn(Tan Dawson)");
+
+        using ExcelPackage Package = new();
+
+        ExcelWorksheet Main = Package.Workbook.Worksheets.Add("SegmentationLogs");
+
+        ExcelWorksheet Plts = Package.Workbook.Worksheets.Add("StatisticsCharts");
+
+        Task ExcelChartAsImageFromScottPlot(Plot Chart, ExcelWorksheet Page, Int32 Row, Int32 Col)
+        {
+            (Int32 W, Int32 H) = (850, 500);
+
+            (Page.Row(Row).Height, Page.Column(Col).Width) = (PXToRowH(H), PXToColW(W));
+
+            Byte[] GetImageByte = Chart.GetImageBytes(W, H, ScottPlot.ImageFormat.Jpeg);
+
+            using MemoryStream GetImage = new(GetImageByte);
+
+            String ExcelChartName = $"ScottPlotAsExcelCharrt{Guid.NewGuid()}".ToUpper();
+
+            ExcelPicture PlotImage = Page.Drawings.AddPicture(ExcelChartName, GetImage);
+
+            (PlotImage.Border.Width, PlotImage.Border.Fill.Color) = (1, System.Drawing.Color.Gray);
+
+            PlotImage.SetPosition(Row - 1, 0, Col - 1, 0);
+
+            return Task.CompletedTask;
+        }
+
         Int32 GetWAsRatio(Double OldW, Double OldH, Double NewH)
 
                        => Convert.ToInt32(OldW * (NewH / OldH));
@@ -103,12 +132,6 @@ public class Storage
 
             return NImage.ToMemoryStream();
         }
-
-        ExcelPackage.License.SetNonCommercialPersonal("Lư Hoàng Tấn");
-
-        using ExcelPackage Package = new();
-
-        ExcelWorksheet Main = Package.Workbook.Worksheets.Add("Main");
 
         Size SampleMat = SegmentRecords.FirstOrDefault().Item1.Size();
 
@@ -165,17 +188,17 @@ public class Storage
 
             Main.Cells[Row, 3].Value = ArrayIdx + 1;
 
-            Dictionary<String, Object>? Data = SegmentRecords.ElementAt(ArrayIdx).Item3;
+            Dictionary<String, Object>? Data = SegmentRecords[ArrayIdx].Item3;
 
-            Main.Cells[Row, 4].Value = Data?["Shape"].ToString() ?? String.Empty;
+            Main.Cells[Row, 4].Value = Data?["Shape"] ?? String.Empty;
 
-            Main.Cells[Row, 5].Value = Data?["State"].ToString() ?? String.Empty;
+            Main.Cells[Row, 5].Value = Data?["State"] ?? String.Empty;
 
-            Main.Cells[Row, 6].Value = Data?["AspectRatio"].ToString() ?? String.Empty;
+            Main.Cells[Row, 6].Value = Data?["AspectRatio"] ?? String.Empty;
 
-            Main.Cells[Row, 7].Value = Data?["Orientation"].ToString() ?? String.Empty;
+            Main.Cells[Row, 7].Value = Data?["Orientation"] ?? String.Empty;
 
-            Main.Cells[Row, 8].Value = Data?["Deformation"].ToString() ?? String.Empty;
+            Main.Cells[Row, 8].Value = Data?["Deformation"] ?? String.Empty;
 
             Main.Row(Row).Height = EH;
 
@@ -231,6 +254,10 @@ public class Storage
         ExcelTable Table = Main.Tables.Add(GridRange, $"PipeSegmentationStorageResultTable");
 
         Table.TableStyle = TableStyles.Medium23;
+
+        ExcelChartAsImageFromScottPlot(Video.SpPlotChart.Plot, Plts, 1, 1);
+
+        ExcelChartAsImageFromScottPlot(Video.DePlotChart.Plot, Plts, 3, 1);
 
         Package.SaveAs(ExcelPath);
 
