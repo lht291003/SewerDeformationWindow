@@ -8,14 +8,14 @@ public class Storage
 
     public static (String, String) GetReport(List<(Mat, Mat, Mat, Dictionary<String, Object>?)> SegmentLogs)
     {
-        while (WinHelp.IsFileLocked(VideoPath) == true)
+        while (Interop.IsFileLocked(VideoPath) == true)
         {
             Message.ShowErrors($"Vui lòng đóng Video {Path.GetFileName(VideoPath)} trước ghi bắt đầu ghi!");
 
             Thread.Sleep(500);
         }
 
-        while (WinHelp.IsFileLocked(ExcelPath) == true)
+        while (Interop.IsFileLocked(ExcelPath) == true)
         {
             Message.ShowErrors($"Vui lòng đóng Excel {Path.GetFileName(ExcelPath)} trước ghi bắt đầu ghi!");
 

@@ -119,7 +119,7 @@ public class Brain : Basis
         {
             if (File.Exists(Entry))
             {
-                if (!WinHelp.IsFileLocked(Entry)) { File.Delete(Entry); }
+                if (!Interop.IsFileLocked(Entry)) { File.Delete(Entry); }
             }
 
             else

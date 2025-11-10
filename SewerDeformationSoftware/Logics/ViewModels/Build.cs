@@ -63,7 +63,7 @@ public class Build : Basis
     {
         OpenFileDialog FileSelection = new() { Filter = "YOLO Model ONNX | *.ONNX" };
 
-        Boolean Choose = (Boolean)FileSelection.ShowDialog(WinHelp.TopmostWindow())!;
+        Boolean Choose = (Boolean)FileSelection.ShowDialog(Interop.TopmostWindow())!;
 
         if (Choose)
         {

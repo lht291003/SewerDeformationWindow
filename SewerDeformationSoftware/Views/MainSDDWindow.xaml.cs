@@ -2,5 +2,5 @@
 
 public partial class MainSDDWindow
 {
-    public MainSDDWindow() { InitializeComponent(); WinHelp.Win10(SSDMainWindow); }
+    public MainSDDWindow() { InitializeComponent(); Interop.Win10(SSDMainWindow); }
 }

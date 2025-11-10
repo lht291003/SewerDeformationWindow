@@ -2,6 +2,8 @@
 
 public class Video : Basis
 {
+    List<ValueTuple<Mat, Mat, Mat, Dictionary<String, Object>?>> SegmentLogs { get; } = [];
+
     public String VideoName { get; set => SetAndNotify(value, ref field); } = String.Empty;
 
     public String VideoPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
@@ -60,8 +62,6 @@ public class Video : Basis
 
     public ICommand CutOff { get; set; } = null!;
 
-    List<ValueTuple<Mat, Mat, Mat, Dictionary<String, Object>?>> SegmentLogs = [];
-
     public Video()
     {
         Dragop = new RelayCommand<Object>(Obj => Obj != null, ModelFile => DropVideo(ModelFile));
@@ -99,18 +99,18 @@ public class Video : Basis
     {
         SaveFileDialog Dialog = new() { Filter = "Zip File | *.Zip", FileName = "Log.ZIP" };
 
-        if ((Boolean)Dialog.ShowDialog(WinHelp.TopmostWindow())!)
+        if ((Boolean)Dialog.ShowDialog(Interop.TopmostWindow())!)
         {
             await Task.Run(() =>
             {
-                if (WinHelp.IsFileLocked(VReportPath))
+                if (Interop.IsFileLocked(VReportPath))
                 {
                     Message.ShowErrors($"Tệp Video đang được sử dụng bởi tiến trình khác!");
 
                     return;
                 }
 
-                if (WinHelp.IsFileLocked(EReportPath))
+                if (Interop.IsFileLocked(EReportPath))
                 {
                     Message.ShowErrors($"Tệp Excel đang được sử dụng bởi tiến trình khác!");
 
@@ -132,7 +132,7 @@ public class Video : Basis
     {
         OpenFileDialog FileSelection = new() { Filter = "Video File | *.MP4;*.MOV;*.WEBM" };
 
-        Boolean SelectedVideo = (Boolean)FileSelection.ShowDialog(WinHelp.TopmostWindow())!;
+        Boolean SelectedVideo = (Boolean)FileSelection.ShowDialog(Interop.TopmostWindow())!;
 
         if (SelectedVideo)
         {

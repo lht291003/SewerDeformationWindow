@@ -1,6 +1,6 @@
 ﻿namespace SewerDeformationSoftware.Logics.Shareds.Utils;
 
-public partial class WinHelp
+public partial class Interop
 {
     public static System.Windows.Window TopmostWindow()
     {

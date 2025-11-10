@@ -8,7 +8,7 @@ public class Waiting
     {
         WaitIndicator Instance = CircleBar.Value;
 
-        Instance.Owner = WinHelp.TopmostWindow();
+        Instance.Owner = Interop.TopmostWindow();
 
         Instance.Owner.IsEnabled = false;
 
