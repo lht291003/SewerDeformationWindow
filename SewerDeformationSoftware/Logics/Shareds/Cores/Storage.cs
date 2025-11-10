@@ -60,7 +60,7 @@ public class Storage
 
             Cv2.CopyMakeBorder(Combined, Combined, 0, 40, 0, 0, BorderTypes.Constant, new Scalar(0, 0, 0));
 
-            String Text = $"Frame (#{Idx}): {Item.Item3}";
+            String Text = $"Frame {Idx + 1}: {Item.Item3}";
 
             Size TextSize = Cv2.GetTextSize(Text, HersheyFonts.HersheySimplex, 1.0, 2, out Int32 BaseLine);
 
