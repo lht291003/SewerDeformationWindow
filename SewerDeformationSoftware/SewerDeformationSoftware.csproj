@@ -4,7 +4,7 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<OutputType>WinExe</OutputType>
 		<LangVersion>14.0</LangVersion>
-		<TargetFramework>Net8.0-Windows10.0.22621.0</TargetFramework>
+		<TargetFramework>Net10.0-Windows10.0.22621.0</TargetFramework>
 		<Nullable>Enable</Nullable>
 		<ImplicitUsings>Enable</ImplicitUsings>
 		<UseWPF>True</UseWPF>

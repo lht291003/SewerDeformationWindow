@@ -154,11 +154,18 @@ public class Video : Basis
     {
         if (Message.ShowConfirm("Bạn có muốn xóa bỏ video này?"))
         {
-            VideoPath = String.Empty;
+            if (YOLOSeg.Models.IsRunning)
+            {
+                Message.ShowErrors("Không thể xóa, vui lòng chờ video suy luận hoàn tất!");
+            }
+            else
+            {
+                VideoPath = String.Empty;
 
-            VideoName = String.Empty;
+                VideoName = String.Empty;
 
-            RefeshDatas();
+                RefeshDatas();
+            }
         }
 
         return Task.CompletedTask;
@@ -347,21 +354,25 @@ public class Video : Basis
 
                 Visualization.ShowDeChart(DePlotChart, SpecificationList);
 
+                Waiting.ShowProgressRing();
+
                 await Task.Run(() => { (VReportPath, EReportPath) = Storage.GetReport(SegmentLogs); });
+
+                Waiting.HideProgressRing();
             }
 
-            YOLOSeg.Models.IsRunning = false;
-
-            SegmentLogs.ForEach(PerRecord =>
+            SegmentLogs.ForEach(Segment =>
             {
-                PerRecord.Item1?.Dispose();
+                Segment.Item1?.Dispose();
 
-                PerRecord.Item2?.Dispose();
+                Segment.Item2?.Dispose();
 
-                PerRecord.Item3?.Dispose();
+                Segment.Item3?.Dispose();
             });
 
             SegmentLogs.Clear();
+
+            YOLOSeg.Models.IsRunning = false;
         }
         else
         {

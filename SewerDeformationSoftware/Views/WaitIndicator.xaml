@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="1.0*"/>
             </Grid.ColumnDefinitions>
             <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Height="75" Width="75" IsIndeterminate="True"/>
-            <TextBlock FontSize="20.00" FontWeight="SemiBold" Grid.Column="2" VerticalAlignment="Center" Text="Đang thực hiện..."/>
+            <TextBlock FontSize="20.0000" FontWeight="ExtraBlack" Grid.Column="2" VerticalAlignment="Center" Text="Đang xử lý..."/>
         </Grid>
     </Border>
 </Window>

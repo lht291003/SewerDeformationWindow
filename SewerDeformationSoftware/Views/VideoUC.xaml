@@ -239,9 +239,9 @@
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                             </Grid.RowDefinitions>
                                                             <TextBlock
                                                                 Grid.Row="00" Text="AspectRatio"
@@ -254,9 +254,9 @@
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                             </Grid.RowDefinitions>
                                                             <TextBlock
                                                                 Grid.Row="00" Text="Deformation"
@@ -269,9 +269,9 @@
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                             </Grid.RowDefinitions>
                                                             <TextBlock
                                                                 Grid.Row="00" Text="Orientation"
@@ -291,9 +291,9 @@
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                             </Grid.RowDefinitions>
                                                             <TextBlock
                                                                 Grid.Row="0"
@@ -310,9 +310,9 @@
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                             </Grid.RowDefinitions>
                                                             <TextBlock
                                                                 Grid.Row="0"
@@ -403,9 +403,9 @@
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                             </Grid.RowDefinitions>
                                                             <TextBlock
                                                                 Grid.Row="00" Text="Resemblance"
@@ -418,9 +418,9 @@
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                             </Grid.RowDefinitions>
                                                             <TextBlock
                                                                 Grid.Row="00" Text="Distinction"
@@ -440,9 +440,9 @@
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                             </Grid.RowDefinitions>
                                                             <TextBlock
                                                                 Grid.Row="0"
@@ -459,9 +459,9 @@
                                                         <Grid Margin="10">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                                 <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="20.0"/>
+                                                                <RowDefinition Height="15.0"/>
                                                             </Grid.RowDefinitions>
                                                             <TextBlock
                                                                 Grid.Row="0"
