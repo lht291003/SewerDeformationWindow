@@ -356,18 +356,22 @@ public class Video : Basis
 
                 Waiting.ShowProgressRing();
 
-                await Task.Run(() => { (VReportPath, EReportPath) = Storage.GetReport(SegmentLogs); });
+                (String VideoReportPath, String ExcelReportPath) = await Storage.GetReport(SegmentLogs);
 
                 Waiting.HideProgressRing();
+
+                VReportPath = VideoReportPath;
+
+                EReportPath = ExcelReportPath;
             }
 
-            SegmentLogs.ForEach(Segment =>
+            SegmentLogs.ForEach(PerSegment =>
             {
-                Segment.Item1?.Dispose();
+                PerSegment.Item1?.Dispose();
 
-                Segment.Item2?.Dispose();
+                PerSegment.Item2?.Dispose();
 
-                Segment.Item3?.Dispose();
+                PerSegment.Item3?.Dispose();
             });
 
             SegmentLogs.Clear();

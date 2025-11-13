@@ -6,23 +6,23 @@ public class Storage
 
     public static String ExcelPath { get; } = Path.Combine(DirPath.Warehouse, "PipeXLSX.XLSX");
 
-    public static (String, String) GetReport(List<(Mat, Mat, Mat, Dictionary<String, Object>?)> SegmentLogs)
+    public static async Task<(String, String)> GetReport(List<(Mat, Mat, Mat, Dictionary<String, Object>?)> SegmentLogs)
     {
-        while (Interop.IsFileLocked(VideoPath) == true)
+        while (Interop.IsFileLocked(VideoPath))
         {
-            Message.ShowErrors($"Vui lòng đóng Video {Path.GetFileName(VideoPath)} trước ghi bắt đầu ghi!");
+            Message.ShowErrors($"Video {Path.GetFileName(VideoPath)} hiện đang được sử dụng bởi một chương trình khác!");
 
-            Thread.Sleep(500);
+            await Task.Delay(500);
         }
 
-        while (Interop.IsFileLocked(ExcelPath) == true)
+        while (Interop.IsFileLocked(ExcelPath))
         {
-            Message.ShowErrors($"Vui lòng đóng Excel {Path.GetFileName(ExcelPath)} trước ghi bắt đầu ghi!");
+            Message.ShowErrors($"Excel {Path.GetFileName(ExcelPath)} hiện đang được sử dụng bởi một chương trình khác!");
 
-            Thread.Sleep(500);
+            await Task.Delay(500);
         }
 
-        LoadVideoReport([.. SegmentLogs.Select(Item =>
+        Task SuppliedTVideo = Task.Run(() => LoadVideoReport([.. SegmentLogs.Select(Item =>
         {
             (Mat, Mat, String) Data;
 
@@ -32,10 +32,12 @@ public class Storage
 
             Data.Item3 = Item.Item4?.GetValueOrDefault("State")!.ToString() ?? "Undefined";
 
-            return Data;
-        })]);
+           return Data;
+        })]));
 
-        LoadExcelReport([.. SegmentLogs.Select(ERd => (ERd.Item1, ERd.Item2, ERd.Item4))]);
+        Task SuppliedTExcel = Task.Run(() => LoadExcelReport([.. SegmentLogs.Select(R => (R.Item1, R.Item2, R.Item4))]));
+
+        await Task.WhenAll([SuppliedTVideo, SuppliedTExcel]);
 
         return (VideoPath, ExcelPath);
     }
