@@ -101,18 +101,7 @@
                             Style="{StaticResource P}"/>
                         <TextBlock
                             Style="{StaticResource TXT}"
-                            Text="PHÂN TÍCH QUA VIDEO"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem
-                    X:Name="InforUC" Style="{StaticResource I}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image
-                            Source="/Images/InforImg.png"
-                            Style="{StaticResource P}"/>
-                        <TextBlock
-                            Style="{StaticResource TXT}"
-                            Text="THÔNG TIN CỦA DỰ ÁN"/>
+                            Text="SUY LUẬN QUA VIDEO"/>
                     </StackPanel>
                 </ListViewItem>
                 <I:Interaction.Triggers>

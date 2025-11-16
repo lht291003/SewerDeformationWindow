@@ -83,12 +83,6 @@ public class Brain : Basis
                 LoadControlWithName(MainScreen, new VideoUC());
 
                 break;
-
-            case "InforUC":
-
-                LoadControlWithName(MainScreen, new InforUC());
-
-                break;
         }
 
         return Task.CompletedTask;

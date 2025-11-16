@@ -34,7 +34,6 @@
 		<None Remove="Images\BuildImg.png" />
 		<None Remove="Images\EvalnImg.png" />
 		<None Remove="Images\FilesImg.png" />
-		<None Remove="Images\InforImg.png" />
 		<None Remove="Images\ModelImg.png" />
 		<None Remove="Images\PhotoImg.png" />
 		<None Remove="Images\VideoImg.png" />
@@ -44,7 +43,6 @@
 		<Resource Include="Images\BuildImg.png" />
 		<Resource Include="Images\EvalnImg.png" />
 		<Resource Include="Images\FilesImg.png" />
-		<Resource Include="Images\InforImg.png" />
 		<Resource Include="Images\ModelImg.png" />
 		<Resource Include="Images\PhotoImg.png" />
 		<Resource Include="Images\VideoImg.png" />
