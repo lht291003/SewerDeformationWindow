@@ -19,7 +19,6 @@
             <DBContextFiles:Evaln X:Key="EvalnDBC"/>
             <DBContextFiles:Photo X:Key="PhotoDBC"/>
             <DBContextFiles:Video X:Key="VideoDBC"/>
-            <DBContextFiles:Infor X:Key="InforDBC"/>
             <DBContextFiles:Brain X:Key="BrainDBC"/>
             <ConverterFiles:PackBinding X:Key="PackBinding"/>
             <ConverterFiles:None2Hidden X:Key="None2Hidden"/>
