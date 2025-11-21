@@ -137,7 +137,7 @@ public class Storage
 
         Size SampleMat = SegmentRecords.FirstOrDefault().Item1.Size();
 
-        Int32 IH = 150;
+        Int32 IH = 175;
 
         Int32 IW = GetWAsRatio(SampleMat.Width, SampleMat.Height, IH);
 
