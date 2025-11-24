@@ -72,17 +72,6 @@
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem
-                    X:Name="EvalnUC" Style="{StaticResource I}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image
-                            Source="/Images/EvalnImg.png"
-                            Style="{StaticResource P}"/>
-                        <TextBlock
-                            Style="{StaticResource TXT}"
-                            Text="ĐÁNH GIÁ VÀ SO SÁNH MÔ HÌNH"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem
                     X:Name="PhotoUC" Style="{StaticResource I}">
                     <StackPanel Orientation="Horizontal">
                         <Image
@@ -90,7 +79,7 @@
                             Style="{StaticResource P}"/>
                         <TextBlock
                             Style="{StaticResource TXT}"
-                            Text="PHÂN TÍCH HÌNH ẢNH"/>
+                            Text="SUY LUẬN BẰNG IMAGE"/>
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem
@@ -101,7 +90,7 @@
                             Style="{StaticResource P}"/>
                         <TextBlock
                             Style="{StaticResource TXT}"
-                            Text="SUY LUẬN QUA VIDEO"/>
+                            Text="SUY LUẬN BẰNG VIDEO"/>
                     </StackPanel>
                 </ListViewItem>
                 <I:Interaction.Triggers>

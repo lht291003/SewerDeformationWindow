@@ -9,11 +9,6 @@ public class None2Hidden : IValueConverter
             return Visibility.Collapsed;
         }
 
-        if (Value is Int32 NumberOfElements && NumberOfElements == 0)
-        {
-            return Visibility.Collapsed;
-        }
-
         if (Value is String Path && String.IsNullOrWhiteSpace(Path))
         {
             return Visibility.Collapsed;

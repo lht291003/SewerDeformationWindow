@@ -16,7 +16,6 @@
                 <ResourceDictionary Source="Pack://Application:,,,/MaterialDesignThemes.Wpf;Component/Themes/MaterialDesign3.Defaults.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <DBContextFiles:Build X:Key="BuildDBC"/>
-            <DBContextFiles:Evaln X:Key="EvalnDBC"/>
             <DBContextFiles:Photo X:Key="PhotoDBC"/>
             <DBContextFiles:Video X:Key="VideoDBC"/>
             <DBContextFiles:Brain X:Key="BrainDBC"/>

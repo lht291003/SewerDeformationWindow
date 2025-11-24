@@ -66,12 +66,6 @@ public class Brain : Basis
 
                 break;
 
-            case "EvalnUC":
-
-                LoadControlWithName(MainScreen, new EvalnUC());
-
-                break;
-
             case "PhotoUC":
 
                 LoadControlWithName(MainScreen, new PhotoUC());
