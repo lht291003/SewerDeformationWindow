@@ -1,6 +1,6 @@
 ﻿namespace SewerDeformationSoftware.Logics.Converters;
 
-public class Bool2Vision : IValueConverter
+class Bool2Vision : IValueConverter
 {
     public Object Convert(Object Value, Type TargetType, Object Parameter, CultureInfo Culture)
     {
