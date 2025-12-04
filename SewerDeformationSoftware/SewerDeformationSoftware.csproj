@@ -50,7 +50,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="OpenCvSharp4.WpfExtensions" Version="4.11.0.20250507" />
-		<PackageReference Include="EPPlus" Version="8.3.0" />
+		<PackageReference Include="EPPlus" Version="8.3.1" />
 		<PackageReference Include="ScottPlot.WPF" Version="5.1.57" />
 		<PackageReference Include="YoloSharp.Core" Version="6.0.6" />
 		<PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
