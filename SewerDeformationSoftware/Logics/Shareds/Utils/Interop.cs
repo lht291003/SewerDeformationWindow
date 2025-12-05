@@ -51,4 +51,12 @@ public partial class Interop
     [LibraryImport("Kernel32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial Boolean CloseHandle(IntPtr HandleObject);
+
+    [LibraryImport("User32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial Boolean SetForegroundWindow(IntPtr HWnd);
+
+    [LibraryImport("User32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial Boolean ShowWindow(IntPtr HWnd, Int32 N);
 }

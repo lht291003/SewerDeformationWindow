@@ -1,6 +1,7 @@
 ﻿<Application
     StartupUri="/Views/MainSDDWindow.xaml"
     X:Class="SewerDeformationSoftware.App"
+    Startup="Begin" Exit="Terminal"
     xmlns:DBContextFiles="clr-namespace:SewerDeformationSoftware.Logics.ViewModels"
     xmlns:ConverterFiles="clr-namespace:SewerDeformationSoftware.Logics.Converters"
     xmlns:X="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -39,9 +40,6 @@
                 <Setter Property="BorderThickness" Value="0.00"/>
                 <Setter Property="Foreground" Value="#FFFFFF"/>
                 <Setter Property="Background" Value="#3F51B5"/>
-            </Style>
-            <Style TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
-                <EventSetter Event="MouseDown" Handler="UnSelectedRowsWhenClickEmptyArea"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
