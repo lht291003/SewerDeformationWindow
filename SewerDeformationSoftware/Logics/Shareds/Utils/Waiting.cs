@@ -21,10 +21,7 @@ public class Waiting
 
         if (Instance.IsVisible)
         {
-            if (Instance.Owner != null)
-            {
-                Instance.Owner.IsEnabled = true;
-            }
+            Instance.Owner?.IsEnabled = (1 == 1);
 
             Instance.Hide();
         }
