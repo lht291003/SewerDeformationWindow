@@ -33,13 +33,11 @@ public partial class App : Application
         }
     }
 
-    private void ReturnMutexKey() => NewMutexInstance?.ReleaseMutex();
-
     private void DisposeMEResource()
     {
         if (CreatedInstance)
         {
-            ReturnMutexKey();
+            NewMutexInstance?.ReleaseMutex();
         }
 
         NewMutexInstance?.Dispose();
