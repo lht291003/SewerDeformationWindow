@@ -2,9 +2,9 @@
 
 public class Storage
 {
-    public static String VideoPath { get; } = Path.Combine(DirPath.Warehouse, "PipeVideo.MP4");
+    public static String VideoPath { get; } = Path.Combine(WorkDir.Warehouse, "PipeVideo.MP4");
 
-    public static String ExcelPath { get; } = Path.Combine(DirPath.Warehouse, "PipeXLSX.XLSX");
+    public static String ExcelPath { get; } = Path.Combine(WorkDir.Warehouse, "PipeXLSX.XLSX");
 
     public static async Task<(String, String)> GetReport(List<(Mat, Mat, Mat, Dictionary<String, Object>?)> SegmentLogs)
     {

@@ -11,10 +11,6 @@ public class Brain : Basis
     public Brain()
     {
         WorkFormShowCommand = new RelayCommand<List<Object>>(Object => Object != null, Package => ShowWorkForm(Package));
-
-        LoadedWindowCommand = new RelayCommand<Object>(OBj => OBj == null, OBj => PrepareAfterLoaded(DirPath.Warehouse));
-
-        ClosedWindowCommand = new RelayCommand<Object>(OBj => OBj == null, OBj => CleanupAfterClosed(DirPath.Warehouse));
     }
 
     Task LoadControlWithName(Grid MainForm, UserControl UC)
@@ -77,47 +73,6 @@ public class Brain : Basis
                 LoadControlWithName(MainScreen, new VideoUC());
 
                 break;
-        }
-
-        return Task.CompletedTask;
-    }
-
-    Task CleanupAfterClosed(String GetRoot)
-    {
-        ClearFolderSpace(GetRoot);
-
-        return Task.CompletedTask;
-    }
-
-    Task PrepareAfterLoaded(String GetRoot)
-    {
-        if (Directory.Exists(GetRoot))
-        {
-            ClearFolderSpace(GetRoot);
-        }
-
-        Directory.CreateDirectory(GetRoot);
-
-        return Task.CompletedTask;
-    }
-
-    Task ClearFolderSpace(String P)
-    {
-        foreach (String Entry in Directory.EnumerateFileSystemEntries(P))
-        {
-            if (File.Exists(Entry))
-            {
-                if (!Interop.IsFileLocked(Entry)) { File.Delete(Entry); }
-            }
-
-            else
-
-            if (Directory.Exists(Entry))
-            {
-                ClearFolderSpace(Entry);
-
-                if (!Directory.EnumerateFileSystemEntries(Entry).Any()) { Directory.Delete(Entry); }
-            }
         }
 
         return Task.CompletedTask;

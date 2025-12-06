@@ -274,7 +274,7 @@ public class Video : Basis
                     {
                         FrmCount++;
 
-                        (Mat, Mat, RotatedRect?, Dictionary<String, Object>?) Result = await Analysis.Quantifies(YOLOSeg.Models.KeyYSModel, Frame);
+                        (Mat, Mat, RotatedRect?, Dictionary<String, Object>?) Result = await Compute.Quantifies(YOLOSeg.Models.KeyYSModel, Frame);
 
                         Mat DrawedPlotImage = Result.Item1;
 
@@ -298,9 +298,9 @@ public class Video : Basis
 
                         Double GetDeformationValue = Convert.ToDouble(Specifications?["Deformation"]);
 
-                        AspectRatio = (GetAspectRatioValue == -1) ? String.Empty : $"{(GetAspectRatioValue * 100):F9} %";
+                        AspectRatio = (GetAspectRatioValue == -1) ? String.Empty : $"{(GetAspectRatioValue * 100):F9}%";
 
-                        Deformation = (GetDeformationValue == -1) ? String.Empty : $"{(GetDeformationValue * 100):F9} %";
+                        Deformation = (GetDeformationValue == -1) ? String.Empty : $"{(GetDeformationValue * 100):F9}%";
 
                         if (Ellipse == null)
                         {
@@ -308,7 +308,7 @@ public class Video : Basis
                         }
                         else
                         {
-                            DrawedMaskImage = Analysis.GetPlotMask(BinaryMaskImage, Ellipse.GetValueOrDefault(), Shape);
+                            DrawedMaskImage = Compute.GetPlotMask(BinaryMaskImage, Ellipse.GetValueOrDefault(), Shape);
 
                             MaskImage = DrawedMaskImage.ToBitmapSource();
                         }
@@ -323,7 +323,7 @@ public class Video : Basis
 
                             PPltImage = PreLog.Display.ToBitmapSource();
 
-                            (String, String, String, String) Pp = Analysis.Quantifies((Result.Item2, Result.Item4), (PreLog.Item3, PreLog.Item4));
+                            (String, String, String, String) Pp = Compute.Quantifies((Result.Item2, Result.Item4), (PreLog.Item3, PreLog.Item4));
 
                             Resemblance = Pp.Item1;
 

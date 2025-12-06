@@ -119,7 +119,7 @@ public class Photo : Basis
     {
         if (YOLOSeg.Models.KeyYSModel != null)
         {
-            (Mat, Mat, RotatedRect?, Dictionary<String, Object>?) Result = await Analysis.Quantifies(YOLOSeg.Models.KeyYSModel, PhotoPath);
+            (Mat, Mat, RotatedRect?, Dictionary<String, Object>?) Result = await Compute.Quantifies(YOLOSeg.Models.KeyYSModel, PhotoPath);
 
             using Mat DrawedPlotImage = Result.Item1;
 
@@ -141,13 +141,13 @@ public class Photo : Basis
 
             Double GetDeformationValue = Convert.ToDouble(Specifications?["Deformation"]);
 
-            AspectRatio = (GetAspectRatioValue == -1) ? String.Empty : $"{(GetAspectRatioValue * 100):F9} %";
+            AspectRatio = (GetAspectRatioValue == -1) ? String.Empty : $"{(GetAspectRatioValue * 100):F9}%";
 
-            Deformation = (GetDeformationValue == -1) ? String.Empty : $"{(GetDeformationValue * 100):F9} %";
+            Deformation = (GetDeformationValue == -1) ? String.Empty : $"{(GetDeformationValue * 100):F9}%";
 
             if (SavedEllipse != null)
             {
-                MaskImage = Analysis.GetPlotMaskWithBitmapSource(BinaryMaskImage, SavedEllipse.Value, Shape);
+                MaskImage = Compute.GetPlotMaskWithBitmapSource(BinaryMaskImage, SavedEllipse.Value, Shape);
             }
             else
             {

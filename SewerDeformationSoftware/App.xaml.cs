@@ -2,55 +2,23 @@
 
 public partial class App : Application
 {
-    protected Mutex? NewMutexInstance;
-
-    protected Boolean CreatedInstance;
-
-    private void SingleInstanceMode()
+    private void Begin(Object Sender, StartupEventArgs Evt)
     {
-        String MEName = Assembly.GetExecutingAssembly().GetName().Name!;
+        ME.CheckSingleInstance();
 
-        NewMutexInstance = new(100 == 100, MEName, out CreatedInstance);
-
-        if (!CreatedInstance)
-        {
-            Process Now = Process.GetCurrentProcess();
-
-            Process[] All = Process.GetProcessesByName(Now.ProcessName);
-
-            Process? Previous = All.FirstOrDefault(P => P.Id != Now.Id);
-
-            if (Previous != null)
-            {
-                Int32 Restore = 9;
-
-                Interop.ShowWindow(Previous.MainWindowHandle, Restore);
-
-                Interop.SetForegroundWindow(Previous.MainWindowHandle);
-
-                Application.Current.Shutdown();
-            }
-        }
+        WorkDir.PrepareSpaceAfterLoaded(WorkDir.Warehouse);
     }
 
-    private void DisposeMEResource()
+    private void Terminal(Object Sender, ExitEventArgs Evt)
     {
-        if (CreatedInstance)
+        ME.DisposeMutexInstance();
+
+        if (ME.IsSecondProsess())
         {
-            NewMutexInstance?.ReleaseMutex();
+            return;
         }
 
-        NewMutexInstance?.Dispose();
-    }
-
-    private void Begin(Object Sender, StartupEventArgs Event)
-    {
-        SingleInstanceMode();
-    }
-
-    private void Terminal(Object sender, ExitEventArgs Event)
-    {
-        DisposeMEResource();
+        WorkDir.CleanupSpaceAfterClosed(WorkDir.Warehouse);
     }
 
     public App()
@@ -64,6 +32,8 @@ public partial class App : Application
 
     private void CatchFinalExceptionAnywhereBeforeTheAppEnds(Object Sender, UnhandledExceptionEventArgs Event)
     {
+        ME.DisposeMutexInstance();
+
         if (Application.Current.Dispatcher is not null && !Application.Current.Dispatcher.HasShutdownFinished)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -73,8 +43,6 @@ public partial class App : Application
                 Message.ShowErrors($"Phần mềm hiện đang xảy ra ngoại lệ nghiêm trọng: {ExceptionMessage}");
             });
         }
-
-        DisposeMEResource();
     }
 
     private void CatchGlobalUnhandledTaskException(Object? Sender, UnobservedTaskExceptionEventArgs Event)
