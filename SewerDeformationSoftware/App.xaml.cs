@@ -6,10 +6,15 @@ public partial class App : Application
     {
         ME.CheckSingleInstance();
 
+        if (ME.IsSecondProsess())
+        {
+            return;
+        }
+
         WorkDir.PrepareSpaceAfterLoaded(WorkDir.Warehouse);
     }
 
-    private void Terminal(Object Sender, ExitEventArgs Evt)
+    private void CleanupTheMess()
     {
         ME.DisposeMutexInstance();
 
@@ -20,6 +25,10 @@ public partial class App : Application
 
         WorkDir.CleanupSpaceAfterClosed(WorkDir.Warehouse);
     }
+
+    private void Terminal(Object Sender, ExitEventArgs Evt)
+
+                                       => CleanupTheMess();
 
     public App()
     {
@@ -32,7 +41,7 @@ public partial class App : Application
 
     private void CatchFinalExceptionAnywhereBeforeTheAppEnds(Object Sender, UnhandledExceptionEventArgs Event)
     {
-        ME.DisposeMutexInstance();
+        CleanupTheMess();
 
         if (Application.Current.Dispatcher is not null && !Application.Current.Dispatcher.HasShutdownFinished)
         {

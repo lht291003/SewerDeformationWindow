@@ -37,7 +37,7 @@ public class ME
 
     public static void DisposeMutexInstance()
     {
-        if (CreatedInstance)
+        if (!IsSecondProsess())
         {
             NewMutexInstance?.ReleaseMutex();
         }
