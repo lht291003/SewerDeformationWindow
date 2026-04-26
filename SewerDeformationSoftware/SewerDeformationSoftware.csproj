@@ -49,15 +49,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="OpenCvSharp4.WpfExtensions" Version="4.13.0.20260222" />
-		<PackageReference Include="EPPlus" Version="8.4.2" />
-		<PackageReference Include="ScottPlot.WPF" Version="5.1.57" />
+		<PackageReference Include="OpenCvSharp4.WpfExtensions" Version="4.13.0.20260330" />
+		<PackageReference Include="EPPlus" Version="8.5.3" />
+		<PackageReference Include="ScottPlot.WPF" Version="5.1.58" />
 		<PackageReference Include="YoloSharp.Core" Version="6.1.0" />
 		<PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
-		<PackageReference Include="MaterialDesignThemes" Version="5.3.0" />
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
-		<PackageReference Include="OpenCvSharp4.Windows" Version="4.13.0.20260222" />
-		<PackageReference Include="Microsoft.ML.OnnxRuntime.Gpu.Windows" Version="1.24.2" />
+		<PackageReference Include="MaterialDesignThemes" Version="5.3.1" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
+		<PackageReference Include="OpenCvSharp4.Windows" Version="4.13.0.20260302" />
+		<PackageReference Include="Microsoft.ML.OnnxRuntime.Gpu.Windows" Version="1.25.0" />
 	</ItemGroup>
 
 </Project>
