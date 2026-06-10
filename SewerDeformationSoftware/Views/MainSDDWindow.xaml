@@ -21,18 +21,20 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
-                        <Border Background="Transparent" X:Name="Item">
+                        <Border Background="Transparent" X:Name="Item" CornerRadius="5" Margin="5">
                             <ContentPresenter/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Item" Property="Background" Value="#F39F3D"/>
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Item" Property="Background" Value="#EC6B2E"/>
-                            </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter TargetName="Item" Property="Background" Value="#548FF4"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter TargetName="Item" Property="Background" Value="#3C81F8"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -46,7 +48,7 @@
         </Style>
         <Style TargetType="TextBlock" X:Key="TXT">
             <Setter Property="FontFamily" Value="Cascadia Code"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
     </Window.Resources>
@@ -56,7 +58,7 @@
             <ColumnDefinition Width="1.*"/>
         </Grid.ColumnDefinitions>
         <Grid
-            Background="#40508D"
+            Background="#CADCEB"
             Grid.Column="0">
             <ListView
                 X:Name="MenuList">

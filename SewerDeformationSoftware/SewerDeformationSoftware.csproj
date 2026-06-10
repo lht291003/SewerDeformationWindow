@@ -32,7 +32,6 @@
 	<ItemGroup>
 		<None Remove="Images\Ico.ico" />
 		<None Remove="Images\BuildImg.png" />
-		<None Remove="Images\EvalnImg.png" />
 		<None Remove="Images\FilesImg.png" />
 		<None Remove="Images\ModelImg.png" />
 		<None Remove="Images\PhotoImg.png" />
@@ -41,7 +40,6 @@
 	<ItemGroup>
 		<Resource Include="Images\Ico.ico" />
 		<Resource Include="Images\BuildImg.png" />
-		<Resource Include="Images\EvalnImg.png" />
 		<Resource Include="Images\FilesImg.png" />
 		<Resource Include="Images\ModelImg.png" />
 		<Resource Include="Images\PhotoImg.png" />

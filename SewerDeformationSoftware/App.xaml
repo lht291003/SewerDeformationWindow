@@ -36,10 +36,11 @@
                 <Setter Property="Focusable" Value="False"/>
             </Style>
             <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatLightBgButton}">
-                <Setter Property="Focusable" Value="False"/>
                 <Setter Property="BorderThickness" Value="0.00"/>
                 <Setter Property="Foreground" Value="#FFFFFF"/>
                 <Setter Property="Background" Value="#3F51B5"/>
+                <Setter Property="Material:ButtonAssist.CornerRadius" Value="5.0"/>
+                <Setter Property="Material:ElevationAssist.Elevation" Value="Dp1"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
