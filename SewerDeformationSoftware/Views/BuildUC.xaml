@@ -1,7 +1,8 @@
 ﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    X:Class="SewerDeformationSoftware.Views.BuildUC"
     xmlns:X="http://schemas.microsoft.com/winfx/2006/xaml"
+    X:Class="SewerDeformationSoftware.Views.BuildUC"
+    xmlns:SVGImg="http://sharpvectors.codeplex.com/svgc/"
     xmlns:D="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:MD="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:I="http://schemas.microsoft.com/xaml/behaviors" MC:Ignorable="D"
@@ -44,8 +45,8 @@
                             <ColumnDefinition Width="10"/>
                             <ColumnDefinition Width="95"/>
                         </Grid.ColumnDefinitions>
-                        <Image
-                            Source="/Images/FilesImg.png" Height="50"/>
+                        <SVGImg:SvgViewbox
+                            Source="/Images/FilesImg.svg" Height="50"/>
                         <Grid Grid.Column="2">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -89,8 +90,8 @@
                             <ColumnDefinition Width="10"/>
                             <ColumnDefinition Width="95"/>
                         </Grid.ColumnDefinitions>
-                        <Image
-                            Source="/Images/ModelImg.png" Height="50"/>
+                        <SVGImg:SvgViewbox
+                            Source="/Images/ModelImg.svg" Height="50"/>
                         <TextBlock
                             Text="{Binding ModelName}"
                             VerticalAlignment="Center"

@@ -5,6 +5,7 @@
     xmlns:X="http://schemas.microsoft.com/winfx/2006/xaml"
     X:Class="SewerDeformationSoftware.Views.MainSDDWindow"
     xmlns:I="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:SVGImg="http://sharpvectors.codeplex.com/svgc/"
     xmlns:MD="http://materialdesigninxaml.net/winfx/xaml/themes"
     WindowStartupLocation="CenterScreen" X:Name="SSDMainWindow">
     <I:Interaction.Triggers>
@@ -41,7 +42,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="Image" X:Key="P">
+        <Style TargetType="SVGImg:SvgViewbox" X:Key="SI">
             <Setter Property="Width" Value="030"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Margin" Value="10"/>
@@ -65,9 +66,9 @@
                 <ListViewItem
                     X:Name="BuildUC" Style="{StaticResource I}">
                     <StackPanel Orientation="Horizontal">
-                        <Image
-                            Source="/Images/BuildImg.png"
-                            Style="{StaticResource P}"/>
+                        <SVGImg:SvgViewbox
+                            Source="/Images/BuildImg.svg"
+                            Style="{StaticResource SI}"/>
                         <TextBlock
                             Style="{StaticResource TXT}"
                             Text="XÂY DỰNG VÀ CÀI ĐẶT MÔ HÌNH"/>
@@ -76,9 +77,9 @@
                 <ListViewItem
                     X:Name="PhotoUC" Style="{StaticResource I}">
                     <StackPanel Orientation="Horizontal">
-                        <Image
-                            Source="/Images/PhotoImg.png"
-                            Style="{StaticResource P}"/>
+                        <SVGImg:SvgViewbox
+                            Source="/Images/PhotoImg.svg"
+                            Style="{StaticResource SI}"/>
                         <TextBlock
                             Style="{StaticResource TXT}"
                             Text="SUY LUẬN BẰNG IMAGE"/>
@@ -87,9 +88,9 @@
                 <ListViewItem
                     X:Name="VideoUC" Style="{StaticResource I}">
                     <StackPanel Orientation="Horizontal">
-                        <Image
-                            Source="/Images/VideoImg.png"
-                            Style="{StaticResource P}"/>
+                        <SVGImg:SvgViewbox
+                            Source="/Images/VideoImg.svg"
+                            Style="{StaticResource SI}"/>
                         <TextBlock
                             Style="{StaticResource TXT}"
                             Text="SUY LUẬN BẰNG VIDEO"/>
