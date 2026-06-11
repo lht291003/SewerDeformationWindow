@@ -6,7 +6,7 @@
     xmlns:MD="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:I="http://schemas.microsoft.com/xaml/behaviors" MC:Ignorable="D"
     xmlns:MC="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    D:DesignHeight="650" D:DesignWidth="1050"
+    D:DesignHeight="650" D:DesignWidth="975"
     DataContext="{StaticResource VideoDBC}">
     <ScrollViewer Background="White" VerticalScrollBarVisibility="Auto">
         <Grid>
@@ -137,11 +137,13 @@
                                 </Style>
                                 <Style TargetType="TextBlock" X:Key="Label">
                                     <Setter Property="FontSize" Value="15"/>
-                                    <Setter Property="FontFamily" Value="Consolas"/>
+                                    <Setter Property="Foreground" Value="#FFFFFFFF"/>
+                                    <Setter Property="FontFamily" Value="Courier New"/>
                                 </Style>
                                 <Style TargetType="TextBlock" X:Key="Value">
                                     <Setter Property="FontSize" Value="20"/>
-                                    <Setter Property="FontFamily" Value="Consolas"/>
+                                    <Setter Property="Foreground" Value="#FFFFFFFF"/>
+                                    <Setter Property="FontFamily" Value="Courier New"/>
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                 </Style>
                             </Grid.Resources>
@@ -192,7 +194,7 @@
                                                     <RowDefinition Height="5.00"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Ảnh phân đoạn hiện tại" FontSize="016" FontWeight="ExtraBlack"/>
+                                                <TextBlock Text="Ảnh phân đoạn hiện tại" FontSize="017" FontWeight="ExtraBlack"/>
                                                 <MD:Card Grid.Row="2" UniformCornerRadius="5">
                                                     <Image Source="{Binding NPltImage, Converter={StaticResource None2Unbind}}"/>
                                                 </MD:Card>
@@ -203,7 +205,7 @@
                                                     <RowDefinition Height="5.00"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Mặt nạ được trực quan" FontSize="16.0" FontWeight="ExtraBlack"/>
+                                                <TextBlock Text="Mặt nạ được trực quan" FontSize="17.0" FontWeight="ExtraBlack"/>
                                                 <MD:Card Grid.Row="2" UniformCornerRadius="5">
                                                     <Image Source="{Binding MaskImage, Converter={StaticResource None2Unbind}}"/>
                                                 </MD:Card>
@@ -219,7 +221,7 @@
                                             <TextBlock
                                                 Text="Kết quả trả về"
                                                 FontWeight="SemiBold"
-                                                FontSize="016"/>
+                                                FontSize="017"/>
                                             <Grid Grid.Row="02">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
@@ -359,7 +361,7 @@
                                                     <RowDefinition Height="5.00"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Ảnh phân đoạn hiện tại" FontSize="016" FontWeight="ExtraBlack"/>
+                                                <TextBlock Text="Ảnh phân đoạn hiện tại" FontSize="017" FontWeight="ExtraBlack"/>
                                                 <MD:Card Grid.Row="2" UniformCornerRadius="5">
                                                     <Image Source="{Binding NPltImage, Converter={StaticResource None2Unbind}}"/>
                                                 </MD:Card>
@@ -370,7 +372,7 @@
                                                     <RowDefinition Height="5.00"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Ảnh phân đoạn trước đó" FontSize="016" FontWeight="ExtraBlack"/>
+                                                <TextBlock Text="Ảnh phân đoạn trước đó" FontSize="017" FontWeight="ExtraBlack"/>
                                                 <MD:Card Grid.Row="2" UniformCornerRadius="5">
                                                     <Image Source="{Binding PPltImage, Converter={StaticResource None2Unbind}}"/>
                                                 </MD:Card>
@@ -385,7 +387,7 @@
                                             <TextBlock
                                                 Text="Kết quả trả về"
                                                 FontWeight="SemiBold"
-                                                FontSize="016"/>
+                                                FontSize="017"/>
                                             <Grid Grid.Row="02">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
