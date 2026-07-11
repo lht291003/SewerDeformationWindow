@@ -1,4 +1,4 @@
-namespace SewerDeformationSoftware.Logics.Shareds.Utils;
+namespace SewerDeformationSoftware.Logics.Utils;
 
 public class WorkDir
 {

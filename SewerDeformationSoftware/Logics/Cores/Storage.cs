@@ -1,4 +1,4 @@
-﻿namespace SewerDeformationSoftware.Logics.Shareds.Cores;
+﻿namespace SewerDeformationSoftware.Logics.Cores;
 
 public class Storage
 {
