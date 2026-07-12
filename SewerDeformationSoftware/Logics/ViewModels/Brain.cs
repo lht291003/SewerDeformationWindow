@@ -10,7 +10,7 @@ public class Brain : Basis
 
     public Brain()
     {
-        WorkFormShowCommand = new RelayCommand<List<Object>>(Object => Object != null, Package => ShowWorkForm(Package));
+        WorkFormShowCommand = new ARelayCommand<List<Object>>(Object => Object != null, Package => ShowWorkForm(Package));
     }
 
     Task LoadControlWithName(Grid MainForm, UserControl UC)

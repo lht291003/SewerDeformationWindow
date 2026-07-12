@@ -2,23 +2,23 @@ namespace SewerDeformationSoftware.Logics.ViewModels;
 
 public class Photo : Basis
 {
-    public String AspectRatio { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String AspectRatio { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String Orientation { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String Orientation { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String Deformation { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String Deformation { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String Shape { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String Shape { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String State { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String State { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String PhotoName { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String PhotoName { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String PhotoPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String PhotoPath { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public BitmapSource? PlotImage { get; set => SetAndNotify(value, ref field); } = null;
+    public BitmapSource? PlotImage { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = null;
 
-    public BitmapSource? MaskImage { get; set => SetAndNotify(value, ref field); } = null;
+    public BitmapSource? MaskImage { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = null;
 
     public ICommand Browse { get; set; } = null!;
 
@@ -30,13 +30,13 @@ public class Photo : Basis
 
     public Photo()
     {
-        Dragop = new RelayCommand<Object>(Obj => Obj != null, ModelFile => DropPhoto(ModelFile));
+        Dragop = new ARelayCommand<Object>(Obj => Obj != null, PhotoFile => DropPhoto(PhotoFile));
 
-        Browse = new RelayCommand<Object>(Obj => Obj == null, Obj => BrowsePhoto());
+        Browse = new ARelayCommand<Object>(Obj => Obj == null, Obj => BrowsePhoto());
 
-        Remove = new RelayCommand<Object>(Obj => Obj == null, Obj => RemovePhoto());
+        Remove = new ARelayCommand<Object>(Obj => Obj == null, Obj => RemovePhoto());
 
-        Accept = new RelayCommand<Object>(Obj => Obj == null, async Obj => await AnalyzePhoto());
+        Accept = new FRelayCommand<Object>(Obj => Obj == null, async Obj => await AnalyzePhoto());
     }
 
     Task BrowsePhoto()
@@ -83,9 +83,9 @@ public class Photo : Basis
         return Task.CompletedTask;
     }
 
-    Task DropPhoto(Object ObjModel)
+    Task DropPhoto(Object ObjPhoto)
     {
-        if (ObjModel is DragEventArgs Event && Event.Data.GetDataPresent(DataFormats.FileDrop))
+        if (ObjPhoto is DragEventArgs Event && Event.Data.GetDataPresent(DataFormats.FileDrop))
         {
             String[] Files = (String[])Event.Data.GetData(DataFormats.FileDrop);
 

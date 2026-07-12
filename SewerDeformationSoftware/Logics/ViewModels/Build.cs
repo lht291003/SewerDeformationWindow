@@ -2,29 +2,29 @@
 
 public class Build : Basis
 {
-    public String ModelName { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String ModelName { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String ModelPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String ModelPath { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String GetDevice { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String GetDevice { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
     public ICommand Browse { get; set; } = null!;
 
     public ICommand Remove { get; set; } = null!;
 
-    public ICommand Accept { get; set; } = null!;
+    public ICommand UpLoad { get; set; } = null!;
 
     public ICommand Dragop { get; set; } = null!;
 
     public Build()
     {
-        Dragop = new RelayCommand<Object>(Obj => Obj != null, ModelFile => DropModel(ModelFile));
+        UpLoad = new FRelayCommand<Object>(Obj => CanAccept(), async Obj => await UpLoadModel());
 
-        Browse = new RelayCommand<Object>(Obj => Obj == null, Obj => BrowseModel());
+        Browse = new ARelayCommand<Object>(Obj => Obj == null, Obj => BrowseModel());
 
-        Remove = new RelayCommand<Object>(Obj => Obj == null, Obj => RemoveModel());
+        Remove = new ARelayCommand<Object>(Obj => Obj == null, Obj => RemoveModel());
 
-        Accept = new RelayCommand<Object>(Obj => CanAccept(), async Obj => await AcceptModel());
+        Dragop = new ARelayCommand<Object>(Obj => Obj != null, OnnxFile => DropModel(OnnxFile));
     }
 
     Boolean CanAccept() => !String.IsNullOrEmpty(ModelPath) && !String.IsNullOrEmpty(GetDevice);
@@ -98,7 +98,7 @@ public class Build : Basis
         return Task.CompletedTask;
     }
 
-    async Task AcceptModel()
+    async Task UpLoadModel()
     {
         if (YOLOSeg.Models.IsRunning)
         {

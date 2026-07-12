@@ -1,41 +1,54 @@
 namespace SewerDeformationSoftware.Logics.ViewModels;
 
+public class ARelayCommand<GenericType>(Predicate<GenericType> Trigger, Action<GenericType> ActionExecution) : ICommand
+{
+    public Boolean CanExecute(Object? Parameter)
+
+                                => Trigger == null || Trigger((GenericType)Parameter!);
+
+    public void Execute(Object? Parameter) => ActionExecution((GenericType)Parameter!);
+
+    public event EventHandler? CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+}
+
+public class FRelayCommand<GenericType>(Predicate<GenericType> Trigger, Func<GenericType, Task> FunExecution) : ICommand
+{
+    Boolean IsExecuting;
+
+    public Boolean CanExecute(Object? Parameter)
+
+                                                => !IsExecuting && (Trigger == null || Trigger((GenericType)Parameter!));
+
+    public async void Execute(Object? Parameter)
+    {
+        if (CanExecute(Parameter))
+        {
+            IsExecuting = (0 == 0);
+
+            CommandManager.InvalidateRequerySuggested();
+
+            await FunExecution((GenericType)Parameter!);
+
+            IsExecuting = (0 != 0);
+
+            CommandManager.InvalidateRequerySuggested();
+        }
+    }
+
+    public event EventHandler? CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+}
+
 public class Basis : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected virtual void NotifyToTarget([CallerMemberName] String? PropertyName = null)
-
-                                      => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
-
-    protected virtual Boolean SetAndNotify<T>(T Value, ref T Field, [CallerMemberName] String? PropertyName = null)
+    protected void NotifyToUIAndSetIfChanged<GenericType>(GenericType InputValue, ref GenericType FieldValue, [CallerMemberName] String? OwnerName = null)
     {
-        if (EqualityComparer<T>.Default.Equals(Field, Value))
+        if (!EqualityComparer<GenericType>.Default.Equals(FieldValue, InputValue))
         {
-            return false;
-        }
-        else
-        {
-            Field = Value;
+            FieldValue = InputValue;
 
-            NotifyToTarget(PropertyName);
-
-            return true;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(OwnerName));
         }
     }
-}
-
-public class RelayCommand<T>(Predicate<T> Activation, Action<T> Function) : ICommand
-{
-    Predicate<T> Condition = Activation;
-
-    Action<T> Execution = Function;
-
-    public bool CanExecute(Object? Parameter)
-
-                      => Condition == null || Condition((T)Parameter!);
-
-    public void Execute(Object? Parameter) => Execution((T)Parameter!);
-
-    public event EventHandler? CanExecuteChanged { add => CommandManager.RequerySuggested += value; remove => CommandManager.RequerySuggested -= value; }
 }

@@ -2,49 +2,49 @@
 
 public class Video : Basis
 {
-    List<ValueTuple<Mat, Mat, Mat, Dictionary<String, Object>?>> SegmentLogs { get; } = [];
+    public String VideoName { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String VideoName { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String VideoPath { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String VideoPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public BitmapSource? NPltImage { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = null;
 
-    public BitmapSource? NPltImage { get; set => SetAndNotify(value, ref field); } = null;
+    public BitmapSource? PPltImage { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = null;
 
-    public BitmapSource? PPltImage { get; set => SetAndNotify(value, ref field); } = null;
+    public BitmapSource? MaskImage { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = null;
 
-    public BitmapSource? MaskImage { get; set => SetAndNotify(value, ref field); } = null;
+    public Boolean IsCompleted { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = false;
 
-    public Boolean IsCompleted { get; set => SetAndNotify(value, ref field); } = false;
+    public Boolean IsCommenced { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = false;
 
-    public Boolean IsCommenced { get; set => SetAndNotify(value, ref field); } = false;
+    public String Shape { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String Shape { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String State { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String State { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String Phase { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String Phase { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String Delta { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String Delta { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String AspectRatio { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public Int32 Distance { get; set => SetAndNotify(value, ref field); } = 10;
+    public String Orientation { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String AspectRatio { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String Deformation { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String Orientation { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String Resemblance { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String Deformation { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String Distinction { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String Resemblance { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String VReportPath { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String Distinction { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public String EReportPath { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = String.Empty;
 
-    public String VReportPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
-
-    public String EReportPath { get; set => SetAndNotify(value, ref field); } = String.Empty;
+    public Int32 Distance { get; set => NotifyToUIAndSetIfChanged(value, ref field); } = 10;
 
     public static WpfPlot DePlotChart { get; } = new();
 
     public static WpfPlot SpPlotChart { get; } = new();
+
+    List<ValueTuple<Mat, Mat, Mat, Dictionary<String, Object>?>> SegmentLogs { get; } = [];
 
     public ICommand OpenVideoFile { get; set; } = null!;
 
@@ -64,21 +64,21 @@ public class Video : Basis
 
     public Video()
     {
-        Dragop = new RelayCommand<Object>(Obj => Obj != null, ModelFile => DropVideo(ModelFile));
+        Dragop = new ARelayCommand<Object>(Obj => Obj != null, VideoFile => DropVideo(VideoFile));
 
-        Accept = new RelayCommand<Object>(Obj => Obj == null, async Obj => await AnalyzeVideo());
+        Accept = new FRelayCommand<Object>(Obj => Obj == null, async Obj => await AnalyzeVideo());
 
-        OpenVideoFile = new RelayCommand<Object>(Obj => FinishedVideo(), File => DisplayVideo());
+        OpenVideoFile = new ARelayCommand<Object>(Obj => FinishedVideo(), File => DisplayVideo());
 
-        OpenExcelFile = new RelayCommand<Object>(Obj => FinishedExcel(), File => DisplayExcel());
+        OpenExcelFile = new ARelayCommand<Object>(Obj => FinishedExcel(), File => DisplayExcel());
 
-        DownloadFiles = new RelayCommand<Object>(Obj => FinishedFiles(), async File => await DownloadData());
+        DownloadFiles = new FRelayCommand<Object>(Obj => FinishedFiles(), async File => await DownloadData());
 
-        Browse = new RelayCommand<Object>(Obj => Obj == null, Obj => BrowseVideo());
+        Browse = new ARelayCommand<Object>(Obj => Obj == null, Obj => BrowseVideo());
 
-        Remove = new RelayCommand<Object>(Obj => Obj == null, Obj => RemoveVideo());
+        Remove = new ARelayCommand<Object>(Obj => Obj == null, Obj => RemoveVideo());
 
-        CutOff = new RelayCommand<Object>(Obj => Obj == null, Obj => CutOffVideo());
+        CutOff = new ARelayCommand<Object>(Obj => Obj == null, Obj => CutOffVideo());
     }
 
     Task DisplayVideo()
@@ -208,9 +208,9 @@ public class Video : Basis
         return Task.CompletedTask;
     }
 
-    Task DropVideo(Object ObjModel)
+    Task DropVideo(Object ObjVideo)
     {
-        if (ObjModel is DragEventArgs Event && Event.Data.GetDataPresent(DataFormats.FileDrop))
+        if (ObjVideo is DragEventArgs Event && Event.Data.GetDataPresent(DataFormats.FileDrop))
         {
             String[] Files = (String[])Event.Data.GetData(DataFormats.FileDrop);
 
