@@ -125,8 +125,6 @@ public class Photo : Basis
 
             using Mat BinaryMaskImage = Result.Item2;
 
-            RotatedRect? SavedEllipse = Result.Item3;
-
             Dictionary<String, Object>? Specifications = Result.Item4;
 
             PlotImage = DrawedPlotImage.ToBitmapSource();
@@ -145,14 +143,7 @@ public class Photo : Basis
 
             Deformation = (GetDeformationValue == -1) ? String.Empty : $"{(GetDeformationValue * 100):F9}%";
 
-            if (SavedEllipse != null)
-            {
-                MaskImage = Compute.GetPlotMaskWithBitmapSource(BinaryMaskImage, SavedEllipse.Value, Shape);
-            }
-            else
-            {
-                MaskImage = default;
-            }
+            MaskImage = Compute.GetPlotMaskAsWPFBitmapImage(BinaryMaskImage, Result.Item3, Shape);
         }
         else
         {

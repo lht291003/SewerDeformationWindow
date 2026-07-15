@@ -325,21 +325,23 @@ public class Compute
         }
     }
 
-    public static BitmapSource GetPlotMaskWithBitmapSource(Mat Mask, RotatedRect Ellipse, String Shape)
+    public static BitmapSource GetPlotMaskAsWPFBitmapImage(Mat Mask, RotatedRect? Ellipse, String Shape)
     {
         using Mat VisualMask = GetPlotMask(Mask, Ellipse, Shape);
 
         return VisualMask.ToBitmapSource();
     }
 
-    public static Mat GetPlotMask(Mat Mask, RotatedRect Ellipse, String Shape)
+    public static Mat GetPlotMask(Mat Mask, RotatedRect? EllipseData, String Shape)
     {
         Mat VMask = Mask.Clone();
 
         Cv2.CvtColor(VMask, VMask, ColorConversionCodes.GRAY2BGR);
 
-        if (Shape != "Undefined")
+        if (Shape != "Undefined" && EllipseData.HasValue)
         {
+            RotatedRect Ellipse = EllipseData.GetValueOrDefault();
+
             Cv2.Ellipse(VMask, Ellipse, new Scalar(0, 255, 0), 2);
 
             (Point2f Center, Size2f Axes, Double Angle) = (Ellipse.Center, Ellipse.Size, Ellipse.Angle);

@@ -282,8 +282,6 @@ public class Video : Basis
 
                         Mat DrawedMaskImage = Result.Item2;
 
-                        RotatedRect? Ellipse = Result.Item3;
-
                         Dictionary<String, Object>? Specifications = Result.Item4;
 
                         NPltImage = DrawedPlotImage.ToBitmapSource();
@@ -302,16 +300,9 @@ public class Video : Basis
 
                         Deformation = (GetDeformationValue == -1) ? String.Empty : $"{(GetDeformationValue * 100):F9}%";
 
-                        if (Ellipse == null)
-                        {
-                            MaskImage = null;
-                        }
-                        else
-                        {
-                            DrawedMaskImage = Compute.GetPlotMask(BinaryMaskImage, Ellipse.GetValueOrDefault(), Shape);
+                        DrawedMaskImage = Compute.GetPlotMask(BinaryMaskImage, Result.Item3, Shape);
 
-                            MaskImage = DrawedMaskImage.ToBitmapSource();
-                        }
+                        MaskImage = DrawedMaskImage.ToWriteableBitmap();
 
                         (Mat, Mat, Mat, Dictionary<String, Object>?) Record = (DrawedPlotImage, DrawedMaskImage, BinaryMaskImage, Specifications);
 
