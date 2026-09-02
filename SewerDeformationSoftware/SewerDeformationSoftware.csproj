@@ -15,21 +15,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Using Include="OpenCvSharp.Point">
-			<Alias>Point</Alias>
-		</Using>
-		<Using Include="OpenCvSharp.Rect">
-			<Alias>Rect</Alias>
-		</Using>
-		<Using Include="OpenCvSharp.Size">
-			<Alias>Size</Alias>
-		</Using>
-		<Using Include="SixLabors.ImageSharp.Image">
-			<Alias>Image</Alias>
-		</Using>
-	</ItemGroup>
-
-	<ItemGroup>
 		<None Remove="Images\BuildImg.svg" />
 		<None Remove="Images\FilesImg.svg" />
 		<None Remove="Images\Ico.ico" />
@@ -47,13 +32,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EPPlus" Version="8.6.3" />
+		<PackageReference Include="EPPlus" Version="8.7.0" />
 		<PackageReference Include="ScottPlot.WPF" Version="5.1.59" />
 		<PackageReference Include="YoloSharp.Core" Version="6.1.0" />
 		<PackageReference Include="SharpVectors.Wpf" Version="1.8.5" />
 		<PackageReference Include="Extended.Wpf.Toolkit" Version="5.1.2" />
 		<PackageReference Include="MaterialDesignThemes" Version="5.3.2" />
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.158" />
 		<PackageReference Include="OpenCvSharp4.Windows" Version="4.13.0.20260627" />
 		<PackageReference Include="Microsoft.ML.OnnxRuntime.Gpu.Windows" Version="1.26.0" />
 	</ItemGroup>

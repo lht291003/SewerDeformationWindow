@@ -33,3 +33,7 @@ global using System.Windows.Input;
 global using System.Windows.Interop;
 global using System.Windows.Media.Imaging;
 global using System.Windows.Threading;
+global using Image = SixLabors.ImageSharp.Image;
+global using Point = OpenCvSharp.Point;
+global using Rect = OpenCvSharp.Rect;
+global using Size = OpenCvSharp.Size;
