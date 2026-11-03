@@ -16,13 +16,6 @@ public class Compute
         return await Quantifies(Model, LoadImage);
     }
 
-    public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, Stream ImageData)
-    {
-        using Image LoadImage = await Image.LoadAsync(ImageData);
-
-        return await Quantifies(Model, LoadImage);
-    }
-
     private static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, Image LoadImage)
     {
         YoloResult<Segmentation> GetSegResult = await Model.SegmentAsync(LoadImage);
@@ -44,68 +37,6 @@ public class Compute
         }
 
         return (Drawed, CreateZeroMask(Drawed.Size(), MatType.CV_8UC1), null, null);
-    }
-
-    public static Mat CreateBinaryMaskImage(Segmentation SegObject, Size ImageSize)
-    {
-        Mat GrayMask = CreateZeroMask(ImageSize, MatType.CV_8UC1);
-
-        BitmapBuffer MaskData = SegObject.Mask;
-
-        Rectangle BoxFrame = SegObject.Bounds;
-
-        (Int32 BBW, Int32 BBH) = (BoxFrame.Width, BoxFrame.Height);
-
-        (Int32 GMW, Int32 GMH) = (GrayMask.Width, GrayMask.Height);
-
-        (Int32 MBW, Int32 MBH) = (MaskData.Width, MaskData.Height);
-
-        Single[] Arr1D = new Single[MBW * MBH];
-
-        Int32 I = 0;
-
-        for (Int32 IY = 0; IY < MBH; IY++)
-        {
-            for (Int32 IX = 0; IX < MBW; IX++)
-            {
-                Arr1D[I++] = MaskData[IY, IX];
-            }
-        }
-
-        using Mat SmallMask = Mat.FromPixelData(MBH, MBW, MatType.CV_32FC1, Arr1D);
-
-        using Mat TempMask = new();
-
-        using Mat Mask8Bit = new();
-
-        Cv2.Resize(SmallMask, TempMask, new Size(BBW, BBH));
-
-        Cv2.ConvertScaleAbs(TempMask, Mask8Bit, 255);
-
-        Int32 SrcRoiX = (BoxFrame.X < 0) ? -BoxFrame.X : 0;
-
-        Int32 SrcRoiY = (BoxFrame.Y < 0) ? -BoxFrame.Y : 0;
-
-        Int32 DesRoiX = Math.Max(0, BoxFrame.X);
-
-        Int32 DesRoiY = Math.Max(0, BoxFrame.Y);
-
-        Int32 DesRoiW = Math.Min(BBW, GMW - DesRoiX);
-
-        Int32 DesRoiH = Math.Min(BBH, GMH - DesRoiY);
-
-        (Int32 CopyW, Int32 CopyH) = (Math.Min(DesRoiW, Mask8Bit.Width - SrcRoiX), Math.Min(DesRoiH, Mask8Bit.Height - SrcRoiY));
-
-        if (CopyW > 0 && CopyH > 0)
-        {
-            using Mat SrcRoi = new(Mask8Bit, new Rect(SrcRoiX, SrcRoiY, CopyW, CopyH));
-
-            using Mat DesRoi = new(GrayMask, new Rect(DesRoiX, DesRoiY, CopyW, CopyH));
-
-            SrcRoi.CopyTo(DesRoi);
-        }
-
-        return GrayMask;
     }
 
     public static (RotatedRect, Mat) GetFittedEllipseMask(Mat Mask, Point[] Contour)
@@ -234,6 +165,53 @@ public class Compute
         BGR24Img.CopyPixelDataTo(Pixels);
 
         return Mat.FromPixelData(BGR24Img.Height, BGR24Img.Width, MatType.CV_8UC3, Pixels);
+    }
+
+    public unsafe static Mat CreateBinaryMaskImage(Segmentation SegObject, Size ImageSize)
+    {
+        Mat GrayMask = CreateZeroMask(ImageSize, MatType.CV_8UC1);
+
+        (BitmapBuffer MaskData, Rectangle BoxFrame) = (SegObject.Mask, SegObject.Bounds);
+
+        (Int32 BBW, Int32 BBH) = (BoxFrame.Width, BoxFrame.Height);
+
+        (Int32 GMW, Int32 GMH) = (GrayMask.Width, GrayMask.Height);
+
+        (Int32 MBW, Int32 MBH) = (MaskData.Width, MaskData.Height);
+
+        Int32 SrcRoiX = (BoxFrame.X < 0) ? -BoxFrame.X : 0;
+
+        Int32 SrcRoiY = (BoxFrame.Y < 0) ? -BoxFrame.Y : 0;
+
+        Int32 DesRoiX = Math.Max(0, BoxFrame.X);
+
+        Int32 DesRoiY = Math.Max(0, BoxFrame.Y);
+
+        Int32 DesRoiW = Math.Min(BBW, GMW - DesRoiX);
+
+        Int32 DesRoiH = Math.Min(BBH, GMH - DesRoiY);
+
+        Int32 CpW = Math.Min(DesRoiW, MBW - SrcRoiX);
+
+        Int32 CpH = Math.Min(DesRoiH, MBH - SrcRoiY);
+
+        if (CpW > 0 && CpH > 0)
+        {
+            fixed (Single* Pin = MaskData.AsReadOnlySpan())
+            {
+                IntPtr Ptr = (IntPtr)Pin;
+
+                using Mat MaskView = Mat.FromPixelData(MBH, MBW, MatType.CV_32FC1, Ptr);
+
+                using Mat SrcRoi = new(MaskView, new Rect(SrcRoiX, SrcRoiY, CpW, CpH));
+
+                using Mat DesRoi = new(GrayMask, new Rect(DesRoiX, DesRoiY, CpW, CpH));
+
+                Cv2.ConvertScaleAbs(SrcRoi, DesRoi, 255.0);
+            }
+        }
+
+        return GrayMask;
     }
 
     public static unsafe Image Mat2SLImageSharp(Mat Data)
