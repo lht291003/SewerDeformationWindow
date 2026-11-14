@@ -115,14 +115,7 @@ public class Build : Basis
 
             Waiting.ShowProgressRing();
 
-            await Task.Run(() =>
-            {
-                YOLOSeg.Models.KeyYSModel = new(ModelPath, YOptions);
-
-                using Image DummyInput = new Image<Rgba32>(640, 640);
-
-                YOLOSeg.Models.KeyYSModel.Segment(DummyInput);
-            });
+            await Task.Run(() => YOLOSeg.Models.KeyYSModel = new(ModelPath, YOptions));
 
             Waiting.HideProgressRing();
 

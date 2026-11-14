@@ -2,16 +2,16 @@
 
 public class Compute
 {
-    public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, Mat MatImageData)
+    public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, String ImagePath)
     {
-        using Image LoadImage = Mat2SLImageSharp(MatImageData);
+        using Image LoadImage = await Image.LoadAsync(ImagePath);
 
         return await Quantifies(Model, LoadImage);
     }
 
-    public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, String ImagePath)
+    public static async Task<(Mat, Mat, RotatedRect?, Dictionary<String, Object>?)> Quantifies(YoloPredictor Model, Mat MatImageData)
     {
-        using Image LoadImage = await Image.LoadAsync(ImagePath);
+        using Image LoadImage = Mat2SLImageSharp(MatImageData);
 
         return await Quantifies(Model, LoadImage);
     }

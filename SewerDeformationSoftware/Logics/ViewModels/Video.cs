@@ -164,14 +164,14 @@ public class Video : Basis
 
                 VideoName = String.Empty;
 
-                RefeshDatas();
+                RefeshData();
             }
         }
 
         return Task.CompletedTask;
     }
 
-    Task RefeshDatas()
+    Task RefeshData()
     {
         Shape = String.Empty;
 
@@ -254,13 +254,15 @@ public class Video : Basis
     {
         if (YOLOSeg.Models.KeyYSModel != null)
         {
-            using VideoCapture Captures = new(VideoPath);
+            using FileStream Video = new(VideoPath, new FileStreamOptions() { });
+
+            using VideoCapture Capture = new(Video, VideoCaptureAPIs.FFMPEG, []);
 
             using Mat Frame = new();
 
-            if (Captures.IsOpened())
+            if (Capture.IsOpened())
             {
-                await RefeshDatas();
+                await RefeshData();
 
                 YOLOSeg.Models.IsRunning = !IsCompleted;
 
@@ -270,7 +272,7 @@ public class Video : Basis
 
                 while (IsCommenced)
                 {
-                    if (Captures.Read(Frame))
+                    if (Capture.Read(Frame))
                     {
                         FrmCount++;
 
